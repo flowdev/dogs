@@ -24,9 +24,9 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/flowdev/dogs/mygorm"
+	"github.com/flowdev/dogs/myqor"
 	"github.com/mattn/go-sqlite3"
-	"github.com/ole108/dogs/mygorm"
-	"github.com/ole108/dogs/myqor"
 )
 
 var tmplAncestors *template.Template

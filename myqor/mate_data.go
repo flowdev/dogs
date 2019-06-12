@@ -4,8 +4,8 @@ import (
 	"log"
 	"sync"
 
+	"github.com/flowdev/dogs/mygorm"
 	"github.com/jinzhu/gorm"
-	"github.com/ole108/dogs/mygorm"
 	"github.com/qor/admin"
 	"github.com/qor/roles"
 )

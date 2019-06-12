@@ -1,4 +1,4 @@
-module github.com/ole108/dogs
+module github.com/flowdev/dogs
 
 require (
 	cloud.google.com/go v0.37.2 // indirect
