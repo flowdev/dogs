@@ -1,0 +1,56 @@
+# github.com/asaskevich/govalidator v0.0.0-20180720115003-f9ffefc3facf
+github.com/asaskevich/govalidator
+# github.com/gorilla/context v1.1.1
+github.com/gorilla/context
+# github.com/gorilla/securecookie v1.1.1
+github.com/gorilla/securecookie
+# github.com/gorilla/sessions v1.1.3
+github.com/gorilla/sessions
+# github.com/gosimple/slug v1.3.0
+github.com/gosimple/slug
+# github.com/jinzhu/gorm v1.9.1
+github.com/jinzhu/gorm
+# github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a
+github.com/jinzhu/inflection
+# github.com/jinzhu/now v0.0.0-20180511015916-ed742868f2ae
+github.com/jinzhu/now
+# github.com/konsorten/go-windows-terminal-sequences v1.0.1
+github.com/konsorten/go-windows-terminal-sequences
+# github.com/mattn/go-sqlite3 v1.9.0
+github.com/mattn/go-sqlite3
+# github.com/microcosm-cc/bluemonday v1.0.1
+github.com/microcosm-cc/bluemonday
+# github.com/qor/admin v0.0.0-20180928035023-6a7696febb1a
+github.com/qor/admin
+# github.com/qor/assetfs v0.0.0-20170713023933-ff57fdc13a14
+github.com/qor/assetfs
+# github.com/qor/middlewares v0.0.0-20170822143614-781378b69454
+github.com/qor/middlewares
+# github.com/qor/qor v0.0.0-20180607095400-a9b667cbbf18
+github.com/qor/qor
+github.com/qor/qor/resource
+github.com/qor/qor/utils
+# github.com/qor/responder v0.0.0-20171031032654-b6def473574f
+github.com/qor/responder
+# github.com/qor/roles v0.0.0-20171127035124-d6375609fe3e
+github.com/qor/roles
+# github.com/qor/session v0.0.0-20170907035918-8206b0adab70
+github.com/qor/session
+github.com/qor/session/manager
+github.com/qor/session/gorilla
+# github.com/qor/validations v0.0.0-20171228122639-f364bca61b46
+github.com/qor/validations
+# github.com/rainycape/unidecode v0.0.0-20150907023854-cb7f23ec59be
+github.com/rainycape/unidecode
+# github.com/sirupsen/logrus v1.1.1
+github.com/sirupsen/logrus
+# github.com/theplant/cldr v0.0.0-20170713054817-b97a4c2a76cf
+github.com/theplant/cldr
+# golang.org/x/crypto v0.0.0-20181012144002-a92615f3c490
+golang.org/x/crypto/ssh/terminal
+# golang.org/x/net v0.0.0-20181011144130-49bb7cea24b1
+golang.org/x/net/html
+golang.org/x/net/html/atom
+# golang.org/x/sys v0.0.0-20181011152604-fa43e7bc11ba
+golang.org/x/sys/unix
+golang.org/x/sys/windows
