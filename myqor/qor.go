@@ -91,21 +91,8 @@ func Init(db *gorm.DB) (*admin.Admin, error) {
 			for _, record := range argument.FindSelectedRecords() {
 				if dog, ok := record.(*mygorm.Dog); ok {
 					log.Printf("INFO: Looking to mate female dog %d.", dog.ID)
-					chick := &mygorm.Chick{
-						Name:      dog.Name,
-						BirthDate: dog.BirthDate,
-						ALC:       dog.ALC,
-						HD:        dog.HD,
-						MateCount: dog.MateCount,
-						MotherID:  dog.MotherID,
-						Mother:    dog.Mother,
-						FatherID:  dog.FatherID,
-						Father:    dog.Father,
-					}
-					chick.ID = dog.ID
-					chick.CreatedAt = dog.CreatedAt
-					chick.UpdatedAt = dog.UpdatedAt
-					chick.MateTable = findFreeMateTable(chick)
+					chick := dogToChick(dog)
+					chick.MateTable = mygorm.FindFreeMateTable(chick)
 					if chick.MateTable < 0 {
 						return fmt.Errorf("all mate tables are already used")
 					}
@@ -131,51 +118,69 @@ func Init(db *gorm.DB) (*admin.Admin, error) {
 		Modes: []string{"show", "edit", "menu_item"},
 	})
 
-	err := populateChicks(db)
-	if err != nil {
-		return nil, err
-	}
-
 	// we don't want the dashboard:
 	adm.GetRouter().Get("/", func(c *admin.Context) {
 		http.Redirect(c.Writer, c.Request, MainRoute, http.StatusMovedPermanently)
 	})
 
-	dogTmplRes := adm.NewResource(&mygorm.Dog{}, &admin.Config{
+	// Create special resource for a Chick that should be shown in a HTML template...
+	chickTmplRes := adm.NewResource(&mygorm.Chick{}, &admin.Config{
 		Invisible:  false,
 		Permission: roles.Allow(roles.Read, roles.Anyone),
 	})
-	dogTmplRes.Meta(&admin.Meta{Name: "BirthDate", Permission: roles.Allow(roles.Read, roles.Anyone), Type: "date"})
-	dogTmplRes.Meta(&admin.Meta{Name: "Mother", Permission: roles.Allow(roles.Read, roles.Anyone)})
-	dogTmplRes.Meta(&admin.Meta{Name: "Father", Permission: roles.Allow(roles.Read, roles.Anyone)})
-	adm.RegisterFuncMap("Dog", getDogForID(db, dogTmplRes))
+	chickTmplRes.Meta(&admin.Meta{Name: "BirthDate", Permission: roles.Allow(roles.Read, roles.Anyone), Type: "date"})
+	chickTmplRes.Meta(&admin.Meta{Name: "Mother", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	chickTmplRes.Meta(&admin.Meta{Name: "Father", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	chickTmplRes.ShowAttrs("-MateTable", "-MateALC", "-MateHD")
+	// ...and register special function to get such a Chick from the DB.
+	adm.RegisterFuncMap("Chick", getChickForID(db, chickTmplRes))
 
 	return adm, nil
 }
 
-type TemplateDog struct {
-	Dog *mygorm.Dog
-	Res *admin.Resource
+// TemplateChick is a dog suitable for showing in a HTML template.
+type TemplateChick struct {
+	Chick *mygorm.Chick
+	Res   *admin.Resource
 }
 
-// getDogForID returns a function that gets a dog from URL values that contain the ID of the dog.
-func getDogForID(db *gorm.DB, res *admin.Resource) func(url.Values) TemplateDog {
-	return func(urlVals url.Values) TemplateDog {
+// getChickForID returns a function that gets a dog from URL values that contain the ID of the dog.
+func getChickForID(db *gorm.DB, res *admin.Resource) func(url.Values) TemplateChick {
+	return func(urlVals url.Values) TemplateChick {
 		ids := urlVals[":dog_id"]
 		if len(ids) <= 0 {
 			log.Printf("ERROR: No dog_id found in URL values: %#v", urlVals)
-			return TemplateDog{}
+			return TemplateChick{}
 		}
 		id, err := strconv.Atoi(ids[0])
 		if err != nil {
 			log.Printf("ERROR: dog_id '%s' is not a number: %v", ids[0], err)
-			return TemplateDog{}
+			return TemplateChick{}
 		}
 		dog := mygorm.Dog{}
 		if err := db.First(&dog, id).Error; err != nil {
 			log.Printf("ERROR: Unable to get dog with ID '%d' from the DB: %v", id, err)
-			return TemplateDog{}
+			return TemplateChick{}
 		}
-		return TemplateDog{Dog: &dog, Res: res}
+		// TODO: turn dog into chick!
+		return TemplateChick{Chick: dogToChick(&dog), Res: res}
 	}
+}
+
+func dogToChick(dog *mygorm.Dog) *mygorm.Chick {
+	chick := &mygorm.Chick{
+		Name:      dog.Name,
+		BirthDate: dog.BirthDate,
+		ALC:       dog.ALC,
+		HD:        dog.HD,
+		MateCount: dog.MateCount,
+		MotherID:  dog.MotherID,
+		Mother:    dog.Mother,
+		FatherID:  dog.FatherID,
+		Father:    dog.Father,
+	}
+	chick.ID = dog.ID
+	chick.CreatedAt = dog.CreatedAt
+	chick.UpdatedAt = dog.UpdatedAt
+	return chick
 }

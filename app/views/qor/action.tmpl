@@ -8,9 +8,9 @@
     <form action="{{.Context.Request.URL}}" method="POST" enctype="multipart/form-data">
       <input name="_method" value="PUT" type="hidden">
 
-      {{$chick := Dog .Context.Request.URL.Query}}
-      {{if $chick.Dog}}
-        {{render_form $chick.Dog (show_sections $chick.Res)}}
+      {{$chick := Chick .Context.Request.URL.Query}}
+      {{if $chick.Chick}}
+        {{render_form $chick.Chick (show_sections $chick.Res)}}
 
 		<hr>
       {{end}}
