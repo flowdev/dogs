@@ -5,7 +5,6 @@ import (
 	"sync"
 
 	"github.com/flowdev/dogs/mygorm"
-	"github.com/jinzhu/gorm"
 	"github.com/qor/admin"
 	"github.com/qor/roles"
 )
@@ -26,40 +25,17 @@ var mateData = struct {
 	mutex: &sync.RWMutex{},
 }
 
-func getCurrentChickForTable(i int) mygorm.Chick {
-	if i < 1 || i > ChickCount {
-		return mygorm.Chick{}
-	}
-	mateData.mutex.RLock()
-	defer mateData.mutex.RUnlock()
-	chick := mateData.data[i].chick
-	if chick == nil {
-		return mygorm.Chick{}
-	}
-	return *chick
-}
-
-func populateChicks(db *gorm.DB) error {
-	chicks := []mygorm.Chick{}
-	if err := db.Find(&chicks).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
-		log.Printf("ERROR: Unable to load female dogs chosen for mating from DB: %v", err)
-		return err
-	}
+func createMateResources(adm *admin.Admin) {
 	mateData.mutex.Lock()
 	defer mateData.mutex.Unlock()
-	for _, chick := range chicks {
-		addMateChick(&chick)
+	mateData.adm = adm
+	for i := range mateData.data {
+		mateData.data[i].res = adm.AddResource(tbl, &admin.Config{
+			Name:       "Mate " + chick.Name,
+			Invisible:  true,
+			Permission: roles.Deny(roles.Update, roles.Anyone).Deny(roles.Create, roles.Anyone),
+		})
 	}
-	return nil
-}
-
-func findFreeMateTable(chick *mygorm.Chick) int {
-	for i, md := range mateData.data {
-		if md.chick == nil {
-			return i + 1
-		}
-	}
-	return -1 // all tables are used
 }
 
 func addMateChick(chick *mygorm.Chick) {

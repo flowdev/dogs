@@ -72,6 +72,17 @@ type Chick struct {
 	MateTable int    `gorm:"unique;not null"` // we allow up to 9 tables for male partners (mate1 ... mate9)
 }
 
+// FindFreeMateTable returns the number (between 1 and 9) of the first
+// currently unused mate table.
+func FindFreeMateTable() int {
+	for i, md := range mateData.data {
+		if md.chick == nil {
+			return i + 1
+		}
+	}
+	return -1 // all tables are used
+}
+
 // Dog has got Mother and Father parents.
 // This is the central data structure of the whole application.
 type Dog struct {

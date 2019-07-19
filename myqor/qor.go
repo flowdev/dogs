@@ -36,8 +36,10 @@ type dogsMateAction struct {
 func Init(db *gorm.DB) (*admin.Admin, error) {
 	adm := admin.New(&admin.AdminConfig{DB: db, SiteName: "Dog Breeding"})
 
+	// Resource for mating dialogue
 	dogsMateRes := adm.NewResource(&dogsMateAction{})
 
+	// Resource for looking at the chicks
 	chickRes := adm.AddResource(&mygorm.Chick{}, &admin.Config{
 		Invisible:  false,
 		Permission: roles.Deny(roles.Create, roles.Anyone),
@@ -53,21 +55,10 @@ func Init(db *gorm.DB) (*admin.Admin, error) {
 	//chickRes.EditAttrs("-MateTable")
 	chickRes.ShowAttrs("-MateTable")
 	chickRes.IndexAttrs("-MateTable")
-	chickRes.Action(&admin.Action{
-		Name: "Search Mate Partners",
-		Handler: func(actionArgument *admin.ActionArgument) error {
-			for _, record := range actionArgument.FindSelectedRecords() {
-				chick := record.(*mygorm.Chick)
-				log.Printf("INFO: Chick searches partner with ALC %v and HD %s", chick.MateALC, chick.MateHD)
-				//context.DB.Model(chick).Update("MateCount", chick.MateCount+1)
-				// TODO: Search and insert mate partners into mate table!!!
-				// TODO: Update resource MateX to be visible with right name.
-			}
-			return nil
-		},
-		Modes: []string{"show", "edit", "menu_item"},
-	})
 
+	// Resources for mates
+
+	// Resource for managing the dogs: MAIN RESOURCE
 	dogRes := adm.AddResource(&mygorm.Dog{})
 	dogRes.Meta(&admin.Meta{Name: "BirthDate", Type: "date"})
 	dogRes.Meta(&admin.Meta{Name: "Gender", Config: &admin.SelectOneConfig{Collection: []string{"F", "M"}}})
@@ -123,7 +114,7 @@ func Init(db *gorm.DB) (*admin.Admin, error) {
 		http.Redirect(c.Writer, c.Request, MainRoute, http.StatusMovedPermanently)
 	})
 
-	// Create special resource for a Chick that should be shown in a HTML template...
+	// Special Resource for a Chick that should be shown in a HTML template...
 	chickTmplRes := adm.NewResource(&mygorm.Chick{}, &admin.Config{
 		Invisible:  false,
 		Permission: roles.Allow(roles.Read, roles.Anyone),
