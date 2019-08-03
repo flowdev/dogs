@@ -8,8 +8,21 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// MateTableCount is the number of tables used for mating.
+// Counting starts at 1.
+const MateTableCount = 9
+
 // UnknownHD is the display and DB value for an unknown HD.
 const UnknownHD = "--"
+
+const countMateTableSQL = "SELECT count(*) AS count FROM mate%d"
+const fillMateTableSQL = `INSERT INTO mate%d (
+	id, created_at, updated_at, name, birth_date, alc, hd,
+	mate_count, mother_id, father_id
+) SELECT
+	id, created_at, updated_at, name, birth_date, alc, hd,
+	mate_count, mother_id, father_id
+FROM dogs WHERE star IS TRUE AND alc <= ? AND hd <= ?;`
 
 // FemaleDog is a view of female dogs (rows in the dogs table with gender set
 // to 'F').
@@ -46,6 +59,7 @@ type Mate struct {
 	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
 	FatherID  uint
 	Father    MaleDog `gorm:"foreignkey:FatherID;association_autocreate:false;association_autoupdate:false"`
+	ChildALC  float64
 }
 
 // Chick is a female dog chosen for mating (opposite of Mate).
@@ -56,17 +70,7 @@ type Mate struct {
 // twice. Because of that we don't use gorm.Model.
 type Chick struct {
 	ID        uint `gorm:"primary_key"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	Name      string `gorm:"size:32"`
-	BirthDate *time.Time
-	ALC       float64
-	HD        string `gorm:"size:8"`
-	MateCount int
-	MotherID  uint
-	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
-	FatherID  uint
-	Father    MaleDog `gorm:"foreignkey:FatherID;association_autocreate:false;association_autoupdate:false"`
+	DogID     uint `gorm:"unique;not null"`
 	MateALC   float64
 	MateHD    string `gorm:"size:8"`
 	MateTable int    `gorm:"unique;not null"` // we allow up to 9 tables for male partners (mate1 ... mate9)
@@ -74,13 +78,42 @@ type Chick struct {
 
 // FindFreeMateTable returns the number (between 1 and 9) of the first
 // currently unused mate table.
-func FindFreeMateTable() int {
-	for i, md := range mateData.data {
-		if md.chick == nil {
+func FindFreeMateTable(tx *gorm.DB) int {
+	used := make([]bool, MateTableCount)
+	chicks := []*Chick{}
+	if err := tx.Find(&chicks).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
+		log.Printf("ERROR: Unable to list chicks: %v", err)
+		return -1
+	}
+	if len(chicks) >= MateTableCount { // all tables are used
+		return -1
+	}
+	for _, chick := range chicks {
+		used[chick.MateTable-1] = true
+	}
+	for i, u := range used {
+		if !u {
 			return i + 1
 		}
 	}
-	return -1 // all tables are used
+	return -1 // can't happen because of early check
+}
+
+// FillMateTable fills the chosen mate table with male dogs that have suitable ALC and HD values.
+func FillMateTable(tx *gorm.DB, tableIdx int, mateALC float64, mateHD string, chickName string) error {
+	sql := fmt.Sprintf(fillMateTableSQL, tableIdx) // this is safe because we know and control the source SQL
+	if err := tx.Exec(sql, mateALC, mateHD).Error; err != nil {
+		return fmt.Errorf("Unable to fill mate table %d: %v", tableIdx, err)
+	}
+	var count struct{ Count int }
+	sql = fmt.Sprintf(countMateTableSQL, tableIdx) // this is safe because we know and control the source SQL
+	if err := tx.Raw(sql).Scan(&count).Error; err != nil {
+		return fmt.Errorf("Unable to count mate%d table: %v", tableIdx, err)
+	}
+	if count.Count <= 0 {
+		return fmt.Errorf("No male mating partners found for %s", chickName)
+	}
+	return nil
 }
 
 // Dog has got Mother and Father parents.
@@ -133,8 +166,8 @@ func Init(dbFname string) (*gorm.DB, error) {
 		return nil, fmt.Errorf("the database '%s' could not be opened", dbFname)
 	}
 
-	if err = db.AutoMigrate(&Dog{}, &Mate{}, &Chick{}, &Mate1{}, &Mate2{},
-		&Mate3{}, &Mate4{}, &Mate5{}, &Mate6{}, &Mate7{}, &Mate8{}, &Mate9{}).Error; err != nil {
+	if err = db.AutoMigrate(&Dog{}, &Chick{}, &Mate1{}, &Mate2{}, &Mate3{},
+		&Mate4{}, &Mate5{}, &Mate6{}, &Mate7{}, &Mate8{}, &Mate9{}).Error; err != nil {
 
 		return nil, fmt.Errorf("unable to migrate DB to current state: %v", err)
 	}

@@ -5,7 +5,11 @@
   <table class="mdl-data-table mdl-js-data-table qor-table qor-js-table">
     <thead>
       <tr>
-        {{$order_by := $context.Request.URL.Query.Get "order_by"}}
+        {{$order_by := ""}}
+        {{$tmp_order_by := $context.Request.URL.Query.Get "order_by"}}
+        {{if $tmp_order_by}}
+          {{$order_by = $tmp_order_by}}
+        {{end}}
         {{$metas := convert_sections_to_metas $resource index_sections}}
         {{range $index, $meta := $metas}}
           {{$dbName := $meta.DBName}}

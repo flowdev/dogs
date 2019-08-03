@@ -8,13 +8,6 @@
     <form action="{{.Context.Request.URL}}" method="POST" enctype="multipart/form-data">
       <input name="_method" value="PUT" type="hidden">
 
-      {{$chick := Chick .Context.Request.URL.Query}}
-      {{if $chick.Chick}}
-        {{render_form $chick.Chick (show_sections $chick.Res)}}
-
-		<hr>
-      {{end}}
-
       {{if $action.Resource}}
         {{render_form $action.Resource.NewStruct (edit_sections $action.Resource)}}
       {{end}}
