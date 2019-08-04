@@ -1,8 +1,10 @@
 {{$context := .}}
 {{$resource := .Resource}}
+{{$doSort := true}}
+{{if eq $resource.Name "dogTmplRes"}}{{$doSort = false}}{{end}}
 
 {{if len .Result}}
-  <table class="mdl-data-table mdl-js-data-table qor-table qor-js-table">
+  <table class="mdl-data-table qor-table {{if $doSort}}mdl-js-data-table qor-js-table{{end}}">
     <thead>
       <tr>
         {{$order_by := ""}}
@@ -15,7 +17,7 @@
           {{$dbName := $meta.DBName}}
           {{$is_sorted := eq $order_by $dbName}}
           {{$is_desc_sorted := eq $order_by (print $dbName "_desc")}}
-          <th class="mdl-data-table__cell--non-numeric {{if is_sortable_meta $meta}}{{if (or $is_sorted $is_desc_sorted)}}is-sorted{{end}}{{end}}" data-heading="{{$meta.Name}}" {{if is_sortable_meta $meta}}{{if $is_sorted}}data-order-by="{{$dbName}}_desc"{{else}}data-order-by="{{$dbName}}"{{end}}{{end}}>{{meta_label $meta}}</th>
+          <th class="mdl-data-table__cell--non-numeric {{if $doSort}}{{if is_sortable_meta $meta}}{{if (or $is_sorted $is_desc_sorted)}}is-sorted{{end}}{{end}}{{end}}" data-heading="{{$meta.Name}}" {{if $doSort}}{{if is_sortable_meta $meta}}{{if $is_sorted}}data-order-by="{{$dbName}}_desc"{{else}}data-order-by="{{$dbName}}"{{end}}{{end}}{{end}}>{{meta_label $meta}}</th>
         {{end}}
         <th class="mdl-data-table__cell--non-numeric qor-table__actions"></th>
       </tr>

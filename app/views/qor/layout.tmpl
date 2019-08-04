@@ -21,11 +21,20 @@
     {{load_theme_stylesheets}}
     <style>
       .qor-bottomsheets.is-slided {
-        max-height: 100%;
+        max-height: 50%;
       }
 	  .qor-bottomsheets.is-shown {
         width: 90%;
 		margin-left: -45%;
+      }
+	  .qor-bottomsheets.is-shown .qor-table-container .qor-table thead {
+        display: table-header-group;
+      }
+	  .qor-bottomsheets.is-shown .qor-table-container .qor-table tbody td {
+        padding-left: 18px;
+      }
+	  .qor-bottomsheets.is-shown .qor-table-container .qor-table tbody td:first-of-type {
+        padding-left: 24px;
       }
 	</style>
     {{javascript_tag "vendors"}}

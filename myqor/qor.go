@@ -113,6 +113,7 @@ func Init(db *gorm.DB) (*admin.Admin, error) {
 
 	// Special Resource for a Dog that should be shown in a HTML template...
 	dogTmplRes := adm.NewResource(&mygorm.Dog{}, &admin.Config{
+		Name:       "dogTmplRes",
 		Invisible:  false,
 		Permission: roles.Allow(roles.Read, roles.Anyone),
 	})
