@@ -357,14 +357,20 @@ func getDogForTable(db *gorm.DB, res *admin.Resource) func(string) TemplateDog {
 	return func(urlPath string) TemplateDog {
 		log.Printf("DEBUG: getDogForTable urlPath = %#v", urlPath)
 		// extract mate table index from path
-		idx, err := getMateTableNumber(urlPath)
+		num, err := getMateTableNumber(urlPath)
 		if err != nil {
 			log.Printf("ERROR: %v", err)
 			return TemplateDog{}
 		}
 		// get chick for that table
 		chick := mygorm.Chick{}
-		db.Where("mate_table = ?", idx).First(&chick)
+		if err := db.Where("mate_table = ?", num).First(&chick).Error; gorm.IsRecordNotFoundError(err) {
+			log.Printf("DEBUG: Unable to find chick for mate table %d", num)
+			return TemplateDog{}
+		} else if err != nil {
+			log.Printf("ERROR: Unable to get chick for mate table %d from the DB: %v", num, err)
+			return TemplateDog{}
+		}
 		// get dog for chick
 		dog := mygorm.Dog{}
 		if err := db.First(&dog, chick.ID).Error; err != nil {
