@@ -1,10 +1,12 @@
 package myqor
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
 	"net/url"
+	"reflect"
 	"strconv"
 
 	"github.com/flowdev/dogs/mygorm"
@@ -54,6 +56,7 @@ func Init(db *gorm.DB) (*admin.Admin, error) {
 			if dog, ok := record.(*mygorm.Dog); ok {
 				return fmt.Sprintf("/ancestors/%d", dog.ID)
 			}
+			log.Printf("ERROR: Expected dog but got: %#v", record)
 			return "#"
 		},
 		Modes: []string{"show", "edit", "menu_item"},
@@ -75,41 +78,41 @@ func Init(db *gorm.DB) (*admin.Admin, error) {
 	// Resources for choosing a mate for a chick
 	// TODO: Add more mate resources if necessary!!!
 	mateResources[1] = adm.AddResource(&mygorm.Mate1{}, &admin.Config{
-		Name: "Mate1", Priority: 101,
+		Name: "Mate table 1", Priority: 101,
 	})
-	setMateResourceMeta(mateResources[1])
+	updateMateResource(mateResources[1])
 	mateResources[2] = adm.AddResource(&mygorm.Mate2{}, &admin.Config{
-		Name: "Mate2", Priority: 102,
+		Name: "Mate table 2", Priority: 102,
 	})
-	setMateResourceMeta(mateResources[2])
+	updateMateResource(mateResources[2])
 	mateResources[3] = adm.AddResource(&mygorm.Mate3{}, &admin.Config{
-		Name: "Mate3", Priority: 103,
+		Name: "Mate table 3", Priority: 103,
 	})
-	setMateResourceMeta(mateResources[3])
+	updateMateResource(mateResources[3])
 	mateResources[4] = adm.AddResource(&mygorm.Mate4{}, &admin.Config{
-		Name: "Mate4", Priority: 104,
+		Name: "Mate table 4", Priority: 104,
 	})
-	setMateResourceMeta(mateResources[4])
+	updateMateResource(mateResources[4])
 	mateResources[5] = adm.AddResource(&mygorm.Mate5{}, &admin.Config{
-		Name: "Mate5", Priority: 105,
+		Name: "Mate table 5", Priority: 105,
 	})
-	setMateResourceMeta(mateResources[5])
+	updateMateResource(mateResources[5])
 	mateResources[6] = adm.AddResource(&mygorm.Mate6{}, &admin.Config{
-		Name: "Mate6", Priority: 106,
+		Name: "Mate table 6", Priority: 106,
 	})
-	setMateResourceMeta(mateResources[6])
+	updateMateResource(mateResources[6])
 	mateResources[7] = adm.AddResource(&mygorm.Mate7{}, &admin.Config{
-		Name: "Mate7", Priority: 107,
+		Name: "Mate table 7", Priority: 107,
 	})
-	setMateResourceMeta(mateResources[7])
+	updateMateResource(mateResources[7])
 	mateResources[8] = adm.AddResource(&mygorm.Mate8{}, &admin.Config{
-		Name: "Mate8", Priority: 108,
+		Name: "Mate table 8", Priority: 108,
 	})
-	setMateResourceMeta(mateResources[8])
+	updateMateResource(mateResources[8])
 	mateResources[9] = adm.AddResource(&mygorm.Mate9{}, &admin.Config{
-		Name: "Mate9", Priority: 109,
+		Name: "Mate table 9", Priority: 109,
 	})
-	setMateResourceMeta(mateResources[9])
+	updateMateResource(mateResources[9])
 
 	// Special Resource for a Dog that should be shown in a HTML template...
 	dogTmplRes := adm.NewResource(&mygorm.Dog{}, &admin.Config{
@@ -125,27 +128,25 @@ func Init(db *gorm.DB) (*admin.Admin, error) {
 	adm.RegisterFuncMap("DogForID", getDogForID(db, dogTmplRes))
 	adm.RegisterFuncMap("DogForTable", getDogForTable(db, dogTmplRes))
 
-	adjustMenus(adm.GetMenus())
+	// Resource for Puppies (the results of mating)
+	adm.AddResource(&mygorm.Puppy{}, &admin.Config{
+		Priority:   3,
+		Permission: roles.Deny(roles.Create, roles.Anyone),
+	})
 
-	showMateTables(db)
+	//adjustMateMenus()
+
+	//showMateTables(db)
 
 	removeDashboard(adm)
 
 	return adm, nil
 }
 
-func setMateResourceMeta(mateRes *admin.Resource) {
-	mateRes.Permission = roles.Allow(roles.Read, roles.Anyone).Allow(roles.Delete, roles.Anyone)
-	mateRes.Meta(&admin.Meta{Name: "BirthDate", Permission: roles.Allow(roles.Read, roles.Anyone), Type: "date"})
-	mateRes.Meta(&admin.Meta{Name: "Mother", Permission: roles.Allow(roles.Read, roles.Anyone)})
-	mateRes.Meta(&admin.Meta{Name: "Father", Permission: roles.Allow(roles.Read, roles.Anyone)})
-}
-
-func adjustMenus(menus []*admin.Menu) {
-	for _, m := range menus {
-		if m.Priority >= 100 {
-			m.Name = ""
-			m.Permissioner = menuPermissioner{m}
+func adjustMateMenus() {
+	for _, mr := range mateResources {
+		if mr != nil {
+			mr.Permission = roles.Allow(roles.Update, roles.Anyone)
 		}
 	}
 }
@@ -159,7 +160,8 @@ func showMateTables(tx *gorm.DB) {
 	for _, chick := range chicks {
 		dog := mygorm.Dog{}
 		tx.First(&dog, chick.ID)
-		setMenuNameForMateTable(chick.MateTable, "Mating "+dog.Name)
+		//setMenuNameForMateTable(chick.MateTable, "Mating "+dog.Name)
+		mateResources[chick.MateTable].Permission = roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)
 	}
 }
 
@@ -178,11 +180,10 @@ func handleStartMating(argument *admin.ActionArgument) error {
 		if !ok {
 			return fmt.Errorf("Expected dog but got: %T", record)
 		}
-		tx := argument.Context.GetDB().New() // without the `.New()` we had an old where condition still set
+		tx := argument.Context.GetDB().New() // without the `.New()` we had an old WHERE condition still set
 		log.Printf("INFO: Looking to mate female dog %s.", dog.Name)
 		chick := &mygorm.Chick{
 			ID:        dog.ID,
-			DogID:     dog.ID,
 			MateALC:   dogsMateArg.ALC,
 			MateHD:    dogsMateArg.HD,
 			MateTable: mygorm.FindFreeMateTable(tx),
@@ -191,27 +192,125 @@ func handleStartMating(argument *admin.ActionArgument) error {
 			return fmt.Errorf("All mate tables are already used")
 		}
 
-		if err := tx.Save(chick).Error; err != nil {
-			return fmt.Errorf("Unable to save chick %s: %v", dog.Name, err)
+		if err := mygorm.CreateChick(tx, chick, dog.Name); err != nil {
+			log.Printf("ERROR: %v", err)
+			return err
 		}
 		log.Printf("INFO: Chick set to: %#v", chick)
 
 		if err := mygorm.FillMateTable(tx, chick.MateTable, chick.MateALC, chick.MateHD, dog.Name); err != nil {
+			log.Printf("ERROR: %v", err)
 			return err
 		}
 
-		setMenuNameForMateTable(chick.MateTable, "Mating "+dog.Name)
+		//mateResources[chick.MateTable].Permission = roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)
+		//setMenuNameForMateTable(chick.MateTable, "Mating "+dog.Name)
 	}
 	return nil
 }
 
+func updateMateResource(mateRes *admin.Resource) {
+	mateRes.Permission = roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)
+	mateRes.Meta(&admin.Meta{Name: "BirthDate", Permission: roles.Allow(roles.Read, roles.Anyone), Type: "date"})
+	mateRes.Meta(&admin.Meta{Name: "Mother", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	mateRes.Meta(&admin.Meta{Name: "Father", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	mateRes.Action(&admin.Action{
+		Name:    "Remove",
+		Handler: handleRemoveMates,
+		Modes:   []string{"batch", "show", "edit", "menu_item"},
+	})
+	mateRes.Action(&admin.Action{
+		Name:    "Mate!",
+		Handler: handleMating,
+		Modes:   []string{"show", "edit", "menu_item"},
+	})
+}
+
+func handleRemoveMates(argument *admin.ActionArgument) error {
+	tx := argument.Context.DB
+	for _, record := range argument.FindSelectedRecords() {
+		if err := tx.Delete(record).Error; err != nil {
+			msg := fmt.Sprintf("Unable to delete mate %#v (%T): %v", record, record, err)
+			log.Print("ERROR: " + msg)
+			return errors.New(msg)
+		}
+	}
+	num, err := getMateTableNumber(argument.Context.Resource.Config.Name)
+	if err != nil {
+		log.Printf("ERROR: %v", err)
+		return err
+	}
+	if del, err := mygorm.AfterDelete(tx.New(), num); err != nil {
+		log.Printf("ERROR: %v", err)
+		return err
+	} else if del {
+		//mateRes.Permission = roles.Allow(roles.Update, roles.Anyone)
+	}
+	return nil
+}
+
+func handleMating(argument *admin.ActionArgument) error {
+	log.Print("DEBUG: Mating handler got called!")
+	tx := argument.Context.DB
+	num, err := getMateTableNumber(argument.Context.Resource.Config.Name)
+	if err != nil {
+		log.Printf("ERROR: %v", err)
+		return err
+	}
+	c := mygorm.Chick{}
+	if err := tx.Where("mate_table = ?", num).First(&c).Error; err != nil {
+		msg := fmt.Sprintf("Unable to read chick for mate table %d: %v", num, err)
+		log.Print("ERROR: " + msg)
+		return errors.New(msg)
+	}
+	chick := mygorm.Dog{}
+	if err := tx.First(&chick, c.ID).Error; err != nil {
+		msg := fmt.Sprintf("Unable to read chick for mate table %d: %v", num, err)
+		log.Print("ERROR: " + msg)
+		return errors.New(msg)
+	}
+	for _, record := range argument.FindSelectedRecords() {
+		strct := reflect.ValueOf(record).Elem()
+		mateValue := strct.FieldByName("Mate")
+		mateIface := mateValue.Interface()
+		if mate, ok := mateIface.(mygorm.Mate); ok {
+			p := mygorm.Puppy{
+				Name:     chick.Name + " + " + mate.Name,
+				ALC:      (chick.ALC + mate.ALC) / 2,
+				HD:       mygorm.CombineHD(chick.HD, mate.HD),
+				MotherID: chick.ID,
+				FatherID: mate.ID,
+			}
+			if err := tx.Create(&p).Error; err != nil {
+				msg := fmt.Sprintf("Unable to store puppy %s: %v", p.Name, err)
+				log.Print("ERROR: " + msg)
+				return errors.New(msg)
+			}
+		} else {
+			msg := fmt.Sprintf("Unable to work with non-mate %#v (%T)", record, mateIface)
+			log.Print("ERROR: " + msg)
+			return errors.New(msg)
+		}
+		if err := mygorm.ClearMateTable(tx, num); err != nil {
+			log.Printf("ERROR: %v", err)
+			return err
+		}
+	}
+	if _, err := mygorm.AfterDelete(tx.New(), num); err != nil {
+		log.Printf("ERROR: %v", err)
+		return err
+	}
+	//mateRes.Permission = roles.Allow(roles.Update, roles.Anyone)
+	return nil
+}
+
 func setMenuNameForMateTable(mateTable int, name string) {
-	adm := mateResources[mateTable].GetAdmin()
-	menus := adm.GetMenus()
+	res := mateResources[mateTable]
+	menus := res.GetAdmin().GetMenus()
 	for _, m := range menus {
 		if m.Priority == 100+mateTable {
 			m.Name = name
-			mateResources[mateTable].Name = name
+			res.Name = name
 			return
 		}
 	}
@@ -258,15 +357,9 @@ func getDogForTable(db *gorm.DB, res *admin.Resource) func(string) TemplateDog {
 	return func(urlPath string) TemplateDog {
 		log.Printf("DEBUG: getDogForTable urlPath = %#v", urlPath)
 		// extract mate table index from path
-		if len(urlPath) <= 0 {
-			log.Printf("ERROR: No mate table found in URL path: %s", urlPath)
-			return TemplateDog{}
-		}
-		mateTable := urlPath[len(urlPath)-1:]
-		// convert it to int
-		idx, err := strconv.Atoi(mateTable)
+		idx, err := getMateTableNumber(urlPath)
 		if err != nil {
-			log.Printf("ERROR: mateTable '%s' is not a number: %v", mateTable, err)
+			log.Printf("ERROR: %v", err)
 			return TemplateDog{}
 		}
 		// get chick for that table
@@ -280,4 +373,17 @@ func getDogForTable(db *gorm.DB, res *admin.Resource) func(string) TemplateDog {
 		}
 		return TemplateDog{Dogs: []*mygorm.Dog{&dog}, Res: res}
 	}
+}
+
+func getMateTableNumber(name string) (int, error) {
+	if len(name) <= 0 {
+		return 0, fmt.Errorf("No mate table found in: %q", name)
+	}
+	mateTable := name[len(name)-1:]
+	// convert it to int
+	num, err := strconv.Atoi(mateTable)
+	if err != nil {
+		return 0, fmt.Errorf("mateTable '%s' (of %q) is not a number: %v", mateTable, name, err)
+	}
+	return num, nil
 }

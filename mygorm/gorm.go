@@ -1,6 +1,7 @@
 package mygorm
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"time"
@@ -15,13 +16,12 @@ const MateTableCount = 9
 // UnknownHD is the display and DB value for an unknown HD.
 const UnknownHD = "--"
 
-const countMateTableSQL = "SELECT count(*) AS count FROM mate%d"
+const clearMateTableSQL = "DELETE FROM mate%d;"
+const countMateTableSQL = "SELECT count(*) AS count FROM mate%d;"
 const fillMateTableSQL = `INSERT INTO mate%d (
-	id, created_at, updated_at, name, birth_date, alc, hd,
-	mate_count, mother_id, father_id
+	id, name, birth_date, alc, hd, mate_count, mother_id, father_id
 ) SELECT
-	id, created_at, updated_at, name, birth_date, alc, hd,
-	mate_count, mother_id, father_id
+	id, name, birth_date, alc, hd, mate_count, mother_id, father_id
 FROM dogs WHERE star IS TRUE AND alc <= ? AND hd <= ?;`
 
 // FemaleDog is a view of female dogs (rows in the dogs table with gender set
@@ -48,10 +48,8 @@ type MaleDog struct {
 // twice. Because of that we don't use gorm.Model.
 type Mate struct {
 	ID        uint `gorm:"primary_key"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
 	Name      string
-	BirthDate *time.Time
+	BirthDate time.Time
 	ALC       float64
 	HD        string `gorm:"size:8"`
 	MateCount int
@@ -62,6 +60,22 @@ type Mate struct {
 	ChildALC  float64
 }
 
+// AfterDelete deletes the chick associated with the mate table after the last
+// mate has been deleted.
+func AfterDelete(tx *gorm.DB, tableIdx int) (bool, error) {
+	count, err := countMateTable(tx, tableIdx)
+	if err != nil {
+		return false, err
+	}
+	if count <= 0 {
+		if err = tx.Where("mate_table = ?", tableIdx).Delete(Chick{}).Error; err != nil {
+			return false, fmt.Errorf("Unable to delete chick for mate table #%d: %v", tableIdx, err)
+		}
+		return true, nil
+	}
+	return false, nil
+}
+
 // Chick is a female dog chosen for mating (opposite of Mate).
 // The technically correct term for this ('Bitch') sounds insulting for many so
 // I chose 'Chick' instead.
@@ -70,10 +84,23 @@ type Mate struct {
 // twice. Because of that we don't use gorm.Model.
 type Chick struct {
 	ID        uint `gorm:"primary_key"`
-	DogID     uint `gorm:"unique;not null"`
 	MateALC   float64
 	MateHD    string `gorm:"size:8"`
 	MateTable int    `gorm:"unique;not null"` // we allow up to 9 tables for male partners (mate1 ... mate9)
+}
+
+// CreateChick first checks if the chick is already mating and creates it only if not.
+func CreateChick(tx *gorm.DB, chick *Chick, name string) error {
+	chick2 := Chick{}
+	if err := tx.First(&chick2, chick.ID).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
+		return fmt.Errorf("Unable to create chick %s: %v", name, err)
+	} else if err == nil {
+		return fmt.Errorf("Chick %s is already mating in mate table %d", name, chick2.MateTable)
+	}
+	if err := tx.Create(chick).Error; err != nil {
+		return fmt.Errorf("Unable to store chick %s: %v", name, err)
+	}
+	return nil
 }
 
 // FindFreeMateTable returns the number (between 1 and 9) of the first
@@ -105,13 +132,62 @@ func FillMateTable(tx *gorm.DB, tableIdx int, mateALC float64, mateHD string, ch
 	if err := tx.Exec(sql, mateALC, mateHD).Error; err != nil {
 		return fmt.Errorf("Unable to fill mate table %d: %v", tableIdx, err)
 	}
-	var count struct{ Count int }
-	sql = fmt.Sprintf(countMateTableSQL, tableIdx) // this is safe because we know and control the source SQL
-	if err := tx.Raw(sql).Scan(&count).Error; err != nil {
-		return fmt.Errorf("Unable to count mate%d table: %v", tableIdx, err)
-	}
-	if count.Count <= 0 {
+	if count, err := countMateTable(tx, tableIdx); err != nil {
+		return err
+	} else if count <= 0 {
 		return fmt.Errorf("No male mating partners found for %s", chickName)
+	}
+	return nil
+}
+
+// ClearMateTable deletes all mates from the chosen mate table.
+func ClearMateTable(tx *gorm.DB, tableIdx int) error {
+	sql := fmt.Sprintf(clearMateTableSQL, tableIdx) // this is safe because we know and control the source SQL
+	if err := tx.Exec(sql).Error; err != nil {
+		return fmt.Errorf("Unable to clear mate table %d: %v", tableIdx, err)
+	}
+	return nil
+}
+
+func countMateTable(tx *gorm.DB, tableIdx int) (int, error) {
+	var count struct{ Count int }
+	sql := fmt.Sprintf(countMateTableSQL, tableIdx) // this is safe because we know and control the source SQL
+	if err := tx.Raw(sql).Scan(&count).Error; err != nil {
+		return 0, fmt.Errorf("Unable to count mate%d table: %v", tableIdx, err)
+	}
+	return count.Count, nil
+}
+
+// Puppy is the result of a successful mating action.
+type Puppy struct {
+	ID        uint `gorm:"primary_key"`
+	CreatedAt time.Time
+	Name      string
+	ALC       float64
+	HD        string `gorm:"size:8"`
+	MotherID  uint
+	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
+	FatherID  uint
+	Father    MaleDog `gorm:"foreignkey:FatherID;association_autocreate:false;association_autoupdate:false"`
+}
+
+// BeforeSave is initializing the new dogs HD value as soon as both parents are
+// known.
+func (p *Puppy) BeforeSave(tx *gorm.DB) error {
+	if (p.HD == "" || p.HD == UnknownHD) && p.MotherID != 0 && p.FatherID != 0 {
+		m := Dog{}
+		if err := tx.First(&m, p.MotherID).Error; err != nil {
+			msg := fmt.Sprintf("Unable to read mother with ID '%d'.", p.MotherID)
+			log.Printf("ERROR: %v", msg)
+			return errors.New(msg)
+		}
+		f := Dog{}
+		if err := tx.First(&f, p.FatherID).Error; err != nil {
+			msg := fmt.Sprintf("Unable to read father with ID '%d'.", p.FatherID)
+			log.Printf("ERROR: %v", msg)
+			return errors.New(msg)
+		}
+		p.HD = CombineHD(m.HD, f.HD)
 	}
 	return nil
 }
@@ -121,7 +197,7 @@ func FillMateTable(tx *gorm.DB, tableIdx int, mateALC float64, mateHD string, ch
 type Dog struct {
 	gorm.Model
 	Name      string `gorm:"size:32"`
-	BirthDate *time.Time
+	BirthDate time.Time
 	Gender    string `gorm:"size:16"`
 	Star      bool
 	ALC       float64
@@ -147,11 +223,13 @@ func (d *Dog) BeforeSave(tx *gorm.DB) error {
 			log.Printf("ERROR: Unable to read father with ID '%d'.", d.FatherID)
 			return err
 		}
-		d.HD = combineALC(m.HD, f.HD)
+		d.HD = CombineHD(m.HD, f.HD)
 	}
 	return nil
 }
-func combineALC(hd1, hd2 string) string {
+
+// CombineHD combines the two given HD values in a predictable way.
+func CombineHD(hd1, hd2 string) string {
 	if hd1 <= hd2 {
 		return hd1 + " " + hd2
 	}
@@ -166,7 +244,7 @@ func Init(dbFname string) (*gorm.DB, error) {
 		return nil, fmt.Errorf("the database '%s' could not be opened", dbFname)
 	}
 
-	if err = db.AutoMigrate(&Dog{}, &Chick{}, &Mate1{}, &Mate2{}, &Mate3{},
+	if err = db.AutoMigrate(&Dog{}, &Chick{}, &Puppy{}, &Mate1{}, &Mate2{}, &Mate3{},
 		&Mate4{}, &Mate5{}, &Mate6{}, &Mate7{}, &Mate8{}, &Mate9{}).Error; err != nil {
 
 		return nil, fmt.Errorf("unable to migrate DB to current state: %v", err)
