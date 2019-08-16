@@ -69,8 +69,11 @@ func Init(db *gorm.DB) (*admin.Admin, error) {
 		Resource: dogsMateRes,
 		Visible: func(record interface{}, context *admin.Context) bool {
 			if dog, ok := record.(*mygorm.Dog); ok {
-				return dog.Gender == "F" && len(dog.HD) == 2 &&
-					dog.HD != mygorm.UnknownHD
+				if dog.Gender != "F" || len(dog.HD) != 2 || dog.HD == mygorm.UnknownHD {
+					return false
+				}
+				err := mygorm.CheckDoubleChick(context.DB, dog.ID, dog.Name)
+				return err == nil
 			}
 			return false
 		},

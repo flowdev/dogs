@@ -91,14 +91,22 @@ type Chick struct {
 
 // CreateChick first checks if the chick is already mating and creates it only if not.
 func CreateChick(tx *gorm.DB, chick *Chick, name string) error {
-	chick2 := Chick{}
-	if err := tx.First(&chick2, chick.ID).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
-		return fmt.Errorf("Unable to create chick %s: %v", name, err)
-	} else if err == nil {
-		return fmt.Errorf("Chick %s is already mating in mate table %d", name, chick2.MateTable)
+	if err := CheckDoubleChick(tx, chick.ID, name); err != nil {
+		return err
 	}
 	if err := tx.Create(chick).Error; err != nil {
 		return fmt.Errorf("Unable to store chick %s: %v", name, err)
+	}
+	return nil
+}
+
+// CheckDoubleChick checks if the chick is already mating.
+func CheckDoubleChick(tx *gorm.DB, id uint, name string) error {
+	chick2 := Chick{}
+	if err := tx.First(&chick2, id).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
+		return fmt.Errorf("Unable to find chick %s: %v", name, err)
+	} else if err == nil {
+		return fmt.Errorf("Chick %s is already mating in mate table %d", name, chick2.MateTable)
 	}
 	return nil
 }
