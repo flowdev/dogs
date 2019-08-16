@@ -157,16 +157,22 @@ func showMateTables(tx *gorm.DB) {
 	}
 	for num := 1; num < 10; num++ {
 		found := false
-		for _, chick := range chicks {
+		var chick *mygorm.Chick
+		for _, chick = range chicks {
 			if chick.MateTable == num {
 				found = true
+				break
 			}
 		}
 		if found {
-			setMenuIconForMateTable(num, "check")
+			dog := mygorm.Dog{}
+			if err := tx.First(&dog, chick.ID).Error; err != nil {
+				log.Printf("ERROR: Unable to read dog for mate table %d (chick.ID = %d): %v", num, chick.ID, err)
+			}
+			setMenuIconForMateTable(num, dog.Name)
 			//mateResources[chick.MateTable].Permission = roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)
 		} else {
-			setMenuIconForMateTable(num, "close")
+			setMenuIconForMateTable(num, "")
 			//mateResources[chick.MateTable].Permission = roles.Allow(roles.Update, roles.Anyone)
 		}
 	}
@@ -199,19 +205,19 @@ func handleStartMating(argument *admin.ActionArgument) error {
 			return fmt.Errorf("All mate tables are already used")
 		}
 
+		if err := mygorm.FillMateTable(tx, chick.MateTable, chick.MateALC, chick.MateHD, dog.Name); err != nil {
+			log.Printf("ERROR: %v", err)
+			return err
+		}
+
 		if err := mygorm.CreateChick(tx, chick, dog.Name); err != nil {
 			log.Printf("ERROR: %v", err)
 			return err
 		}
 		log.Printf("INFO: Chick set to: %#v", chick)
 
-		if err := mygorm.FillMateTable(tx, chick.MateTable, chick.MateALC, chick.MateHD, dog.Name); err != nil {
-			log.Printf("ERROR: %v", err)
-			return err
-		}
-
 		//mateResources[chick.MateTable].Permission = roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)
-		setMenuIconForMateTable(chick.MateTable, "check")
+		setMenuIconForMateTable(chick.MateTable, dog.Name)
 	}
 	return nil
 }
@@ -257,7 +263,7 @@ func handleRemoveMates(argument *admin.ActionArgument) error {
 		log.Printf("ERROR: %v", err)
 		return err
 	} else if del {
-		setMenuIconForMateTable(num, "close")
+		setMenuIconForMateTable(num, "")
 		//mateRes.Permission = roles.Allow(roles.Update, roles.Anyone)
 	}
 	return nil
@@ -314,7 +320,7 @@ func handleMating(argument *admin.ActionArgument) error {
 		log.Printf("ERROR: %v", err)
 		return err
 	}
-	setMenuIconForMateTable(num, "close")
+	setMenuIconForMateTable(num, "")
 	//mateRes.Permission = roles.Allow(roles.Update, roles.Anyone)
 	return nil
 }
