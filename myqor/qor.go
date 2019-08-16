@@ -32,12 +32,14 @@ var mateResources [10]*admin.Resource
 func Init(db *gorm.DB) (*admin.Admin, error) {
 	adm := admin.New(&admin.AdminConfig{DB: db, SiteName: "Dog Breeding"})
 
-	// Resource for looking at the chicks
-	adm.AddResource(&mygorm.Chick{}, &admin.Config{
-		Invisible:  false,
-		Priority:   2,
-		Permission: roles.Deny(roles.Create, roles.Anyone),
-	})
+	/*
+		// Resource for looking at the chicks
+		adm.AddResource(&mygorm.Chick{}, &admin.Config{
+			Invisible:  false,
+			Priority:   2,
+			Permission: roles.Deny(roles.Create, roles.Anyone),
+		})
+	*/
 
 	// Resource for mating dialogue
 	dogsMateRes := adm.NewResource(&dogsMateAction{})
@@ -134,21 +136,11 @@ func Init(db *gorm.DB) (*admin.Admin, error) {
 		Permission: roles.Deny(roles.Create, roles.Anyone),
 	})
 
-	//adjustMateMenus()
-
-	//showMateTables(db)
+	showMateTables(db)
 
 	removeDashboard(adm)
 
 	return adm, nil
-}
-
-func adjustMateMenus() {
-	for _, mr := range mateResources {
-		if mr != nil {
-			mr.Permission = roles.Allow(roles.Update, roles.Anyone)
-		}
-	}
 }
 
 func showMateTables(tx *gorm.DB) {
@@ -157,11 +149,20 @@ func showMateTables(tx *gorm.DB) {
 		log.Printf("ERROR: Unable to list chicks: %v", err)
 		return
 	}
-	for _, chick := range chicks {
-		dog := mygorm.Dog{}
-		tx.First(&dog, chick.ID)
-		//setMenuNameForMateTable(chick.MateTable, "Mating "+dog.Name)
-		mateResources[chick.MateTable].Permission = roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)
+	for num := 1; num < 10; num++ {
+		found := false
+		for _, chick := range chicks {
+			if chick.MateTable == num {
+				found = true
+			}
+		}
+		if found {
+			setMenuIconForMateTable(num, "check")
+			//mateResources[chick.MateTable].Permission = roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)
+		} else {
+			setMenuIconForMateTable(num, "close")
+			//mateResources[chick.MateTable].Permission = roles.Allow(roles.Update, roles.Anyone)
+		}
 	}
 }
 
@@ -204,7 +205,7 @@ func handleStartMating(argument *admin.ActionArgument) error {
 		}
 
 		//mateResources[chick.MateTable].Permission = roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)
-		//setMenuNameForMateTable(chick.MateTable, "Mating "+dog.Name)
+		setMenuIconForMateTable(chick.MateTable, "check")
 	}
 	return nil
 }
@@ -244,6 +245,7 @@ func handleRemoveMates(argument *admin.ActionArgument) error {
 		log.Printf("ERROR: %v", err)
 		return err
 	} else if del {
+		setMenuIconForMateTable(num, "close")
 		//mateRes.Permission = roles.Allow(roles.Update, roles.Anyone)
 	}
 	return nil
@@ -291,26 +293,22 @@ func handleMating(argument *admin.ActionArgument) error {
 			log.Print("ERROR: " + msg)
 			return errors.New(msg)
 		}
-		if err := mygorm.ClearMateTable(tx, num); err != nil {
-			log.Printf("ERROR: %v", err)
-			return err
-		}
 	}
-	if _, err := mygorm.AfterDelete(tx.New(), num); err != nil {
+	if err := mygorm.ClearMateTable(tx, num); err != nil {
 		log.Printf("ERROR: %v", err)
 		return err
 	}
+	setMenuIconForMateTable(num, "close")
 	//mateRes.Permission = roles.Allow(roles.Update, roles.Anyone)
 	return nil
 }
 
-func setMenuNameForMateTable(mateTable int, name string) {
+func setMenuIconForMateTable(mateTable int, name string) {
 	res := mateResources[mateTable]
 	menus := res.GetAdmin().GetMenus()
 	for _, m := range menus {
 		if m.Priority == 100+mateTable {
-			m.Name = name
-			res.Name = name
+			m.IconName = name
 			return
 		}
 	}
