@@ -131,10 +131,13 @@ func Init(db *gorm.DB) (*admin.Admin, error) {
 	adm.RegisterFuncMap("DogForTable", getDogForTable(db, dogTmplRes))
 
 	// Resource for Puppies (the results of mating)
-	adm.AddResource(&mygorm.Puppy{}, &admin.Config{
+	puppyRes := adm.AddResource(&mygorm.Puppy{}, &admin.Config{
 		Priority:   3,
-		Permission: roles.Deny(roles.Create, roles.Anyone),
+		Permission: roles.Allow(roles.Read, roles.Anyone).Allow(roles.Delete, roles.Anyone),
 	})
+	puppyRes.Meta(&admin.Meta{Name: "CreatedAt", Permission: roles.Allow(roles.Read, roles.Anyone), Type: "date"})
+	puppyRes.Meta(&admin.Meta{Name: "Mother", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	puppyRes.Meta(&admin.Meta{Name: "Father", Permission: roles.Allow(roles.Read, roles.Anyone)})
 
 	showMateTables(db)
 
@@ -212,9 +215,15 @@ func handleStartMating(argument *admin.ActionArgument) error {
 
 func updateMateResource(mateRes *admin.Resource) {
 	mateRes.Permission = roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)
+	mateRes.Meta(&admin.Meta{Name: "Name", Permission: roles.Allow(roles.Read, roles.Anyone)})
 	mateRes.Meta(&admin.Meta{Name: "BirthDate", Permission: roles.Allow(roles.Read, roles.Anyone), Type: "date"})
+	mateRes.Meta(&admin.Meta{Name: "ALC", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	mateRes.Meta(&admin.Meta{Name: "HD", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	mateRes.Meta(&admin.Meta{Name: "MateCount", Permission: roles.Allow(roles.Read, roles.Anyone)})
 	mateRes.Meta(&admin.Meta{Name: "Mother", Permission: roles.Allow(roles.Read, roles.Anyone)})
 	mateRes.Meta(&admin.Meta{Name: "Father", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	mateRes.Meta(&admin.Meta{Name: "ChildALC", Permission: roles.Allow(roles.Read, roles.Anyone)})
+
 	mateRes.Action(&admin.Action{
 		Name:    "Remove",
 		Handler: handleRemoveMates,
@@ -295,6 +304,10 @@ func handleMating(argument *admin.ActionArgument) error {
 		}
 	}
 	if err := mygorm.ClearMateTable(tx, num); err != nil {
+		log.Printf("ERROR: %v", err)
+		return err
+	}
+	if _, err := mygorm.AfterDelete(tx, num); err != nil {
 		log.Printf("ERROR: %v", err)
 		return err
 	}
