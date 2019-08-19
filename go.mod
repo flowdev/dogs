@@ -28,7 +28,7 @@ require (
 	github.com/qor/media v0.0.0-20190305051811-972252925fc6 // indirect
 	github.com/qor/middlewares v0.0.0-20170822143614-781378b69454 // indirect
 	github.com/qor/oss v0.0.0-20190125081523-f13ec815119e // indirect
-	github.com/qor/qor v0.0.0-20180607095400-a9b667cbbf18 // indirect
+	github.com/qor/qor v0.0.0-20180607095400-a9b667cbbf18
 	github.com/qor/responder v0.0.0-20171031032654-b6def473574f // indirect
 	github.com/qor/roles v0.0.0-20171127035124-d6375609fe3e
 	github.com/qor/serializable_meta v0.0.0-20180510060738-5fd8542db417 // indirect
@@ -40,6 +40,7 @@ require (
 	github.com/theplant/htmltestingutils v0.0.0-20171010073838-5313e1d8c06a // indirect
 	github.com/theplant/testingutils v0.0.0-20181126090146-80e83e84b643 // indirect
 	github.com/yosssi/gohtml v0.0.0-20190128141317-9b7db94d32d9 // indirect
+	github.com/zserge/webview v0.0.0-20190123072648-16c93bcaeaeb
 	golang.org/x/crypto v0.0.0-20190313024323-a1f597ede03a // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect

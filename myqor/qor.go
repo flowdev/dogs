@@ -277,15 +277,16 @@ func handleMating(argument *admin.ActionArgument) error {
 		log.Printf("ERROR: %v", err)
 		return err
 	}
-	c := mygorm.Chick{}
-	if err := tx.Where("mate_table = ?", num).First(&c).Error; err != nil {
+	chick := mygorm.Chick{}
+	if err := tx.Where("mate_table = ?", num).First(&chick).Error; err != nil {
 		msg := fmt.Sprintf("Unable to read chick for mate table %d: %v", num, err)
 		log.Print("ERROR: " + msg)
 		return errors.New(msg)
 	}
-	chick := mygorm.Dog{}
-	if err := tx.First(&chick, c.ID).Error; err != nil {
-		msg := fmt.Sprintf("Unable to read chick for mate table %d: %v", num, err)
+	mum := mygorm.Dog{}
+	dad := mygorm.Dog{}
+	if err := tx.First(&mum, chick.ID).Error; err != nil {
+		msg := fmt.Sprintf("Unable to read dog with ID %d: %v", chick.ID, err)
 		log.Print("ERROR: " + msg)
 		return errors.New(msg)
 	}
@@ -295,14 +296,19 @@ func handleMating(argument *admin.ActionArgument) error {
 		mateIface := mateValue.Interface()
 		if mate, ok := mateIface.(mygorm.Mate); ok {
 			p := mygorm.Puppy{
-				Name:     chick.Name + " + " + mate.Name,
-				ALC:      (chick.ALC + mate.ALC) / 2,
-				HD:       mygorm.CombineHD(chick.HD, mate.HD),
-				MotherID: chick.ID,
+				Name:     mum.Name + " + " + mate.Name,
+				ALC:      (mum.ALC + mate.ALC) / 2,
+				HD:       mygorm.CombineHD(mum.HD, mate.HD),
+				MotherID: mum.ID,
 				FatherID: mate.ID,
 			}
 			if err := tx.Create(&p).Error; err != nil {
 				msg := fmt.Sprintf("Unable to store puppy %s: %v", p.Name, err)
+				log.Print("ERROR: " + msg)
+				return errors.New(msg)
+			}
+			if err := tx.First(&dad, mate.ID).Error; err != nil {
+				msg := fmt.Sprintf("Unable to read dog with ID %d: %v", mate.ID, err)
 				log.Print("ERROR: " + msg)
 				return errors.New(msg)
 			}
@@ -311,6 +317,18 @@ func handleMating(argument *admin.ActionArgument) error {
 			log.Print("ERROR: " + msg)
 			return errors.New(msg)
 		}
+	}
+	mum.MateCount++
+	if err := tx.Save(&mum).Error; err != nil {
+		msg := fmt.Sprintf("Unable to save mum %s: %v", mum.Name, err)
+		log.Print("ERROR: " + msg)
+		return errors.New(msg)
+	}
+	dad.MateCount++
+	if err := tx.Save(&dad).Error; err != nil {
+		msg := fmt.Sprintf("Unable to save dad %s: %v", dad.Name, err)
+		log.Print("ERROR: " + msg)
+		return errors.New(msg)
 	}
 	if err := mygorm.ClearMateTable(tx, num); err != nil {
 		log.Printf("ERROR: %v", err)

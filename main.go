@@ -9,24 +9,21 @@ Themen:
 
 Naechste Schritte:
 - SQLite3 upgraden: >= 3.28.0 (Neues Release erst hier (Fix schon in master): https://github.com/mattn/go-sqlite3/releases dann GORM)
-- Nach Auswahl der Ruedin und fuellen der Partner-Werte (AVG + HD),
-  potentielle Partner in mateX fuellen.
-- Was soll nach Auswahl des Rueden passieren? Ungeborenen Hund anlegen!
-  Die Anzahl der Paarungen dokumentieren!
 */
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
+	"net"
 	"net/http"
 	"strings"
 
 	"github.com/flowdev/dogs/mygorm"
 	"github.com/flowdev/dogs/myqor"
 	"github.com/mattn/go-sqlite3"
+	"github.com/zserge/webview"
 )
 
 var tmplAncestors *template.Template
@@ -53,14 +50,20 @@ func main() {
 		log.Fatal(err)
 	}
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/ancestors/", handleAncestors)
-	//mux.HandleFunc("/new-chick/", handleNewChick(db))
-	adm.MountTo("/admin", mux)
+	ln, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer ln.Close()
+	go func() {
+		log.Printf("Listening on http://%s", ln.Addr().String())
+		mux := http.NewServeMux()
+		mux.HandleFunc("/ancestors/", handleAncestors)
+		adm.MountTo("/admin", mux)
 
-	port := 9000
-	log.Printf("Listening on port: %d", port)
-	defer http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
+		log.Fatal(http.Serve(ln, mux))
+	}()
+	webview.Open("Dog Breeding", "http://"+ln.Addr().String()+"/admin/dogs", 1200, 800, true)
 }
 
 func handleAncestors(w http.ResponseWriter, r *http.Request) {
