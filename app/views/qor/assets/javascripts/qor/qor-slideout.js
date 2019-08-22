@@ -547,7 +547,6 @@
     QorSlideout.TEMPLATE = `<div class="qor-slideout">
             <div class="qor-slideout__header">
                 <div class="qor-slideout__header-link">
-                    <a href="#" target="_blank" class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__opennew"><i class="material-icons">open_in_new</i></a>
                     <a href="#" class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__fullscreen">
                         <i class="material-icons">fullscreen</i>
                         <i class="material-icons" style="display: none;">fullscreen_exit</i>

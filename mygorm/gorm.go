@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -236,6 +238,40 @@ func (d *Dog) BeforeSave(tx *gorm.DB) error {
 	return nil
 }
 
+// BeforeDelete checks if the dog is currently mating and returns an error if
+// this is the case.
+func (d *Dog) BeforeDelete(tx *gorm.DB) error {
+	c := Chick{}
+	if err := tx.First(&c, d.ID).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
+		msg := fmt.Sprintf("Unable to read chick with ID '%d': %v", d.ID, err)
+		log.Printf("ERROR: %v", msg)
+		return errors.New(msg)
+	} else if err == nil {
+		return fmt.Errorf("Dog %s is still mating in mate table %d", d.Name, c.MateTable)
+	}
+	var tables []int
+	tx.Table("all_mates").Where("id = ?", d.ID).Pluck("mate_table", &tables)
+	if len(tables) == 1 {
+		return fmt.Errorf("Dog %s is still mating in mate table %d", d.Name, tables[0])
+	} else if len(tables) > 1 {
+		return fmt.Errorf("Dog %s is still mating in mate tables %s and %d",
+			d.Name,
+			joinNumbers(tables[:len(tables)-1], ", "),
+			tables[len(tables)-1])
+	}
+	return nil
+}
+func joinNumbers(nums []int, sep string) string {
+	b := strings.Builder{}
+	for i, num := range nums {
+		if i > 0 {
+			b.WriteString(", ")
+		}
+		b.WriteString(strconv.Itoa(num))
+	}
+	return b.String()
+}
+
 // CombineHD combines the two given HD values in a predictable way.
 func CombineHD(hd1, hd2 string) string {
 	if hd1 <= hd2 {
@@ -276,6 +312,19 @@ func Init(dbFname string) (*gorm.DB, error) {
 	WHERE gender = 'M' AND hd IN ('A1', 'A2', 'B1', 'B2', 'C1', 'C2');`).Error
 	if err != nil {
 		return nil, fmt.Errorf("unable to create view 'male_dogs': %v", err)
+	}
+
+	if err = db.Exec(`DROP VIEW IF EXISTS all_mates;`).Error; err != nil {
+		return nil, fmt.Errorf("unable to delete view 'all_mates': %v", err)
+	}
+	err = db.Exec(`CREATE VIEW all_mates AS
+	SELECT id, 1 AS mate_table from mate1 UNION SELECT id, 2 AS mate_table from mate2 UNION
+	SELECT id, 3 AS mate_table from mate3 UNION SELECT id, 4 AS mate_table from mate4 UNION
+	SELECT id, 5 AS mate_table from mate5 UNION SELECT id, 6 AS mate_table from mate6 UNION
+	SELECT id, 7 AS mate_table from mate7 UNION SELECT id, 8 AS mate_table from mate8 UNION
+	SELECT id, 9 AS mate_table from mate9;`).Error
+	if err != nil {
+		return nil, fmt.Errorf("unable to create view 'all_mates': %v", err)
 	}
 	return db, nil
 }
