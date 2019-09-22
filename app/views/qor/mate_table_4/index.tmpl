@@ -1,0 +1,32 @@
+{{$actions := load_actions "index" }}
+{{if $actions}}
+  <div class="qor-page__header">
+    {{$actions}}
+  </div>
+{{end}}
+
+<div class="qor-page__body">
+  {{render "shared/flashes"}}
+  {{render "shared/errors"}}
+
+  {{$chick := DogForTable .Context.Request.URL.Path}}
+  {{if $chick.Dogs}}
+    <div class="qor-table-container">
+      {{$context := .}}
+      {{render_with "index/table" (to_map "Result" $chick.Dogs "Context" $context "Resource" $chick.Res)}}
+    </div>
+    <hr>
+  {{end}}
+
+  <div class="qor-table-container">
+    {{render "index/table"}}
+  </div>
+
+  {{if has_create_permission .Resource}}
+    <a class="mdl-button mdl-button--fab mdl-button--primary qor-button--new" href="{{new_resource_path .Resource}}" data-url="{{new_resource_path .Resource}}">
+      <i class="material-icons">add</i>
+    </a>
+  {{end}}
+
+  {{render "index/pagination"}}
+</div>

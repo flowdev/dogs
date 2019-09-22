@@ -1,7 +1,6 @@
 /*
 Themen:
 - Geburtsdatum! Maximales Alter: Weibchen: 8, Maennchen: 10 Jahre
-- IK-Berechnung mit interpolation!
 - AVK-Berechnung mit AVK der Ahnen (wenn bekannt)!
   Fehlende Generationen ausgleichen????!
 - HD-Wert-Eingabe: Schlechtester zugelassener Wert des Rueden
@@ -14,12 +13,12 @@ package main
 
 import (
 	"html/template"
-	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
 	"strings"
 
+	"github.com/flowdev/dogs/config/bindatafs"
 	"github.com/flowdev/dogs/mygorm"
 	"github.com/flowdev/dogs/myqor"
 	"github.com/mattn/go-sqlite3"
@@ -28,15 +27,15 @@ import (
 
 var tmplAncestors *template.Template
 
-func init() {
-	tmplContent, err := ioutil.ReadFile("./app/views/ancestors/index.tmpl")
+func main() {
+	// Register view paths into AssetFS
+	assetFS := bindatafs.AssetFS
+	tmplContent, err := assetFS.Asset("app/views/ancestors/index.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
 	tmplAncestors = template.Must(template.New("ancestors").Parse(string(tmplContent)))
-}
 
-func main() {
 	libVersion, _, sourceID := sqlite3.Version()
 	log.Printf("INFO: sqlite3 libVersion=%s, sourceID:%s", libVersion, sourceID)
 	db, err := mygorm.Init("dogs.db")
@@ -45,7 +44,7 @@ func main() {
 	}
 
 	// Initalize Qor Admin
-	adm, err := myqor.Init(db)
+	adm, err := myqor.Init(db, assetFS)
 	if err != nil {
 		log.Fatal(err)
 	}

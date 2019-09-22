@@ -12,6 +12,7 @@ import (
 	"github.com/flowdev/dogs/mygorm"
 	"github.com/jinzhu/gorm"
 	"github.com/qor/admin"
+	"github.com/qor/assetfs"
 	"github.com/qor/qor"
 	"github.com/qor/roles"
 )
@@ -29,8 +30,9 @@ type dogsMateAction struct {
 var mateResources [10]*admin.Resource
 
 // Init initializes the qor admin UI by creating and configuring all resources.
-func Init(db *gorm.DB) (*admin.Admin, error) {
+func Init(db *gorm.DB, assetFS assetfs.Interface) (*admin.Admin, error) {
 	adm := admin.New(&admin.AdminConfig{DB: db, SiteName: "Dog Breeding"})
+	adm.SetAssetFS(assetFS)
 
 	/*
 		// Resource for looking at the chicks

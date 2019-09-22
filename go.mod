@@ -5,6 +5,7 @@ require (
 	github.com/andybalholm/cascadia v1.0.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20180720115003-f9ffefc3facf // indirect
 	github.com/aws/aws-sdk-go v1.17.13 // indirect
+	github.com/containous/go-bindata v1.0.0
 	github.com/davecgh/go-spew v1.1.1
 	github.com/denisenkom/go-mssqldb v0.0.0-20190204142019-df6d76eb9289 // indirect
 	github.com/disintegration/imaging v1.6.0 // indirect
@@ -24,7 +25,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.10.0
 	github.com/microcosm-cc/bluemonday v1.0.2 // indirect
 	github.com/qor/admin v0.0.0-20180928035023-6a7696febb1a
-	github.com/qor/assetfs v0.0.0-20170713023933-ff57fdc13a14 // indirect
+	github.com/qor/assetfs v0.0.0-20170713023933-ff57fdc13a14
 	github.com/qor/media v0.0.0-20190305051811-972252925fc6 // indirect
 	github.com/qor/middlewares v0.0.0-20170822143614-781378b69454 // indirect
 	github.com/qor/oss v0.0.0-20190125081523-f13ec815119e // indirect
