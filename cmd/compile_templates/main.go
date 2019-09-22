@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/flowdev/dogs/config/bindatafs"
 )
@@ -11,12 +12,14 @@ func main() {
 	assetFS := bindatafs.AssetFS
 
 	// Register view paths into AssetFS
-	//assetFS.RegisterPath("github.com/flowdev/dogs/app/views/qor")
-	//assetFS.RegisterPath("github.com/flowdev/dogs/app/views/ancestors")
-	assetFS.RegisterPath("./app/views")
+	if err := assetFS.RegisterPath("app/views/qor"); err != nil {
+		log.Fatalf("Unable to register path: %v", err)
+	}
 
 	// Compile templates under registered view paths into binary
 	fmt.Println("New Compile: 0")
-	assetFS.Compile()
+	if err := assetFS.Compile(); err != nil {
+		log.Printf("Compile err: %v", err)
+	}
 	fmt.Println("New Compile: 1")
 }

@@ -1,0 +1,13 @@
+2019/09/22 21:00:23 INFO: Dogs app is starting, work dir=/Users/ole/go/src/github.com/flowdev/dogs/DogBreeding3.app/Contents/Data
+2019/09/22 21:00:23 INFO: sqlite3 libVersion=3.25.2, sourceID:2018-09-25 19:08:10 fb90e7189ae6d62e77ba3a308ca5d683f90bbe633cf681865365b8e92792alt2
+2019/09/22 21:00:23 Opening database 'dogs.db'...
+2019/09/22 21:00:23 Listening on http://127.0.0.1:50740
+2019/09/22 21:00:23 Finish [GET] /admin/dogs Took 23.20ms
+2019/09/22 21:00:30 DEBUG: getDogForTable urlPath = "/admin/mate_table_1"
+2019/09/22 21:00:30 Finish [GET] /admin/mate_table_1 Took 15.43ms
+2019/09/22 21:00:36 Finish [GET] /admin/dogs Took 20.08ms
+2019/09/22 21:01:16 Finish [GET] /admin/dogs Took 18.20ms
+2019/09/22 21:01:23 Finish [GET] /admin/dogs/new Took 19.16ms
+2019/09/22 21:02:14 Finish [POST] /admin/dogs Took 1.95ms
+2019/09/22 21:02:14 Finish [GET] /admin/dogs/5 Took 17.99ms
+2019/09/22 21:02:15 Finish [GET] /admin/dogs Took 23.63ms

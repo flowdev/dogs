@@ -1,5 +1,9 @@
 # github.com/asaskevich/govalidator v0.0.0-20180720115003-f9ffefc3facf
 github.com/asaskevich/govalidator
+# github.com/containous/go-bindata v1.0.0
+github.com/containous/go-bindata
+# github.com/davecgh/go-spew v1.1.1
+github.com/davecgh/go-spew/spew
 # github.com/gorilla/context v1.1.1
 github.com/gorilla/context
 # github.com/gorilla/securecookie v1.1.1
@@ -14,11 +18,9 @@ github.com/jinzhu/gorm
 github.com/jinzhu/inflection
 # github.com/jinzhu/now v0.0.0-20180511015916-ed742868f2ae
 github.com/jinzhu/now
-# github.com/konsorten/go-windows-terminal-sequences v1.0.1
-github.com/konsorten/go-windows-terminal-sequences
-# github.com/mattn/go-sqlite3 v1.9.0
+# github.com/mattn/go-sqlite3 v1.10.0
 github.com/mattn/go-sqlite3
-# github.com/microcosm-cc/bluemonday v1.0.1
+# github.com/microcosm-cc/bluemonday v1.0.2
 github.com/microcosm-cc/bluemonday
 # github.com/qor/admin v0.0.0-20180928035023-6a7696febb1a
 github.com/qor/admin
@@ -42,15 +44,10 @@ github.com/qor/session/gorilla
 github.com/qor/validations
 # github.com/rainycape/unidecode v0.0.0-20150907023854-cb7f23ec59be
 github.com/rainycape/unidecode
-# github.com/sirupsen/logrus v1.1.1
-github.com/sirupsen/logrus
 # github.com/theplant/cldr v0.0.0-20170713054817-b97a4c2a76cf
 github.com/theplant/cldr
-# golang.org/x/crypto v0.0.0-20181012144002-a92615f3c490
-golang.org/x/crypto/ssh/terminal
-# golang.org/x/net v0.0.0-20181011144130-49bb7cea24b1
+# github.com/zserge/webview v0.0.0-20190123072648-16c93bcaeaeb
+github.com/zserge/webview
+# golang.org/x/net v0.0.0-20190311183353-d8887717615a
 golang.org/x/net/html
 golang.org/x/net/html/atom
-# golang.org/x/sys v0.0.0-20181011152604-fa43e7bc11ba
-golang.org/x/sys/unix
-golang.org/x/sys/windows

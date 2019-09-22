@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html class="mdl-js" lang="en-US"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <title>Ancestors - Dog Breeding</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <link type="text/css" rel="stylesheet" href="/admin/assets/stylesheets/qor_admin_default.css">
+    
+    
+    <script src="/admin/assets/javascripts/vendors.js"></script>
+<style>
+.qor-menu-container { margin-left: 100px; }
+#content { margin-left: 10px; }
+
+.mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen) > .mdl-layout__header {
+    margin-left: 0px;
+	padding-left: 240px;
+    width: 100%;
+}
+
+/* Make button back to dogs look nice: */
+.qor-menu > .active:hover > a,
+.qor-menu > .active:hover > a:focus,
+.qor-menu > .active:hover > a:hover,
+.qor-menu > .active > a,
+.qor-menu > .active > a:focus,
+.qor-menu > .active > a:hover {
+    color: #0389a4;
+    background-color: #eee;
+    cursor: default;
+}
+
+/* Make ancestor table look nice: */
+.mdl-data-table td {
+    position: relative;
+    height: 20px;
+	max-height: 22px;
+    border-top: 1px solid rgba(0,0,0);
+    border-bottom: 1px solid rgba(0,0,0);
+    border-left: 1px solid rgba(0,0,0);
+    border-right: 1px solid rgba(0,0,0);
+    padding: 3px 8px;
+    box-sizing: border-box;
+}
+.mdl-data-table td:first-of-type {
+    padding-left: 8px;
+}
+.mdl-data-table {
+    border-collapse: separate;
+}
+.mdl-data-table tbody {
+    border-top: 1px solid rgba(0,0,0);
+}
+.mdl-data-table tbody tr {
+    height: 22px;
+}
+.mdl-data-table tbody tr:hover {
+	background-color: #fff;
+}
+.mdl-data-table td:last-of-type, .mdl-data-table th:last-of-type {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.qor-table__content, .qor-table__content p {
+    max-height: 16px;
+}
+.qor-table td {
+    font-size: 14px;
+}
+table {
+    font-size: 14px;
+    line-height: 16px;
+}
+</style>
+  </head>
+
+  <body class="qor-theme-slideout">
+    
+    <a class="visuallyhidden" href="#content" tabindex="1">Skip to content</a>
+
+    <div class="mdl-layout__container"><div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header qor-layout has-drawer is-upgraded" data-upgraded=",MaterialLayout">
+      <header class="mdl-layout__header is-casting-shadow has-search">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Ancestors</span>
+
+    <div class="qor-menu-container">
+      <ul class="qor-menu">
+      <li qor-icon-name="Dogs" class="active">
+        <a href="/admin/dogs">Dogs</a>
+      </li>
+      </ul>
+    </div>
+          
+        </div>
+      </header>
+
+
+      <main class="mdl-layout__content qor-page" id="content">
+
+<div class="qor-page__body">
+
+	<!-- Here the own code starts! -->
+    <table class="mdl-data-table qor-table">
+    <thead>
+      <tr>
+          <th class="mdl-data-table__cell--non-numeric ">Generation 1</th>
+          <th class="mdl-data-table__cell--non-numeric ">Generation 2</th>
+          <th class="mdl-data-table__cell--non-numeric ">Generation 3</th>
+          <th class="mdl-data-table__cell--non-numeric ">Generation 4</th>
+          <th class="mdl-data-table__cell--non-numeric ">Generation 5</th>
+          <th class="mdl-data-table__cell--non-numeric ">Generation 6</th>
+      </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td rowspan="32" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Welpe Knut {{.}} / 17.5 / B1</div>
+            </td>
+            <td rowspan="16" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Mother 1 / 21.6 / A2</div>
+            </td>
+            <td rowspan="8" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Grand Mother 1 / 28.1 / A1</div>
+            </td>
+            <td rowspan="4" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Grand Grand Mother 1 / 15.8 / B2</div>
+            </td>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Mother 1 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 1 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 1 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Father 1 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 2 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 2 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="4" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Grand Grand Father 1 / 15.8 / B2</div>
+            </td>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Mother 2 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 3 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 3 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Father 2 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 4 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 4 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="8" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Grand Father 1 / 28.1 / A1</div>
+            </td>
+            <td rowspan="4" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Grand Grand Mother 2 / 15.8 / B2</div>
+            </td>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Mother 3 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 5 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 5 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Father 3 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 6 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 6 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="4" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Grand Grand Father 2 / 15.8 / B2</div>
+            </td>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Mother 4 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 7 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 7 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Father 4 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 8 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 8 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="16" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Father 1 / 21.6 / A2</div>
+            </td>
+            <td rowspan="8" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Grand Mother 2 / 28.1 / A1</div>
+            </td>
+            <td rowspan="4" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Grand Grand Mother 3 / 15.8 / B2</div>
+            </td>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Mother 5 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 9 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 9 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Father 5 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 10 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 10 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="4" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Grand Grand Father 3 / 15.8 / B2</div>
+            </td>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Mother 6 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 11 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 11 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Father 6 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 12 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 12 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="8" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Grand Father 2 / 28.1 / A1</div>
+            </td>
+            <td rowspan="4" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Grand Grand Mother 4 / 15.8 / B2</div>
+            </td>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Mother 7 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 13 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 13 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Father 7 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 14 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 14 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="4" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">Grand Grand Father 4 / 15.8 / B2</div>
+            </td>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Mother 8 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 15 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 15 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. Father 8 / 12.5 / A1</div>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Mother 16 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <div class="qor-table__content">G. G. G. G. Father 16 / 13.6 / A2</div>
+            </td>
+        </tr>
+
+    </tbody>
+    </table>
+    <!-- Here the own code ends! -->
+
+</div>
+
+      </main>
+    <div class="mdl-layout__obfuscator"></div></div></div>
+
+    
+    <script src="/admin/assets/javascripts/qor_admin_default.js"></script>
+    
+    
+  
+
+<div id="dialog" style="display: none;">
+                  <div class="mdl-dialog-bg"></div>
+                  <div class="mdl-dialog">
+                      <div class="mdl-dialog__content">
+                        <p><i class="material-icons">warning</i></p>
+                        <p class="mdl-dialog__message dialog-message">
+                        </p>
+                      </div>
+                      <div class="mdl-dialog__actions">
+                        <button type="button" class="mdl-button mdl-button--raised mdl-button--colored dialog-ok dialog-button" data-type="confirm">
+                          ok
+                        </button>
+                        <button type="button" class="mdl-button dialog-cancel dialog-button" data-type="">
+                          cancel
+                        </button>
+                      </div>
+                    </div>
+                </div><div class="qor-bottomsheets">
+            <div class="qor-bottomsheets__header">
+            <h3 class="qor-bottomsheets__title"></h3>
+            <button type="button" class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-bottomsheets__close" data-dismiss="bottomsheets">
+            <span class="material-icons">close</span>
+            </button>
+            </div>
+            <div class="qor-bottomsheets__body"></div>
+        </div><div class="qor-slideout">
+            <div class="qor-slideout__header">
+                <div class="qor-slideout__header-link">
+                    <a href="#" target="_blank" class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__opennew"><i class="material-icons">open_in_new</i></a>
+                    <a href="#" class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__fullscreen">
+                        <i class="material-icons">fullscreen</i>
+                        <i class="material-icons" style="display: none;">fullscreen_exit</i>
+                    </a>
+                </div>
+                <button type="button" class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__close" data-dismiss="slideout">
+                    <span class="material-icons">close</span>
+                </button>
+                <h3 class="qor-slideout__title"></h3>
+            </div>
+            <div class="qor-slideout__body"></div>
+        </div></body></html>

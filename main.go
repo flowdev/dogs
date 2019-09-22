@@ -16,6 +16,8 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/flowdev/dogs/config/bindatafs"
@@ -25,16 +27,29 @@ import (
 	"github.com/zserge/webview"
 )
 
-var tmplAncestors *template.Template
 
 func main() {
-	// Register view paths into AssetFS
-	assetFS := bindatafs.AssetFS
-	tmplContent, err := assetFS.Asset("app/views/ancestors/index.tmpl")
+	workDir := filepath.Join(filepath.Dir(os.Args[0]), "..", "Data")
+	if err := os.Chdir(workDir); err != nil {
+		log.Fatal(err)
+	}
+
+	// Log to log file:
+	// If the file doesn't exist, create it, or append to the file
+	f, err := os.OpenFile("Log.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
-	tmplAncestors = template.Must(template.New("ancestors").Parse(string(tmplContent)))
+	log.SetOutput(f)
+	log.Printf("INFO: Dogs app is starting, work dir=%s", workDir)
+
+	// Register view paths into AssetFS
+	assetFS := bindatafs.AssetFS
+	tmplContent, err := assetFS.Asset("ancestors/index.tmpl")
+	if err != nil {
+		log.Fatal(err)
+	}
+	tmplAncestors := template.Must(template.New("ancestors").Parse(string(tmplContent)))
 
 	libVersion, _, sourceID := sqlite3.Version()
 	log.Printf("INFO: sqlite3 libVersion=%s, sourceID:%s", libVersion, sourceID)
@@ -57,7 +72,7 @@ func main() {
 	go func() {
 		log.Printf("Listening on http://%s", ln.Addr().String())
 		mux := http.NewServeMux()
-		mux.HandleFunc("/ancestors/", handleAncestors)
+		mux.HandleFunc("/ancestors/", handleAncestors(tmplAncestors))
 		adm.MountTo("/admin", mux)
 
 		log.Fatal(http.Serve(ln, mux))
@@ -65,18 +80,21 @@ func main() {
 	webview.Open("Dog Breeding", "http://"+ln.Addr().String()+"/admin/dogs", 1200, 800, true)
 }
 
-func handleAncestors(w http.ResponseWriter, r *http.Request) {
-	// The "/ancestors/" pattern matches everything after this, too.
-	// So we need to check that the ID (and only that) exists.
-	urlParts := strings.Split(r.URL.Path, "/")
-	if len(urlParts) != 3 {
-		http.NotFound(w, r)
-		return
-	}
-	err := tmplAncestors.Execute(w, generateAncestorTable(urlParts[2]))
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+func handleAncestors(tmplAncestors *template.Template,
+) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// The "/ancestors/" pattern matches everything after this, too.
+		// So we need to check that the ID (and only that) exists.
+		urlParts := strings.Split(r.URL.Path, "/")
+		if len(urlParts) != 3 {
+			http.NotFound(w, r)
+			return
+		}
+		err := tmplAncestors.Execute(w, generateAncestorTable(urlParts[2]))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 }
 
