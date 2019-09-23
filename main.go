@@ -36,7 +36,7 @@ func main() {
 
 	// Log to log file:
 	// If the file doesn't exist, create it, or append to the file
-	f, err := os.OpenFile("Log.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	f, err := os.OpenFile("DogBreeding.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -53,7 +53,7 @@ func main() {
 
 	libVersion, _, sourceID := sqlite3.Version()
 	log.Printf("INFO: sqlite3 libVersion=%s, sourceID:%s", libVersion, sourceID)
-	db, err := mygorm.Init("dogs.db")
+	db, err := mygorm.Init("DogBreeding.db")
 	if err != nil {
 		log.Fatal(err)
 	}
