@@ -135,14 +135,15 @@ func Init(db *gorm.DB, assetFS assetfs.Interface) (*admin.Admin, error) {
 	adm.RegisterFuncMap("DogForID", getDogForID(db, dogTmplRes))
 	adm.RegisterFuncMap("DogForTable", getDogForTable(db, dogTmplRes))
 
-	// Resource for Puppies (the results of mating)
-	puppyRes := adm.AddResource(&mygorm.Puppy{}, &admin.Config{
+	// Resource for Breed (the results of mating)
+	breedRes := adm.AddResource(&mygorm.Breed{}, &admin.Config{
 		Priority:   3,
-		Permission: roles.Allow(roles.Read, roles.Anyone).Allow(roles.Delete, roles.Anyone),
 	})
-	puppyRes.Meta(&admin.Meta{Name: "CreatedAt", Permission: roles.Allow(roles.Read, roles.Anyone), Type: "date"})
-	puppyRes.Meta(&admin.Meta{Name: "Mother", Permission: roles.Allow(roles.Read, roles.Anyone)})
-	puppyRes.Meta(&admin.Meta{Name: "Father", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	breedRes.Meta(&admin.Meta{Name: "CreatedAt", Permission: roles.Allow(roles.Read, roles.Anyone), Type: "date"})
+	breedRes.Meta(&admin.Meta{Name: "Mother", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	breedRes.Meta(&admin.Meta{Name: "Father", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	breedRes.Meta(&admin.Meta{Name: "Name", Permission: roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)})
+	breedRes.Meta(&admin.Meta{Name: "Remark", Permission: roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)})
 
 	showMateTables(db)
 
@@ -297,15 +298,16 @@ func handleMating(argument *admin.ActionArgument) error {
 		mateValue := strct.FieldByName("Mate")
 		mateIface := mateValue.Interface()
 		if mate, ok := mateIface.(mygorm.Mate); ok {
-			p := mygorm.Puppy{
+			p := mygorm.Breed{
 				Name:     mum.Name + " + " + mate.Name,
 				ALC:      (mum.ALC + mate.ALC) / 2,
 				HD:       mygorm.CombineHD(mum.HD, mate.HD),
+				Remark:   "Mum: " + mum.Remark + "\nDad: " + mate.Remark,
 				MotherID: mum.ID,
 				FatherID: mate.ID,
 			}
 			if err := tx.Create(&p).Error; err != nil {
-				msg := fmt.Sprintf("Unable to store puppy %s: %v", p.Name, err)
+				msg := fmt.Sprintf("Unable to store breed %s: %v", p.Name, err)
 				log.Print("ERROR: " + msg)
 				return errors.New(msg)
 			}

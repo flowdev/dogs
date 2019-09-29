@@ -21,9 +21,9 @@ const UnknownHD = "--"
 const clearMateTableSQL = "DELETE FROM mate%d;"
 const countMateTableSQL = "SELECT count(*) AS count FROM mate%d;"
 const fillMateTableSQL = `INSERT INTO mate%d (
-	id, name, birth_date, alc, hd, mate_count, mother_id, father_id
+	id, name, birth_date, alc, hd, mate_count, mother_id, father_id, remark
 ) SELECT
-	id, name, birth_date, alc, hd, mate_count, mother_id, father_id
+	id, name, birth_date, alc, hd, mate_count, mother_id, father_id, remark
 FROM dogs WHERE star IS TRUE AND alc <= ? AND hd <= ?;`
 
 // FemaleDog is a view of female dogs (rows in the dogs table with gender set
@@ -60,6 +60,7 @@ type Mate struct {
 	FatherID  uint
 	Father    MaleDog `gorm:"foreignkey:FatherID;association_autocreate:false;association_autoupdate:false"`
 	ChildALC  float64
+	Remark    string
 }
 
 // AfterDelete deletes the chick associated with the mate table after the last
@@ -168,8 +169,8 @@ func countMateTable(tx *gorm.DB, tableIdx int) (int, error) {
 	return count.Count, nil
 }
 
-// Puppy is the result of a successful mating action.
-type Puppy struct {
+// Breed is the result of a successful mating action.
+type Breed struct {
 	ID        uint `gorm:"primary_key"`
 	CreatedAt time.Time
 	Name      string
@@ -179,11 +180,12 @@ type Puppy struct {
 	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
 	FatherID  uint
 	Father    MaleDog `gorm:"foreignkey:FatherID;association_autocreate:false;association_autoupdate:false"`
+	Remark    string
 }
 
-// BeforeSave is initializing the new dogs HD value as soon as both parents are
-// known.
-func (p *Puppy) BeforeSave(tx *gorm.DB) error {
+// BeforeSave is initializing the new breeds HD value as soon as both parents
+// are known.
+func (p *Breed) BeforeSave(tx *gorm.DB) error {
 	if (p.HD == "" || p.HD == UnknownHD) && p.MotherID != 0 && p.FatherID != 0 {
 		m := Dog{}
 		if err := tx.First(&m, p.MotherID).Error; err != nil {
@@ -217,6 +219,7 @@ type Dog struct {
 	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
 	FatherID  uint
 	Father    MaleDog `gorm:"foreignkey:FatherID;association_autocreate:false;association_autoupdate:false"`
+	Remark    string
 }
 
 // BeforeSave is initializing the new dogs HD value as soon as both parents are
@@ -288,7 +291,7 @@ func Init(dbFname string) (*gorm.DB, error) {
 		return nil, fmt.Errorf("the database '%s' could not be opened", dbFname)
 	}
 
-	if err = db.AutoMigrate(&Dog{}, &Chick{}, &Puppy{}, &Mate1{}, &Mate2{}, &Mate3{},
+	if err = db.AutoMigrate(&Dog{}, &Chick{}, &Breed{}, &Mate1{}, &Mate2{}, &Mate3{},
 		&Mate4{}, &Mate5{}, &Mate6{}, &Mate7{}, &Mate8{}, &Mate9{}).Error; err != nil {
 
 		return nil, fmt.Errorf("unable to migrate DB to current state: %v", err)

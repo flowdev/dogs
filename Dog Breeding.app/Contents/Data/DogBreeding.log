@@ -25,3 +25,96 @@
 2019/09/23 20:01:04 Finish [GET] /admin/mate_table_1 Took 15.47ms
 2019/09/23 20:01:11 Finish [GET] /admin/puppies Took 11.10ms
 2019/09/23 20:01:17 Finish [GET] /admin/dogs Took 23.74ms
+2019/09/23 20:40:09 INFO: Dogs app is starting, work dir=/Users/ole/go/src/github.com/flowdev/dogs/Dog Breeding.app/Contents/Data
+2019/09/23 20:40:09 INFO: sqlite3 libVersion=3.25.2, sourceID:2018-09-25 19:08:10 fb90e7189ae6d62e77ba3a308ca5d683f90bbe633cf681865365b8e92792alt2
+2019/09/23 20:40:09 Opening database 'DogBreeding.db'...
+2019/09/23 20:40:09 Listening on http://127.0.0.1:50970
+2019/09/23 20:40:09 Finish [GET] /admin/dogs Took 35.23ms
+2019/09/28 19:04:27 INFO: Dogs app is starting, work dir=/Users/ole/go/src/github.com/flowdev/dogs/Dog Breeding.app/Contents/Data
+2019/09/28 19:04:27 INFO: sqlite3 libVersion=3.25.2, sourceID:2018-09-25 19:08:10 fb90e7189ae6d62e77ba3a308ca5d683f90bbe633cf681865365b8e92792alt2
+2019/09/28 19:04:27 Opening database 'DogBreeding.db'...
+2019/09/28 19:04:27 Listening on http://127.0.0.1:51034
+2019/09/28 19:04:28 Finish [GET] /admin/dogs Took 31.25ms
+2019/09/28 19:05:15 DEBUG: getDogForTable urlPath = "/admin/mate_table_1"
+2019/09/28 19:05:15 Finish [GET] /admin/mate_table_1 Took 17.66ms
+2019/09/28 19:05:20 DEBUG: getDogForTable urlPath = "/admin/mate_table_2"
+2019/09/28 19:05:20 DEBUG: Unable to find chick for mate table 2
+2019/09/28 19:05:20 Finish [GET] /admin/mate_table_2 Took 8.83ms
+2019/09/28 19:05:29 Finish [GET] /admin/dogs Took 28.86ms
+2019/09/28 21:09:13 INFO: Dogs app is starting, work dir=/Users/ole/go/src/github.com/flowdev/dogs/Dog Breeding.app/Contents/Data
+2019/09/28 21:09:13 INFO: sqlite3 libVersion=3.25.2, sourceID:2018-09-25 19:08:10 fb90e7189ae6d62e77ba3a308ca5d683f90bbe633cf681865365b8e92792alt2
+2019/09/28 21:09:13 Opening database 'DogBreeding.db'...
+2019/09/28 21:09:13 Listening on http://127.0.0.1:51144
+2019/09/28 21:09:13 Finish [GET] /admin/dogs Took 30.29ms
+2019/09/28 21:09:18 Finish [GET] /admin/puppies Took 11.62ms
+2019/09/28 21:09:21 Finish [GET] /admin/puppies/1 Took 11.69ms
+2019/09/28 21:57:38 INFO: Dogs app is starting, work dir=/Users/ole/go/src/github.com/flowdev/dogs/Dog Breeding.app/Contents/Data
+2019/09/28 21:57:38 ancestors/index.tmpl not found
+2019/09/28 21:57:58 INFO: Dogs app is starting, work dir=/Users/ole/go/src/github.com/flowdev/dogs/Dog Breeding.app/Contents/Data
+2019/09/28 21:57:58 ancestors/index.tmpl not found
+2019/09/28 21:59:27 INFO: Dogs app is starting, work dir=/Users/ole/go/src/github.com/flowdev/dogs/Dog Breeding.app/Contents/Data
+2019/09/28 21:59:27 ancestors/index.tmpl not found
+2019/09/28 22:07:04 INFO: Dogs app is starting, work dir=../Data
+2019/09/28 22:07:04 ancestors/index.tmpl not found
+2019/09/28 22:07:25 INFO: Dogs app is starting, work dir=Data
+2019/09/28 22:07:25 ancestors/index.tmpl not found
+2019/09/28 22:07:44 INFO: Dogs app is starting, work dir=Contents/Data
+2019/09/28 22:07:44 ancestors/index.tmpl not found
+2019/09/28 22:14:25 INFO: Dogs app is starting, work dir=/Users/ole/go/src/github.com/flowdev/dogs/Dog Breeding.app/Contents/Data
+2019/09/28 22:14:25 INFO: sqlite3 libVersion=3.25.2, sourceID:2018-09-25 19:08:10 fb90e7189ae6d62e77ba3a308ca5d683f90bbe633cf681865365b8e92792alt2
+2019/09/28 22:14:25 Opening database 'DogBreeding.db'...
+2019/09/28 22:14:25 Listening on http://127.0.0.1:51178
+2019/09/28 22:14:26 Finish [GET] /admin/dogs Took 8.48ms
+2019/09/28 22:14:39 Finish [GET] /admin/dogs/new Took 22.75ms
+2019/09/28 22:17:32 Finish [POST] /admin/dogs Took 3.23ms
+2019/09/28 22:17:32 Finish [GET] /admin/dogs/1 Took 19.41ms
+2019/09/28 22:17:33 Finish [GET] /admin/dogs Took 15.01ms
+2019/09/28 22:17:36 Finish [GET] /admin/dogs/new Took 21.98ms
+2019/09/28 22:18:07 Finish [GET] /admin/!remote_data_selector/dogs/Mother/0xc000596ea0?per_page=20 Took 0.67ms
+2019/09/28 22:18:24 Finish [POST] /admin/dogs Took 5.32ms
+2019/09/28 22:18:24 Finish [GET] /admin/dogs/2 Took 19.68ms
+2019/09/28 22:18:25 Finish [GET] /admin/dogs Took 16.46ms
+2019/09/28 22:18:53 Finish [GET] /admin/dogs Took 16.48ms
+2019/09/28 22:18:59 Finish [GET] /admin/dogs/1/start_mating Took 8.97ms
+2019/09/28 22:19:12 INFO: mate arg: &{12 A2}
+2019/09/28 22:19:12 INFO: Looking to mate female dog Bla.
+2019/09/28 22:19:12 INFO: Chick set to: &mygorm.Chick{ID:0x1, MateALC:12, MateHD:"A2", MateTable:1}
+2019/09/28 22:19:12 Finish [PUT] /admin/dogs/1/start_mating?%3Adog_id=1& Took 2.79ms
+2019/09/28 22:19:12 Finish [GET] /admin/dogs Took 18.46ms
+2019/09/28 22:19:12 Finish [GET] /admin/dogs Took 17.72ms
+2019/09/28 22:19:18 DEBUG: getDogForTable urlPath = "/admin/mate_table_1"
+2019/09/28 22:19:19 Finish [GET] /admin/mate_table_1 Took 16.18ms
+2019/09/28 22:27:34 Finish [GET] /admin/dogs Took 15.77ms
+2019/09/28 22:27:48 DEBUG: getDogForTable urlPath = "/admin/mate_table_1"
+2019/09/28 22:27:48 Finish [GET] /admin/mate_table_1 Took 15.96ms
+2019/09/28 22:28:05 DEBUG: Mating handler got called!
+2019/09/28 22:28:05 Finish [PUT] /admin/mate_table_1/2/mate%21 Took 9.57ms
+2019/09/28 22:28:05 DEBUG: getDogForTable urlPath = "/admin/mate_table_1"
+2019/09/28 22:28:05 DEBUG: Unable to find chick for mate table 1
+2019/09/28 22:28:05 Finish [GET] /admin/mate_table_1 Took 7.64ms
+2019/09/28 22:28:09 Finish [GET] /admin/breeds Took 10.02ms
+2019/09/28 22:28:28 Finish [GET] /admin/breeds/1 Took 17.12ms
+2019/09/28 22:39:09 INFO: Dogs app is starting, work dir=/Users/ole/go/src/github.com/flowdev/dogs/Dog Breeding.app/Contents/Data
+2019/09/28 22:39:09 INFO: sqlite3 libVersion=3.25.2, sourceID:2018-09-25 19:08:10 fb90e7189ae6d62e77ba3a308ca5d683f90bbe633cf681865365b8e92792alt2
+2019/09/28 22:39:09 Opening database 'DogBreeding.db'...
+2019/09/28 22:39:09 Listening on http://127.0.0.1:51234
+2019/09/28 22:39:09 Finish [GET] /admin/dogs Took 26.35ms
+2019/09/28 22:39:18 DEBUG: getDogForTable urlPath = "/admin/mate_table_1"
+2019/09/28 22:39:18 DEBUG: Unable to find chick for mate table 1
+2019/09/28 22:39:18 Finish [GET] /admin/mate_table_1 Took 9.16ms
+2019/09/28 22:39:22 Finish [GET] /admin/dogs Took 16.26ms
+2019/09/28 22:39:27 Finish [GET] /admin/dogs/2 Took 24.41ms
+2019/09/28 22:39:39 Finish [GET] /admin/dogs/1/start_mating Took 10.65ms
+2019/09/28 22:39:45 INFO: mate arg: &{12 A2}
+2019/09/28 22:39:45 INFO: Looking to mate female dog Bla.
+2019/09/28 22:39:45 INFO: Chick set to: &mygorm.Chick{ID:0x1, MateALC:12, MateHD:"A2", MateTable:1}
+2019/09/28 22:39:45 Finish [PUT] /admin/dogs/1/start_mating?%3Adog_id=1& Took 3.50ms
+2019/09/28 22:39:45 Finish [GET] /admin/dogs Took 17.62ms
+2019/09/28 22:39:46 Finish [GET] /admin/dogs Took 17.44ms
+2019/09/28 22:39:50 DEBUG: getDogForTable urlPath = "/admin/mate_table_1"
+2019/09/28 22:39:50 Finish [GET] /admin/mate_table_1 Took 15.82ms
+2019/09/28 22:39:59 Finish [GET] /admin/breeds Took 9.85ms
+2019/09/28 22:40:04 Finish [GET] /admin/breeds/1 Took 22.59ms
+2019/09/28 22:40:28 Finish [PUT] /admin/breeds/1 Took 24.85ms
+2019/09/28 22:40:28 Finish [GET] /admin/breeds Took 11.00ms
+2019/09/28 22:40:35 Finish [GET] /admin/breeds/1 Took 18.39ms

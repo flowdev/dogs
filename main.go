@@ -2,9 +2,10 @@
 Themen:
 - Geburtsdatum! Maximales Alter: Weibchen: 8, Maennchen: 10 Jahre
 - AVK-Berechnung mit AVK der Ahnen (wenn bekannt)!
-  Fehlende Generationen ausgleichen????!
-- HD-Wert-Eingabe: Schlechtester zugelassener Wert des Rueden
-- 9 Paarungen parallel anbahnen reicht???
+  Fehlende Generationen sind Fehler!
+- Hundenamen muessen eindeutig sein.
+- Stammbaum
+- Drucken!!!
 
 Naechste Schritte:
 - SQLite3 upgraden: >= 3.28.0 (Neues Release erst hier (Fix schon in master): https://github.com/mattn/go-sqlite3/releases dann GORM)
