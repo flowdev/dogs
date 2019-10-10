@@ -14,6 +14,12 @@
 # MacOS
 .DS_Store
 
+# VIM
+.*.swp
+
 # Project specific stuff
 dogs
+dog_server
 dogs.db
+DogBreeding.db
+DogBreeding.log

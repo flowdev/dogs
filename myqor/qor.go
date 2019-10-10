@@ -13,7 +13,6 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/qor/admin"
 	"github.com/qor/assetfs"
-	"github.com/qor/qor"
 	"github.com/qor/roles"
 )
 
@@ -30,7 +29,7 @@ type dogsMateAction struct {
 var mateResources [10]*admin.Resource
 
 // Init initializes the qor admin UI by creating and configuring all resources.
-func Init(db *gorm.DB, assetFS assetfs.Interface) (*admin.Admin, error) {
+func Init(db *gorm.DB, assetFS assetfs.Interface, workDir string) (*admin.Admin, error) {
 	adm := admin.New(&admin.AdminConfig{DB: db, SiteName: "Dog Breeding"})
 	adm.SetAssetFS(assetFS)
 
@@ -219,7 +218,6 @@ func handleStartMating(argument *admin.ActionArgument) error {
 		}
 		log.Printf("INFO: Chick set to: %#v", chick)
 
-		//mateResources[chick.MateTable].Permission = roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)
 		setMenuIconForMateTable(chick.MateTable, dog.Name)
 	}
 	return nil
@@ -356,15 +354,6 @@ func setMenuIconForMateTable(mateTable int, name string) {
 			return
 		}
 	}
-}
-
-type menuPermissioner struct {
-	menu *admin.Menu
-}
-
-// HasPermission implements the qor/admin Permissioner interface
-func (mp menuPermissioner) HasPermission(mode roles.PermissionMode, ctx *qor.Context) bool {
-	return string(mode) == "read" && mp.menu.Name != ""
 }
 
 // TemplateDog is a dog suitable for showing in a HTML template.

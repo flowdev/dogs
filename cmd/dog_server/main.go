@@ -26,14 +26,13 @@ import (
 	"github.com/flowdev/dogs/mygorm"
 	"github.com/flowdev/dogs/myqor"
 	"github.com/mattn/go-sqlite3"
-	"github.com/zserge/webview"
 )
 
 
 func main() {
 	//workDir := "Documents"
 	//workDir := filepath.Join("~", "Documents")
-	workDir := filepath.Join(filepath.Dir(os.Args[0]), "..", "Data")
+	workDir := filepath.Dir(os.Args[0])
 	//if err := os.Chdir(workDir); err != nil {
 	//	log.Fatal(err)
 	//}
@@ -67,20 +66,17 @@ func main() {
 		log.Fatal(err)
 	}
 
-	ln, err := net.Listen("tcp", "127.0.0.1:0")
+	ln, err := net.Listen("tcp", "127.0.0.1:8001")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer ln.Close()
-	go func() {
-		log.Printf("Listening on http://%s", ln.Addr().String())
-		mux := http.NewServeMux()
-		mux.HandleFunc("/ancestors/", handleAncestors(tmplAncestors))
-		adm.MountTo("/admin", mux)
+	log.Printf("Listening on http://%s", ln.Addr().String())
+	mux := http.NewServeMux()
+	mux.HandleFunc("/ancestors/", handleAncestors(tmplAncestors))
+	adm.MountTo("/admin", mux)
 
-		log.Fatal(http.Serve(ln, mux))
-	}()
-	webview.Open("Dog Breeding", "http://"+ln.Addr().String()+"/admin/dogs", 1200, 800, true)
+	log.Fatal(http.Serve(ln, mux))
 }
 
 func handleAncestors(tmplAncestors *template.Template,
