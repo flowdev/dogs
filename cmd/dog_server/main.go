@@ -14,6 +14,7 @@ Naechste Schritte:
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net"
@@ -71,11 +72,14 @@ func main() {
 		log.Fatal(err)
 	}
 	defer ln.Close()
-	log.Printf("Listening on http://%s", ln.Addr().String())
+	msg := fmt.Sprintf("Listening on http://%s", ln.Addr().String())
+	log.Print(msg)
+	fmt.Println(msg)
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ancestors/", handleAncestors(tmplAncestors))
 	adm.MountTo("/admin", mux)
 
+	fmt.Println("Press 'control' + 'c' to stop the server")
 	log.Fatal(http.Serve(ln, mux))
 }
 
