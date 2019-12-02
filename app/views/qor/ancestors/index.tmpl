@@ -104,6 +104,9 @@ table {
 <div class="qor-page__body">
 
 	<!-- Here the own code starts! -->
+	{{if .Error}}
+	<p> {{.Error}}</p>
+	{{else}}
     <table class="mdl-data-table qor-table">
     <thead>
       <tr>
@@ -119,291 +122,292 @@ table {
     <tbody>
         <tr>
             <td rowspan="32" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Welpe Knut {{.}} / 17.5 / B1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 0).Name}} / {{ (index .Ancestors 0).ALC}} / {{ (index .Ancestors 0).HD}}</div>
             </td>
             <td rowspan="16" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Mother 1 / 21.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 1).Name}} / {{ (index .Ancestors 1).ALC}} / {{ (index .Ancestors 1).HD}}</div>
             </td>
             <td rowspan="8" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Grand Mother 1 / 28.1 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 2).Name}} / {{ (index .Ancestors 2).ALC}} / {{ (index .Ancestors 2).HD}}</div>
             </td>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Grand Grand Mother 1 / 15.8 / B2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 3).Name}} / {{ (index .Ancestors 3).ALC}} / {{ (index .Ancestors 3).HD}}</div>
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Mother 1 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 4).Name}} / {{ (index .Ancestors 4).ALC}} / {{ (index .Ancestors 4).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 1 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 5).Name}} / {{ (index .Ancestors 5).ALC}} / {{ (index .Ancestors 5).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 1 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 6).Name}} / {{ (index .Ancestors 6).ALC}} / {{ (index .Ancestors 6).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Father 1 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 7).Name}} / {{ (index .Ancestors 7).ALC}} / {{ (index .Ancestors 7).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 2 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 8).Name}} / {{ (index .Ancestors 8).ALC}} / {{ (index .Ancestors 8).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 2 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 9).Name}} / {{ (index .Ancestors 9).ALC}} / {{ (index .Ancestors 9).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Grand Grand Father 1 / 15.8 / B2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 10).Name}} / {{ (index .Ancestors 10).ALC}} / {{ (index .Ancestors 10).HD}}</div>
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Mother 2 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 11).Name}} / {{ (index .Ancestors 11).ALC}} / {{ (index .Ancestors 11).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 3 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 12).Name}} / {{ (index .Ancestors 12).ALC}} / {{ (index .Ancestors 12).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 3 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 13).Name}} / {{ (index .Ancestors 13).ALC}} / {{ (index .Ancestors 13).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Father 2 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 14).Name}} / {{ (index .Ancestors 14).ALC}} / {{ (index .Ancestors 14).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 4 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 15).Name}} / {{ (index .Ancestors 15).ALC}} / {{ (index .Ancestors 15).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 4 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 16).Name}} / {{ (index .Ancestors 16).ALC}} / {{ (index .Ancestors 16).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="8" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Grand Father 1 / 28.1 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 17).Name}} / {{ (index .Ancestors 17).ALC}} / {{ (index .Ancestors 17).HD}}</div>
             </td>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Grand Grand Mother 2 / 15.8 / B2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 18).Name}} / {{ (index .Ancestors 18).ALC}} / {{ (index .Ancestors 18).HD}}</div>
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Mother 3 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 19).Name}} / {{ (index .Ancestors 19).ALC}} / {{ (index .Ancestors 19).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 5 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 20).Name}} / {{ (index .Ancestors 20).ALC}} / {{ (index .Ancestors 20).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 5 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 21).Name}} / {{ (index .Ancestors 21).ALC}} / {{ (index .Ancestors 21).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Father 3 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 22).Name}} / {{ (index .Ancestors 22).ALC}} / {{ (index .Ancestors 22).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 6 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 23).Name}} / {{ (index .Ancestors 23).ALC}} / {{ (index .Ancestors 23).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 6 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 24).Name}} / {{ (index .Ancestors 24).ALC}} / {{ (index .Ancestors 24).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Grand Grand Father 2 / 15.8 / B2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 25).Name}} / {{ (index .Ancestors 25).ALC}} / {{ (index .Ancestors 25).HD}}</div>
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Mother 4 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 26).Name}} / {{ (index .Ancestors 26).ALC}} / {{ (index .Ancestors 26).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 7 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 27).Name}} / {{ (index .Ancestors 27).ALC}} / {{ (index .Ancestors 27).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 7 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 28).Name}} / {{ (index .Ancestors 28).ALC}} / {{ (index .Ancestors 28).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Father 4 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 29).Name}} / {{ (index .Ancestors 29).ALC}} / {{ (index .Ancestors 29).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 8 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 30).Name}} / {{ (index .Ancestors 30).ALC}} / {{ (index .Ancestors 30).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 8 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 31).Name}} / {{ (index .Ancestors 31).ALC}} / {{ (index .Ancestors 31).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="16" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Father 1 / 21.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 32).Name}} / {{ (index .Ancestors 32).ALC}} / {{ (index .Ancestors 32).HD}}</div>
             </td>
             <td rowspan="8" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Grand Mother 2 / 28.1 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 33).Name}} / {{ (index .Ancestors 33).ALC}} / {{ (index .Ancestors 33).HD}}</div>
             </td>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Grand Grand Mother 3 / 15.8 / B2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 34).Name}} / {{ (index .Ancestors 34).ALC}} / {{ (index .Ancestors 34).HD}}</div>
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Mother 5 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 35).Name}} / {{ (index .Ancestors 35).ALC}} / {{ (index .Ancestors 35).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 9 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 36).Name}} / {{ (index .Ancestors 36).ALC}} / {{ (index .Ancestors 36).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 9 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 37).Name}} / {{ (index .Ancestors 37).ALC}} / {{ (index .Ancestors 37).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Father 5 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 38).Name}} / {{ (index .Ancestors 38).ALC}} / {{ (index .Ancestors 38).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 10 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 39).Name}} / {{ (index .Ancestors 39).ALC}} / {{ (index .Ancestors 39).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 10 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 40).Name}} / {{ (index .Ancestors 40).ALC}} / {{ (index .Ancestors 40).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Grand Grand Father 3 / 15.8 / B2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 41).Name}} / {{ (index .Ancestors 41).ALC}} / {{ (index .Ancestors 41).HD}}</div>
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Mother 6 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 42).Name}} / {{ (index .Ancestors 42).ALC}} / {{ (index .Ancestors 42).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 11 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 43).Name}} / {{ (index .Ancestors 43).ALC}} / {{ (index .Ancestors 43).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 11 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 44).Name}} / {{ (index .Ancestors 44).ALC}} / {{ (index .Ancestors 44).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Father 6 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 45).Name}} / {{ (index .Ancestors 45).ALC}} / {{ (index .Ancestors 45).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 12 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 46).Name}} / {{ (index .Ancestors 46).ALC}} / {{ (index .Ancestors 46).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 12 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 47).Name}} / {{ (index .Ancestors 47).ALC}} / {{ (index .Ancestors 47).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="8" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Grand Father 2 / 28.1 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 48).Name}} / {{ (index .Ancestors 48).ALC}} / {{ (index .Ancestors 48).HD}}</div>
             </td>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Grand Grand Mother 4 / 15.8 / B2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 49).Name}} / {{ (index .Ancestors 49).ALC}} / {{ (index .Ancestors 49).HD}}</div>
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Mother 7 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 50).Name}} / {{ (index .Ancestors 50).ALC}} / {{ (index .Ancestors 50).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 13 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 51).Name}} / {{ (index .Ancestors 51).ALC}} / {{ (index .Ancestors 51).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 13 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 52).Name}} / {{ (index .Ancestors 52).ALC}} / {{ (index .Ancestors 52).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Father 7 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 53).Name}} / {{ (index .Ancestors 53).ALC}} / {{ (index .Ancestors 53).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 14 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 54).Name}} / {{ (index .Ancestors 54).ALC}} / {{ (index .Ancestors 54).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 14 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 55).Name}} / {{ (index .Ancestors 55).ALC}} / {{ (index .Ancestors 55).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">Grand Grand Father 4 / 15.8 / B2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 56).Name}} / {{ (index .Ancestors 56).ALC}} / {{ (index .Ancestors 56).HD}}</div>
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Mother 8 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 57).Name}} / {{ (index .Ancestors 57).ALC}} / {{ (index .Ancestors 57).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 15 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 58).Name}} / {{ (index .Ancestors 58).ALC}} / {{ (index .Ancestors 58).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 15 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 59).Name}} / {{ (index .Ancestors 59).ALC}} / {{ (index .Ancestors 59).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. Father 8 / 12.5 / A1</div>
+              <div class="qor-table__content">{{ (index .Ancestors 60).Name}} / {{ (index .Ancestors 60).ALC}} / {{ (index .Ancestors 60).HD}}</div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Mother 16 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 61).Name}} / {{ (index .Ancestors 61).ALC}} / {{ (index .Ancestors 61).HD}}</div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">G. G. G. G. Father 16 / 13.6 / A2</div>
+              <div class="qor-table__content">{{ (index .Ancestors 62).Name}} / {{ (index .Ancestors 62).ALC}} / {{ (index .Ancestors 62).HD}}</div>
             </td>
         </tr>
 
     </tbody>
     </table>
+	{{end}}
     <!-- Here the own code ends! -->
 
 </div>

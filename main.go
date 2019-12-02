@@ -5,7 +5,7 @@ Naechste Schritte:
 - Hundenamen muessen eindeutig sein.
 - Geburtsdatum! Maximales Alter: Weibchen: 8, Maennchen: 10 Jahre
 - Stammbaum
-- AVK-Berechnung mit AVK der Ahnen (wenn bekannt)!
+- AVK-Berechnung!
   Fehlende Generationen sind Fehler!
 - Drucken!!!
 
@@ -28,7 +28,6 @@ import (
 	"github.com/mattn/go-sqlite3"
 	"github.com/zserge/webview"
 )
-
 
 func main() {
 	//workDir := "Documents"

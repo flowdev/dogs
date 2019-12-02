@@ -5,7 +5,7 @@ Naechste Schritte:
 - Hundenamen muessen eindeutig sein.
 - Geburtsdatum! Maximales Alter: Weibchen: 8, Maennchen: 10 Jahre
 - Stammbaum
-- AVK-Berechnung mit AVK der Ahnen (wenn bekannt)!
+- AVK-Berechnung!
   Fehlende Generationen sind Fehler!
 - Drucken!!!
 
@@ -21,22 +21,18 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"github.com/flowdev/dogs/config/bindatafs"
 	"github.com/flowdev/dogs/mygorm"
 	"github.com/flowdev/dogs/myqor"
+	"github.com/jinzhu/gorm"
 	"github.com/mattn/go-sqlite3"
 )
 
-
 func main() {
-	//workDir := "Documents"
-	//workDir := filepath.Join("~", "Documents")
 	workDir := filepath.Dir(os.Args[0])
-	//if err := os.Chdir(workDir); err != nil {
-	//	log.Fatal(err)
-	//}
 
 	// Log to log file:
 	// If the file doesn't exist, create it, or append to the file
@@ -76,14 +72,19 @@ func main() {
 	log.Print(msg)
 	fmt.Println(msg)
 	mux := http.NewServeMux()
-	mux.HandleFunc("/ancestors/", handleAncestors(tmplAncestors))
+	mux.HandleFunc("/ancestors/", handleAncestors(tmplAncestors, db))
 	adm.MountTo("/admin", mux)
 
 	fmt.Println("Press 'control' + 'c' to stop the server")
 	log.Fatal(http.Serve(ln, mux))
 }
 
-func handleAncestors(tmplAncestors *template.Template,
+type tmplAncestors struct {
+	Ancestors []*mygorm.Dog
+	Error     error
+}
+
+func handleAncestors(tmplAncestors *template.Template, db *gorm.DB,
 ) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// The "/ancestors/" pattern matches everything after this, too.
@@ -94,16 +95,22 @@ func handleAncestors(tmplAncestors *template.Template,
 			http.NotFound(w, r)
 			return
 		}
-		err := tmplAncestors.Execute(w, generateAncestorTable(urlParts[2]))
+		id, err := strconv.Atoi(urlParts[2])
 		if err != nil {
-			log.Printf("ERROR: Unable to execute ancestor template for ID '%s': %v", urlParts[2], err)
+			log.Printf("ERROR: Dog ID '%s' isn't a valid integer: %v", urlParts[2], err)
+			http.NotFound(w, r)
+			return
+		}
+		err = tmplAncestors.Execute(w, generateAncestorTable(id, db)) // no own transaction (read only)
+		if err != nil {
+			log.Printf("ERROR: Unable to execute ancestor template for ID '%d': %v", id, err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	}
 }
 
-func generateAncestorTable(id string) template.HTML {
-	// TODO: find ancestors from DB
-	return template.HTML(id)
+func generateAncestorTable(id int, tx *gorm.DB) tmplAncestors {
+	ancestors, err := mygorm.FindAllAncestors(tx, id, 1)
+	return tmplAncestors{Ancestors: ancestors, Error: err}
 }

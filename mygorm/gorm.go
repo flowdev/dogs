@@ -208,8 +208,8 @@ func (p *Breed) BeforeSave(tx *gorm.DB) error {
 // This is the central data structure of the whole application.
 type Dog struct {
 	gorm.Model
-	Name      string `gorm:"size:32"`
-	BirthDate time.Time
+	Name      string `gorm:"size:32;unique;not null"`
+	BirthDate *time.Time
 	Gender    string `gorm:"size:16"`
 	Star      bool
 	ALC       float64
@@ -273,6 +273,55 @@ func joinNumbers(nums []int, sep string) string {
 		b.WriteString(strconv.Itoa(num))
 	}
 	return b.String()
+}
+
+// FindAllAncestors finds all ancestors up to the given generation.
+func FindAllAncestors(tx *gorm.DB, id int, generations int) ([]*Dog, error) {
+	ancestors := make([]*Dog, 0, (1<<generations)-1)
+	dog := Dog{}
+	if err := tx.First(&dog, id).Error; err != nil {
+		msg := fmt.Sprintf("Unable to read dog with ID '%d': %v", id, err)
+		log.Printf("ERROR: %v", msg)
+		return nil, errors.New(msg)
+	}
+	ancestors = append(ancestors, &dog)
+
+	return findAncestors(tx, &dog, ancestors, 1, generations)
+}
+func findAncestors(tx *gorm.DB, dog *Dog, ancestors []*Dog, curGeneration, maxGeneration int,
+) ([]*Dog, error) {
+	m := Dog{}
+	if err := tx.First(&m, dog.MotherID).Error; err != nil {
+		msg := fmt.Sprintf("Unable to read mother of %s with ID '%d' in generation %d: %v",
+			dog.Name, dog.MotherID, curGeneration, err)
+		log.Printf("ERROR: %v", msg)
+		return nil, errors.New(msg)
+	}
+	ancestors = append(ancestors, &m)
+
+	if curGeneration+1 < maxGeneration {
+		var err error
+		ancestors, err = findAncestors(tx, &m, ancestors, curGeneration+1, maxGeneration)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	f := Dog{}
+	if err := tx.First(&f, dog.FatherID).Error; err != nil {
+		msg := fmt.Sprintf("Unable to read father of %s with ID '%d' in generation %d: %v",
+			dog.Name, dog.FatherID, curGeneration, err)
+		log.Printf("ERROR: %v", msg)
+		return nil, errors.New(msg)
+	}
+	ancestors = append(ancestors, &f)
+
+	curGeneration++
+	if curGeneration >= maxGeneration {
+		return ancestors, nil
+	}
+
+	return findAncestors(tx, &f, ancestors, curGeneration, maxGeneration)
 }
 
 // CombineHD combines the two given HD values in a predictable way.
