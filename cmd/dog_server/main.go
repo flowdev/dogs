@@ -3,13 +3,13 @@ Themen:
 
 Naechste Schritte:
 - Hundenamen muessen eindeutig sein.
-- Geburtsdatum! Maximales Alter: Weibchen: 8, Maennchen: 10 Jahre
 - Stammbaum
+- Geburtsdatum! Maximales Alter: Weibchen: 8, Maennchen: 10 Jahre
 - AVK-Berechnung!
   Fehlende Generationen sind Fehler!
 - Drucken!!!
 
-- SQLite3 upgraden: >= 3.28.0 (Neues Release erst hier (Fix schon in master): https://github.com/mattn/go-sqlite3/releases dann GORM)
+- SQLite3 upgraden: (SQLite3 >= 3.28.0) => (go-sqlite3 >= 1.10.0) => (GORM >= v1.9.11): XXX
 */
 package main
 
