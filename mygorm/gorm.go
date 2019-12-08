@@ -286,42 +286,52 @@ func FindAllAncestors(tx *gorm.DB, id int, generations int) ([]*Dog, error) {
 	}
 	ancestors = append(ancestors, &dog)
 
-	return findAncestors(tx, &dog, ancestors, 1, generations)
+	ancestors, err := findAncestors(tx, &dog, ancestors, 1, generations)
+	//log.Printf("DEBUG: All ancestors (len = %d): %#v", len(ancestors), ancestors)
+	return ancestors, err
 }
 func findAncestors(tx *gorm.DB, dog *Dog, ancestors []*Dog, curGeneration, maxGeneration int,
 ) ([]*Dog, error) {
-	m := Dog{}
-	if err := tx.First(&m, dog.MotherID).Error; err != nil {
+	m := &Dog{}
+	if dog == nil || dog.MotherID == 0 {
+		m = nil
+	} else if err := tx.First(m, dog.MotherID).Error; gorm.IsRecordNotFoundError(err) {
+		m = nil
+	} else if err != nil {
 		msg := fmt.Sprintf("Unable to read mother of %s with ID '%d' in generation %d: %v",
-			dog.Name, dog.MotherID, curGeneration, err)
+			dog.Name, dog.MotherID, curGeneration+1, err)
 		log.Printf("ERROR: %v", msg)
 		return nil, errors.New(msg)
 	}
-	ancestors = append(ancestors, &m)
+	ancestors = append(ancestors, m)
 
 	if curGeneration+1 < maxGeneration {
 		var err error
-		ancestors, err = findAncestors(tx, &m, ancestors, curGeneration+1, maxGeneration)
+		ancestors, err = findAncestors(tx, m, ancestors, curGeneration+1, maxGeneration)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	f := Dog{}
-	if err := tx.First(&f, dog.FatherID).Error; err != nil {
+	f := &Dog{}
+	if dog == nil || dog.FatherID == 0 {
+		f = nil
+	} else if err := tx.First(f, dog.FatherID).Error; gorm.IsRecordNotFoundError(err) {
+		f = nil
+	} else if err != nil {
 		msg := fmt.Sprintf("Unable to read father of %s with ID '%d' in generation %d: %v",
-			dog.Name, dog.FatherID, curGeneration, err)
+			dog.Name, dog.FatherID, curGeneration+1, err)
 		log.Printf("ERROR: %v", msg)
 		return nil, errors.New(msg)
 	}
-	ancestors = append(ancestors, &f)
+	ancestors = append(ancestors, f)
 
 	curGeneration++
 	if curGeneration >= maxGeneration {
 		return ancestors, nil
 	}
 
-	return findAncestors(tx, &f, ancestors, curGeneration, maxGeneration)
+	return findAncestors(tx, f, ancestors, curGeneration, maxGeneration)
 }
 
 // CombineHD combines the two given HD values in a predictable way.

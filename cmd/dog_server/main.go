@@ -2,14 +2,13 @@
 Themen:
 
 Naechste Schritte:
-- Hundenamen muessen eindeutig sein.
-- Stammbaum
-- Geburtsdatum! Maximales Alter: Weibchen: 8, Maennchen: 10 Jahre
 - AVK-Berechnung!
   Fehlende Generationen sind Fehler!
-- Drucken!!!
+- Geburtsdatum! Maximales Alter: Weibchen: 8, Maennchen: 10 Jahre
 
 - SQLite3 upgraden: (SQLite3 >= 3.28.0) => (go-sqlite3 >= 1.10.0) => (GORM >= v1.9.11): XXX
+
+Build with: go build -tags=bindatafs
 */
 package main
 
@@ -111,6 +110,6 @@ func handleAncestors(tmplAncestors *template.Template, db *gorm.DB,
 }
 
 func generateAncestorTable(id int, tx *gorm.DB) tmplAncestors {
-	ancestors, err := mygorm.FindAllAncestors(tx, id, 1)
+	ancestors, err := mygorm.FindAllAncestors(tx, id, 6)
 	return tmplAncestors{Ancestors: ancestors, Error: err}
 }
