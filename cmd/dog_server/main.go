@@ -6,7 +6,7 @@ Naechste Schritte:
   Fehlende Generationen sind Fehler!
 - Geburtsdatum! Maximales Alter: Weibchen: 8, Maennchen: 10 Jahre
 
-- SQLite3 upgraden: (SQLite3 >= 3.28.0) => (go-sqlite3 >= 1.10.0) => (GORM >= v1.9.11): XXX
+- SQLite3 upgraden: (SQLite3 >= 3.28.0) => (go-sqlite3 >= 1.10.0) => (GORM >= v1.9.11/v1.9.1?)
 
 Build with: go build -tags=bindatafs
 */
@@ -29,6 +29,8 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/mattn/go-sqlite3"
 )
+
+const generationsForTree = 6
 
 func main() {
 	workDir := filepath.Dir(os.Args[0])
@@ -110,6 +112,6 @@ func handleAncestors(tmplAncestors *template.Template, db *gorm.DB,
 }
 
 func generateAncestorTable(id int, tx *gorm.DB) tmplAncestors {
-	ancestors, err := mygorm.FindAllAncestors(tx, id, 6)
+	ancestors, err := mygorm.FindAncestorsForID(tx, id, generationsForTree)
 	return tmplAncestors{Ancestors: ancestors, Error: err}
 }

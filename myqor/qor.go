@@ -136,7 +136,7 @@ func Init(db *gorm.DB, assetFS assetfs.Interface, workDir string) (*admin.Admin,
 
 	// Resource for Breed (the results of mating)
 	breedRes := adm.AddResource(&mygorm.Breed{}, &admin.Config{
-		Priority:   3,
+		Priority: 3,
 	})
 	breedRes.Meta(&admin.Meta{Name: "CreatedAt", Permission: roles.Allow(roles.Read, roles.Anyone), Type: "date"})
 	breedRes.Meta(&admin.Meta{Name: "Mother", Permission: roles.Allow(roles.Read, roles.Anyone)})
@@ -207,7 +207,7 @@ func handleStartMating(argument *admin.ActionArgument) error {
 			return fmt.Errorf("All mate tables are already used")
 		}
 
-		if err := mygorm.FillMateTable(tx, chick.MateTable, chick.MateALC, chick.MateHD, dog.Name); err != nil {
+		if err := mygorm.FillMateTable(tx, chick.MateTable, dog.ID, dog.Name); err != nil {
 			log.Printf("ERROR: %v", err)
 			return err
 		}

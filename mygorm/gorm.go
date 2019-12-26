@@ -18,13 +18,18 @@ const MateTableCount = 9
 // UnknownHD is the display and DB value for an unknown HD.
 const UnknownHD = "--"
 
+const generationsForALC = 6
+const maxCountForALC = (1 << generationsForALC) - 1
+
 const clearMateTableSQL = "DELETE FROM mate%d;"
 const countMateTableSQL = "SELECT count(*) AS count FROM mate%d;"
+const listMateTableSQL = "SELECT id FROM mate%d;"
 const fillMateTableSQL = `INSERT INTO mate%d (
 	id, name, birth_date, alc, hd, mate_count, mother_id, father_id, remark
 ) SELECT
 	id, name, birth_date, alc, hd, mate_count, mother_id, father_id, remark
-FROM dogs WHERE star IS TRUE AND alc <= ? AND hd <= ?;`
+FROM dogs WHERE star IS TRUE;` //AND alc <= ? AND hd <= ?;`
+const updateChildALCSQL = `UPDATE mate%d SET child_alc = ? WHERE ID = ?`
 
 // FemaleDog is a view of female dogs (rows in the dogs table with gender set
 // to 'F').
@@ -137,16 +142,20 @@ func FindFreeMateTable(tx *gorm.DB) int {
 	return -1 // can't happen because of early check
 }
 
-// FillMateTable fills the chosen mate table with male dogs that have suitable ALC and HD values.
-func FillMateTable(tx *gorm.DB, tableIdx int, mateALC float64, mateHD string, chickName string) error {
+// FillMateTable fills the chosen mate table with male dogs that are candidates for mating.
+func FillMateTable(tx *gorm.DB, tableIdx int, chickID uint, chickName string) error {
+	log.Printf("DEBUG: FillMateTable table: %d, chick: %d, name: %s", tableIdx, chickID, chickName)
 	sql := fmt.Sprintf(fillMateTableSQL, tableIdx) // this is safe because we know and control the source SQL
-	if err := tx.Exec(sql, mateALC, mateHD).Error; err != nil {
+	if err := tx.Exec(sql).Error; err != nil {
 		return fmt.Errorf("Unable to fill mate table %d: %v", tableIdx, err)
 	}
 	if count, err := countMateTable(tx, tableIdx); err != nil {
 		return err
 	} else if count <= 0 {
 		return fmt.Errorf("No male mating partners found for %s", chickName)
+	}
+	if err := updateChildALCs(tx, tableIdx, chickID); err != nil {
+		return err
 	}
 	return nil
 }
@@ -167,6 +176,49 @@ func countMateTable(tx *gorm.DB, tableIdx int) (int, error) {
 		return 0, fmt.Errorf("Unable to count mate%d table: %v", tableIdx, err)
 	}
 	return count.Count, nil
+}
+
+func updateChildALCs(tx *gorm.DB, tableIdx int, mumID uint) error {
+	log.Printf("DEBUG: updateChildALCs")
+	updSQL := fmt.Sprintf(updateChildALCSQL, tableIdx) // this is safe because we know and control the source SQL
+	d := Dog{MotherID: mumID}
+	dadIDs, err := readMateIDs(tx, tableIdx)
+	if err != nil {
+		return err
+	}
+	for _, dadID := range dadIDs {
+		d.Name = fmt.Sprintf("<Potential Puppy of %d>", dadID)
+		d.FatherID = dadID
+		alc, err := ComputeALC(tx, &d)
+		if err != nil {
+			return fmt.Errorf("Unable to compute child ALC for mate table %d, mateID %d: %v", tableIdx, dadID, err)
+		}
+		log.Printf("DEBUG: updateChildALCs ALC: %f, dadID: %d", alc, dadID)
+		if err := tx.Exec(updSQL, alc, dadID).Error; err != nil {
+			return fmt.Errorf("Unable to update child ALC in mate table %d, mateID %d: %v", tableIdx, dadID, err)
+		}
+	}
+	return nil
+}
+func readMateIDs(tx *gorm.DB, tableIdx int) ([]uint, error) {
+	listSQL := fmt.Sprintf(listMateTableSQL, tableIdx) // this is safe because we know and control the source SQL
+	dadIDs := make([]uint, 0, 4096)
+	rows, err := tx.Raw(listSQL).Rows()
+	if err != nil {
+		return nil, fmt.Errorf("Unable to list mate IDs of mate table %d: %v", tableIdx, err)
+	}
+	defer rows.Close()
+	for i := 1; rows.Next(); i++ {
+		var id uint
+		if err := rows.Scan(&id); err != nil {
+			return nil, fmt.Errorf("Unable to read mate ID from mate table %d, row %d: %v", tableIdx, i, err)
+		}
+		dadIDs = append(dadIDs, id)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("Unable to read all mate IDs from mate table %d: %v", tableIdx, err)
+	}
+	return dadIDs, nil
 }
 
 // Breed is the result of a successful mating action.
@@ -275,21 +327,43 @@ func joinNumbers(nums []int, sep string) string {
 	return b.String()
 }
 
-// FindAllAncestors finds all ancestors up to the given generation.
-func FindAllAncestors(tx *gorm.DB, id int, generations int) ([]*Dog, error) {
-	ancestors := make([]*Dog, 0, (1<<generations)-1)
+// ComputeALC calculates the correct ALC for 6 generations.
+// WARNING: All generations have to be present!
+func ComputeALC(tx *gorm.DB, dog *Dog) (float64, error) {
+	ancestors, err := FindAncestorsForDog(tx, dog, generationsForALC)
+	if err != nil {
+		return 0.0, err
+	}
+	ancestorIDSet := make(map[uint]bool)
+	for _, a := range ancestors {
+		if a != nil {
+			ancestorIDSet[a.ID] = true
+		}
+	}
+	alc := float64(len(ancestorIDSet)*100) / maxCountForALC
+	return alc, nil
+}
+
+// FindAncestorsForID finds all ancestors up to the given generation.
+func FindAncestorsForID(tx *gorm.DB, id int, generations int) ([]*Dog, error) {
 	dog := Dog{}
 	if err := tx.First(&dog, id).Error; err != nil {
 		msg := fmt.Sprintf("Unable to read dog with ID '%d': %v", id, err)
 		log.Printf("ERROR: %v", msg)
 		return nil, errors.New(msg)
 	}
-	ancestors = append(ancestors, &dog)
+	return FindAncestorsForDog(tx, &dog, generations)
+}
 
-	ancestors, err := findAncestors(tx, &dog, ancestors, 1, generations)
-	//log.Printf("DEBUG: All ancestors (len = %d): %#v", len(ancestors), ancestors)
+// FindAncestorsForDog finds all ancestors up to the given generation.
+func FindAncestorsForDog(tx *gorm.DB, dog *Dog, generations int) ([]*Dog, error) {
+	ancestors := make([]*Dog, 0, (1<<generations)-1)
+	ancestors = append(ancestors, dog)
+
+	ancestors, err := findAncestors(tx, dog, ancestors, 1, generations)
 	return ancestors, err
 }
+
 func findAncestors(tx *gorm.DB, dog *Dog, ancestors []*Dog, curGeneration, maxGeneration int,
 ) ([]*Dog, error) {
 	m := &Dog{}
