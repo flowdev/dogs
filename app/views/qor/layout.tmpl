@@ -23,18 +23,21 @@
       .qor-bottomsheets.is-slided {
         max-height: 50%;
       }
-	  .qor-bottomsheets.is-shown {
+      .qor-bottomsheets.is-shown {
         width: 90%;
-		margin-left: -45%;
+        margin-left: -45%;
       }
-	  .qor-bottomsheets.is-shown .qor-table-container .qor-table thead {
+      .qor-bottomsheets.is-shown .qor-table-container .qor-table thead {
         display: table-header-group;
       }
-	  .qor-bottomsheets.is-shown .qor-table-container .qor-table tbody td {
+      .qor-bottomsheets.is-shown .qor-table-container .qor-table tbody td {
         padding-left: 18px;
       }
-	  .qor-bottomsheets.is-shown .qor-table-container .qor-table tbody td:first-of-type {
+      .qor-bottomsheets.is-shown .qor-table-container .qor-table tbody td:first-of-type {
         padding-left: 24px;
+      }
+      .qor-table tbody td .bad-value {
+        color: red;
       }
       [qor-icon-name*="check"] > a::before {
         content: "\E5CA";
@@ -42,7 +45,7 @@
       [qor-icon-name*="close"] > a::before {
         content: "\E5CD";
       }
-	</style>
+    </style>
     {{javascript_tag "vendors"}}
   </head>
 

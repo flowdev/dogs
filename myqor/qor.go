@@ -10,6 +10,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/flowdev/dogs/mygorm"
 	"github.com/jinzhu/gorm"
@@ -23,6 +24,11 @@ const MainRoute = "/admin/dogs"
 
 // MateResourcePrefix is the prefix of all QOR mate table resources.
 const MateResourcePrefix = "Mate table "
+
+const cssClassBadValue = " bad-value"
+
+const year = time.Hour*24*365 + time.Hour*6 // 365.25 days per year
+const mateMaxAge = 10 * year
 
 type dogsMateAction struct {
 	ALC float64
@@ -437,11 +443,22 @@ func cssClassesForValue(db *gorm.DB) func(value, result interface{}, fieldName, 
 			chick, err := mygorm.GetChickForTable(db, resName[len(MateResourcePrefix):])
 			if err != nil {
 				log.Printf("ERROR: %v", err)
+				return ""
 			}
 			mate := mygorm.GenericMate(result)
-			if fieldName == "ChildALC" {
+			switch fieldName {
+			case "ChildALC":
 				if mate.ChildALC < chick.MateALC {
-					return " bad-value"
+					return cssClassBadValue
+				}
+			case "HD":
+				if mate.HD > chick.MateHD {
+					return cssClassBadValue
+				}
+			case "BirthDate":
+				now := time.Now()
+				if mate.BirthDate.Add(mateMaxAge).Before(now) {
+					return cssClassBadValue
 				}
 			}
 			log.Printf("DEBUG: Unknown field: %s, result type: %T or value: %#v", fieldName, result, value)
