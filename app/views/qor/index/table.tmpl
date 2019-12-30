@@ -32,7 +32,7 @@
           {{range $meta := $metas}}
             {{$value := render_meta $result $meta}}
             <td class="mdl-data-table__cell--non-numeric" data-heading="{{$meta.Name}}">
-              <div class="qor-table__content">{{$value}}</div>
+              <div class="qor-table__content{{css_classes_for_value $value $result $meta.Name $resource.Name}}">{{$value}}</div>
             </td>
           {{end}}
 

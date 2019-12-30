@@ -3,11 +3,13 @@ package myqor
 import (
 	"errors"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"net/url"
 	"reflect"
 	"strconv"
+	"strings"
 
 	"github.com/flowdev/dogs/mygorm"
 	"github.com/jinzhu/gorm"
@@ -18,6 +20,9 @@ import (
 
 // MainRoute is the main route of the app.
 const MainRoute = "/admin/dogs"
+
+// MateResourcePrefix is the prefix of all QOR mate table resources.
+const MateResourcePrefix = "Mate table "
 
 type dogsMateAction struct {
 	ALC float64
@@ -133,6 +138,7 @@ func Init(db *gorm.DB, assetFS assetfs.Interface, workDir string) (*admin.Admin,
 	// ...and register special function to get such a Dog from the DB.
 	adm.RegisterFuncMap("DogForID", getDogForID(db, dogTmplRes))
 	adm.RegisterFuncMap("DogForTable", getDogForTable(db, dogTmplRes))
+	adm.RegisterFuncMap("css_classes_for_value", cssClassesForValue(db))
 
 	// Resource for Breed (the results of mating)
 	breedRes := adm.AddResource(&mygorm.Breed{}, &admin.Config{
@@ -423,4 +429,23 @@ func getMateTableNumber(name string) (int, error) {
 		return 0, fmt.Errorf("mateTable '%s' (of %q) is not a number: %v", mateTable, name, err)
 	}
 	return num, nil
+}
+
+func cssClassesForValue(db *gorm.DB) func(value, result interface{}, fieldName, resName string) template.HTML {
+	return func(value, result interface{}, fieldName, resName string) template.HTML {
+		if strings.HasPrefix(resName, MateResourcePrefix) {
+			chick, err := mygorm.GetChickForTable(db, resName[len(MateResourcePrefix):])
+			if err != nil {
+				log.Printf("ERROR: %v", err)
+			}
+			mate := mygorm.GenericMate(result)
+			if fieldName == "ChildALC" {
+				if mate.ChildALC < chick.MateALC {
+					return " bad-value"
+				}
+			}
+			log.Printf("DEBUG: Unknown field: %s, result type: %T or value: %#v", fieldName, result, value)
+		}
+		return ""
+	}
 }

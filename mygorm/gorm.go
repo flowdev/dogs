@@ -119,6 +119,15 @@ func CheckDoubleChick(tx *gorm.DB, id uint, name string) error {
 	return nil
 }
 
+// GetChickForTable returns the current chick for the given mating table number.
+func GetChickForTable(tx *gorm.DB, tableNumber string) (*Chick, error) {
+	chick := Chick{}
+	if err := tx.Where("mate_table = ?", tableNumber).First(&chick).Error; err != nil {
+		return nil, fmt.Errorf("Unable to find chick for table %s: %v", tableNumber, err)
+	}
+	return &chick, nil
+}
+
 // FindFreeMateTable returns the number (between 1 and 9) of the first
 // currently unused mate table.
 func FindFreeMateTable(tx *gorm.DB) int {
@@ -144,7 +153,6 @@ func FindFreeMateTable(tx *gorm.DB) int {
 
 // FillMateTable fills the chosen mate table with male dogs that are candidates for mating.
 func FillMateTable(tx *gorm.DB, tableIdx int, chickID uint, chickName string) error {
-	log.Printf("DEBUG: FillMateTable table: %d, chick: %d, name: %s", tableIdx, chickID, chickName)
 	sql := fmt.Sprintf(fillMateTableSQL, tableIdx) // this is safe because we know and control the source SQL
 	if err := tx.Exec(sql).Error; err != nil {
 		return fmt.Errorf("Unable to fill mate table %d: %v", tableIdx, err)
@@ -179,26 +187,35 @@ func countMateTable(tx *gorm.DB, tableIdx int) (int, error) {
 }
 
 func updateChildALCs(tx *gorm.DB, tableIdx int, mumID uint) error {
-	log.Printf("DEBUG: updateChildALCs")
+	errDads := make([]uint, 0, 4096)
 	updSQL := fmt.Sprintf(updateChildALCSQL, tableIdx) // this is safe because we know and control the source SQL
 	d := Dog{MotherID: mumID}
 	dadIDs, err := readMateIDs(tx, tableIdx)
 	if err != nil {
+		log.Printf("ERROR: %v", err)
 		return err
 	}
 	for _, dadID := range dadIDs {
+		var alc float64
 		d.Name = fmt.Sprintf("<Potential Puppy of %d>", dadID)
 		d.FatherID = dadID
-		alc, err := ComputeALC(tx, &d)
+		alc, err = ComputeALC(tx, &d, mumID, dadID)
 		if err != nil {
-			return fmt.Errorf("Unable to compute child ALC for mate table %d, mateID %d: %v", tableIdx, dadID, err)
-		}
-		log.Printf("DEBUG: updateChildALCs ALC: %f, dadID: %d", alc, dadID)
-		if err := tx.Exec(updSQL, alc, dadID).Error; err != nil {
-			return fmt.Errorf("Unable to update child ALC in mate table %d, mateID %d: %v", tableIdx, dadID, err)
+			err = fmt.Errorf("Unable to compute child ALC for mate table %d, mateID %d: %v", tableIdx, dadID, err)
+			log.Printf("ERROR: %v", err)
+			errDads = append(errDads, dadID)
+		} else if err := tx.Exec(updSQL, alc, dadID).Error; err != nil {
+			err = fmt.Errorf("Unable to update child ALC in mate table %d, mateID %d: %v", tableIdx, dadID, err)
+			log.Printf("ERROR: %v", err)
+			errDads = append(errDads, dadID)
 		}
 	}
-	return nil
+	if len(errDads) <= 1 {
+		return err
+	}
+	err = fmt.Errorf("Updating ALCs of potential puppies failed for these potential dads: %v; last problem being: %v", errDads, err)
+	log.Printf("ERROR: %v", err)
+	return err
 }
 func readMateIDs(tx *gorm.DB, tableIdx int) ([]uint, error) {
 	listSQL := fmt.Sprintf(listMateTableSQL, tableIdx) // this is safe because we know and control the source SQL
@@ -329,16 +346,19 @@ func joinNumbers(nums []int, sep string) string {
 
 // ComputeALC calculates the correct ALC for 6 generations.
 // WARNING: All generations have to be present!
-func ComputeALC(tx *gorm.DB, dog *Dog) (float64, error) {
+func ComputeALC(tx *gorm.DB, dog *Dog, mumID, dadID uint) (float64, error) {
 	ancestors, err := FindAncestorsForDog(tx, dog, generationsForALC)
 	if err != nil {
-		return 0.0, err
+		return 0, err
 	}
 	ancestorIDSet := make(map[uint]bool)
-	for _, a := range ancestors {
-		if a != nil {
-			ancestorIDSet[a.ID] = true
+	for i, a := range ancestors {
+		if a == nil {
+			msg := fmt.Sprintf("Unable to compute ALC for dog %s: Ancestor with index %d is missing", dog.Name, i)
+			log.Print("ERROR: " + msg)
+			return 0, errors.New(msg)
 		}
+		ancestorIDSet[a.ID] = true
 	}
 	alc := float64(len(ancestorIDSet)*100) / maxCountForALC
 	return alc, nil
@@ -466,6 +486,31 @@ func Init(dbFname string) (*gorm.DB, error) {
 }
 
 // TODO: Add more mate resources if necessary!!!
+
+// GenericMate returns the Mate common to all mate tables.
+func GenericMate(result interface{}) *Mate {
+	switch mate := result.(type) {
+	case *Mate1:
+		return &mate.Mate
+	case *Mate2:
+		return &mate.Mate
+	case *Mate3:
+		return &mate.Mate
+	case *Mate4:
+		return &mate.Mate
+	case *Mate5:
+		return &mate.Mate
+	case *Mate6:
+		return &mate.Mate
+	case *Mate7:
+		return &mate.Mate
+	case *Mate8:
+		return &mate.Mate
+	case *Mate9:
+		return &mate.Mate
+	}
+	panic(fmt.Sprintf("Unknown mate type: %T", result))
+}
 
 // Mate1 is the 1. mate table.
 type Mate1 struct {

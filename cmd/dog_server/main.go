@@ -3,7 +3,6 @@ Themen:
 
 Naechste Schritte:
 - AVK-Berechnung!
-  Fehlende Generationen sind Fehler!
 - Geburtsdatum! Maximales Alter: Weibchen: 8, Maennchen: 10 Jahre
 
 - SQLite3 upgraden: (SQLite3 >= 3.28.0) => (go-sqlite3 >= 1.10.0) => (GORM >= v1.9.11/v1.9.1?)
