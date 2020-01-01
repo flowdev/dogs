@@ -2,10 +2,11 @@
 Themen:
 
 Naechste Schritte:
-- AVK-Berechnung!
-- Geburtsdatum! Maximales Alter: Weibchen: 8, Maennchen: 10 Jahre
-
 - SQLite3 upgraden: (SQLite3 >= 3.28.0) => (go-sqlite3 >= 1.10.0) => (GORM >= v1.9.11/v1.9.1?)
+- Stringify() implementieren fuer ALC (fuer kuerzere Zahlen).
+
+- Unique Index auf Namen manuell in aktueller DB erstellen.
+- Schrift verbessern (unterscheidbarkeit von 1, l, I, ...)
 
 Build with: go build -tags=bindatafs
 */

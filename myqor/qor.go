@@ -29,6 +29,7 @@ const cssClassBadValue = " bad-value"
 
 const year = time.Hour*24*365 + time.Hour*6 // 365.25 days per year
 const mateMaxAge = 10 * year
+const chickMaxAge = 8 * year
 
 type dogsMateAction struct {
 	ALC float64
@@ -90,6 +91,11 @@ func Init(db *gorm.DB, assetFS assetfs.Interface, workDir string) (*admin.Admin,
 			return false
 		},
 		Modes: []string{"show", "edit", "menu_item"},
+	})
+	dogRes.Action(&admin.Action{
+		Name:    "Compute ALC",
+		Handler: handleCalculateALC,
+		Modes:   []string{"batch", "show", "edit", "menu_item"},
 	})
 
 	// Resources for choosing a mate for a chick
@@ -233,6 +239,39 @@ func handleStartMating(argument *admin.ActionArgument) error {
 		setMenuIconForMateTable(chick.MateTable, dog.Name)
 	}
 	return nil
+}
+
+func handleCalculateALC(argument *admin.ActionArgument) error {
+	var err error
+	errDogs := make([]string, 0, 4096)
+	for _, record := range argument.FindSelectedRecords() {
+		dog, ok := record.(*mygorm.Dog)
+		if !ok {
+			err = fmt.Errorf("Expected dog but got: %T", record)
+			log.Printf("ERROR: %v", err)
+			return err
+		}
+		tx := argument.Context.GetDB().New() // without the `.New()` we had an old WHERE condition still set
+		oldALC := dog.ALC
+		newALC, err2 := mygorm.ComputeALC(tx, dog)
+		if err2 != nil {
+			err = err2
+			log.Printf("ERROR: %v", err)
+			errDogs = append(errDogs, dog.Name)
+		} else if err2 = tx.Model(dog).Update("alc", newALC).Error; err2 != nil {
+			err = fmt.Errorf("Error while updating ALC of dog %s: %v", dog.Name, err2)
+			log.Printf("ERROR: %v", err)
+			errDogs = append(errDogs, dog.Name)
+		} else {
+			log.Printf("INFO: Updated ALC for dog %s from %f to %f.", dog.Name, oldALC, newALC)
+		}
+	}
+	if len(errDogs) <= 1 {
+		return err
+	}
+	err = fmt.Errorf("Updating ALCs failed for these dogs: %v; last problem was: %v", errDogs, err)
+	log.Printf("ERROR: %v", err)
+	return err
 }
 
 func updateMateResource(mateRes *admin.Resource) {
@@ -461,7 +500,18 @@ func cssClassesForValue(db *gorm.DB) func(value, result interface{}, fieldName, 
 					return cssClassBadValue
 				}
 			}
-			log.Printf("DEBUG: Unknown field: %s, result type: %T or value: %#v", fieldName, result, value)
+		} else if resName == "dogTmplRes" && fieldName == "BirthDate" {
+			chick, ok := result.(*mygorm.Dog)
+			if !ok {
+				log.Printf("ERROR: Expected result type *mygorm.Dog but got: %T", result)
+				return ""
+			}
+			now := time.Now()
+			if chick.BirthDate.Add(chickMaxAge).Before(now) {
+				return cssClassBadValue
+			}
+		} else {
+			//log.Printf("DEBUG: Unknown resource: %s, field: %s, result type: %T or value: %#v", resName, fieldName, result, value)
 		}
 		return ""
 	}

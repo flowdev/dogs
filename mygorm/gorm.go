@@ -199,7 +199,7 @@ func updateChildALCs(tx *gorm.DB, tableIdx int, mumID uint) error {
 		var alc float64
 		d.Name = fmt.Sprintf("<Potential Puppy of %d>", dadID)
 		d.FatherID = dadID
-		alc, err = ComputeALC(tx, &d, mumID, dadID)
+		alc, err = ComputeALC(tx, &d)
 		if err != nil {
 			err = fmt.Errorf("Unable to compute child ALC for mate table %d, mateID %d: %v", tableIdx, dadID, err)
 			log.Printf("ERROR: %v", err)
@@ -346,7 +346,7 @@ func joinNumbers(nums []int, sep string) string {
 
 // ComputeALC calculates the correct ALC for 6 generations.
 // WARNING: All generations have to be present!
-func ComputeALC(tx *gorm.DB, dog *Dog, mumID, dadID uint) (float64, error) {
+func ComputeALC(tx *gorm.DB, dog *Dog) (float64, error) {
 	ancestors, err := FindAncestorsForDog(tx, dog, generationsForALC)
 	if err != nil {
 		return 0, err
