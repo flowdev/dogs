@@ -217,7 +217,7 @@ func handleStartMating(argument *admin.ActionArgument) error {
 		log.Printf("INFO: Looking to mate female dog %s.", dog.Name)
 		chick := &mygorm.Chick{
 			ID:        dog.ID,
-			MateALC:   dogsMateArg.ALC,
+			MateALC:   mygorm.Percentage(dogsMateArg.ALC),
 			MateHD:    dogsMateArg.HD,
 			MateTable: mygorm.FindFreeMateTable(tx),
 		}

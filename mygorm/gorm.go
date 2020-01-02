@@ -31,6 +31,14 @@ const fillMateTableSQL = `INSERT INTO mate%d (
 FROM dogs WHERE star IS TRUE;` //AND alc <= ? AND hd <= ?;`
 const updateChildALCSQL = `UPDATE mate%d SET child_alc = ? WHERE ID = ?`
 
+// Percentage can be stored in the DB and displayed nicely (with only 2 decimal places).
+type Percentage float64
+
+// String is implemented for nicer looking numbers.
+func (p Percentage) String() string {
+	return fmt.Sprintf("%.2f", p)
+}
+
 // FemaleDog is a view of female dogs (rows in the dogs table with gender set
 // to 'F').
 // A FemaleDog belongs to a Dog (it's child) as Mother.
@@ -57,14 +65,14 @@ type Mate struct {
 	ID        uint `gorm:"primary_key"`
 	Name      string
 	BirthDate time.Time
-	ALC       float64
+	ALC       Percentage
 	HD        string `gorm:"size:8"`
 	MateCount int
 	MotherID  uint
 	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
 	FatherID  uint
 	Father    MaleDog `gorm:"foreignkey:FatherID;association_autocreate:false;association_autoupdate:false"`
-	ChildALC  float64
+	ChildALC  Percentage
 	Remark    string
 }
 
@@ -92,7 +100,7 @@ func AfterDelete(tx *gorm.DB, tableIdx int) (bool, error) {
 // twice. Because of that we don't use gorm.Model.
 type Chick struct {
 	ID        uint `gorm:"primary_key"`
-	MateALC   float64
+	MateALC   Percentage
 	MateHD    string `gorm:"size:8"`
 	MateTable int    `gorm:"unique;not null"` // we allow up to 9 tables for male partners (mate1 ... mate9)
 }
@@ -243,7 +251,7 @@ type Breed struct {
 	ID        uint `gorm:"primary_key"`
 	CreatedAt time.Time
 	Name      string
-	ALC       float64
+	ALC       Percentage
 	HD        string `gorm:"size:8"`
 	MotherID  uint
 	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
@@ -281,7 +289,7 @@ type Dog struct {
 	BirthDate *time.Time
 	Gender    string `gorm:"size:16"`
 	Star      bool
-	ALC       float64
+	ALC       Percentage
 	HD        string `gorm:"size:8"`
 	MateCount int
 	MotherID  uint
