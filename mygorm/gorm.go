@@ -39,6 +39,31 @@ func (p Percentage) String() string {
 	return fmt.Sprintf("%.2f", p)
 }
 
+// Star can be stored in the DB and displayed nicely (as a star).
+type Star bool
+
+// String is implemented for nicer looking numbers.
+func (s Star) String() string {
+	if s {
+		return "★"
+	}
+	return " "
+}
+
+// Scan is needed for sqlite3.
+func (s *Star) Scan(src interface{}) error {
+	switch v := src.(type) {
+	case bool:
+		*s = Star(v)
+	case int64:
+		*s = v != 0
+	default:
+		log.Printf("ERROR: Unable to scan type %T to star.", src)
+		*s = false
+	}
+	return nil
+}
+
 // FemaleDog is a view of female dogs (rows in the dogs table with gender set
 // to 'F').
 // A FemaleDog belongs to a Dog (it's child) as Mother.
@@ -288,7 +313,7 @@ type Dog struct {
 	Name      string `gorm:"size:32;unique;not null"`
 	BirthDate *time.Time
 	Gender    string `gorm:"size:16"`
-	Star      bool
+	Star      Star
 	ALC       Percentage
 	HD        string `gorm:"size:8"`
 	MateCount int
