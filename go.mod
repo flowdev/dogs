@@ -29,7 +29,7 @@ require (
 	github.com/qor/media v0.0.0-20190305051811-972252925fc6 // indirect
 	github.com/qor/middlewares v0.0.0-20170822143614-781378b69454 // indirect
 	github.com/qor/oss v0.0.0-20190125081523-f13ec815119e // indirect
-	github.com/qor/qor v0.0.0-20180607095400-a9b667cbbf18
+	github.com/qor/qor v0.0.0-20180607095400-a9b667cbbf18 // indirect
 	github.com/qor/responder v0.0.0-20171031032654-b6def473574f // indirect
 	github.com/qor/roles v0.0.0-20171127035124-d6375609fe3e
 	github.com/qor/serializable_meta v0.0.0-20180510060738-5fd8542db417 // indirect

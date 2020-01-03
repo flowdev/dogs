@@ -38,8 +38,8 @@ github.com/qor/responder
 github.com/qor/roles
 # github.com/qor/session v0.0.0-20170907035918-8206b0adab70
 github.com/qor/session
-github.com/qor/session/manager
 github.com/qor/session/gorilla
+github.com/qor/session/manager
 # github.com/qor/validations v0.0.0-20171228122639-f364bca61b46
 github.com/qor/validations
 # github.com/rainycape/unidecode v0.0.0-20150907023854-cb7f23ec59be
