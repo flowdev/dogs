@@ -303,6 +303,30 @@ func updateMateResource(mateRes *admin.Resource) {
 		},
 		Modes: []string{"show", "edit", "menu_item"},
 	})
+	mateRes.Action(&admin.Action{
+		Name: "Cancel Mating",
+		Handler: func(argument *admin.ActionArgument) error {
+			tx := argument.Context.DB.New()
+			num, err := getMateTableNumber(argument.Context.Resource.Config.Name)
+			if err != nil {
+				log.Printf("ERROR: %v", err)
+				return err
+			}
+			if err := mygorm.ClearMateTable(tx, num); err != nil {
+				log.Printf("ERROR: %v", err)
+				return err
+			}
+			if del, err := mygorm.AfterDelete(tx, num); err != nil {
+				log.Printf("ERROR: %v", err)
+				return err
+			} else if del {
+				setMenuIconForMateTable(num, "")
+				//mateRes.Permission = roles.Allow(roles.Update, roles.Anyone)
+			}
+			return nil
+		},
+		Modes: []string{"collection"},
+	})
 }
 
 func handleRemoveMates(argument *admin.ActionArgument) error {
