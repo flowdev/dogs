@@ -28,7 +28,7 @@ const fillMateTableSQL = `INSERT INTO mate%d (
 	id, name, birth_date, alc, hd, mate_count, mother_id, father_id, remark
 ) SELECT
 	id, name, birth_date, alc, hd, mate_count, mother_id, father_id, remark
-FROM dogs WHERE star IS TRUE;` //AND alc <= ? AND hd <= ?;`
+FROM dogs WHERE star IS TRUE AND deleted_at IS NULL;`
 const updateChildALCSQL = `UPDATE mate%d SET child_alc = ? WHERE ID = ?`
 
 // Percentage can be stored in the DB and displayed nicely (with only 2 decimal places).

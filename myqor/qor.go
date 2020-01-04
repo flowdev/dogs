@@ -295,6 +295,14 @@ func updateMateResource(mateRes *admin.Resource) {
 		Handler: handleMating,
 		Modes:   []string{"show", "edit", "menu_item"},
 	})
+	mateRes.Action(&admin.Action{
+		Name: "Ancestors",
+		URL: func(record interface{}, context *admin.Context) string {
+			mate := mygorm.GenericMate(record)
+			return fmt.Sprintf("/ancestors/%d", mate.ID)
+		},
+		Modes: []string{"show", "edit", "menu_item"},
+	})
 }
 
 func handleRemoveMates(argument *admin.ActionArgument) error {
