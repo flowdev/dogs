@@ -2,40 +2,35 @@
 Themen:
 
 Naechste Schritte:
-- Hundenamen muessen eindeutig sein.
-- Geburtsdatum! Maximales Alter: Weibchen: 8, Maennchen: 10 Jahre
-- Stammbaum
-- AVK-Berechnung!
-  Fehlende Generationen sind Fehler!
-- Drucken!!!
+- Schrift verbessern per font-family in: app/views/qor/layout.tmpl
+- SQLite3 upgraden: (SQLite3 >= 3.28.0) => (go-sqlite3 >= 1.10.0) => (GORM >= v1.9.11/v1.9.1?)
 
-- SQLite3 upgraden: >= 3.28.0 (Neues Release erst hier (Fix schon in master): https://github.com/mattn/go-sqlite3/releases dann GORM)
+Build with: go build -tags=bindatafs
 */
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"github.com/flowdev/dogs/config/bindatafs"
 	"github.com/flowdev/dogs/mygorm"
 	"github.com/flowdev/dogs/myqor"
+	"github.com/jinzhu/gorm"
 	"github.com/mattn/go-sqlite3"
-	"github.com/zserge/webview"
 )
 
+const generationsForTree = 6
+
 func main() {
-	//workDir := "Documents"
-	//workDir := filepath.Join("~", "Documents")
-	workDir := filepath.Join(filepath.Dir(os.Args[0]), "..", "Data")
-	//if err := os.Chdir(workDir); err != nil {
-	//	log.Fatal(err)
-	//}
+	workDir := filepath.Dir(os.Args[0])
 
 	// Log to log file:
 	// If the file doesn't exist, create it, or append to the file
@@ -66,23 +61,28 @@ func main() {
 		log.Fatal(err)
 	}
 
-	ln, err := net.Listen("tcp", "127.0.0.1:0")
+	ln, err := net.Listen("tcp", "127.0.0.1:8001")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer ln.Close()
-	go func() {
-		log.Printf("Listening on http://%s", ln.Addr().String())
-		mux := http.NewServeMux()
-		mux.HandleFunc("/ancestors/", handleAncestors(tmplAncestors))
-		adm.MountTo("/admin", mux)
+	msg := fmt.Sprintf("Listening on http://%s", ln.Addr().String())
+	log.Print(msg)
+	fmt.Println(msg)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/ancestors/", handleAncestors(tmplAncestors, db))
+	adm.MountTo("/admin", mux)
 
-		log.Fatal(http.Serve(ln, mux))
-	}()
-	webview.Open("Dog Breeding", "http://"+ln.Addr().String()+"/admin/dogs", 1200, 800, true)
+	fmt.Println("Press 'control' + 'c' to stop the server")
+	log.Fatal(http.Serve(ln, mux))
 }
 
-func handleAncestors(tmplAncestors *template.Template,
+type tmplAncestors struct {
+	Ancestors []*mygorm.Dog
+	Error     error
+}
+
+func handleAncestors(tmplAncestors *template.Template, db *gorm.DB,
 ) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// The "/ancestors/" pattern matches everything after this, too.
@@ -93,16 +93,22 @@ func handleAncestors(tmplAncestors *template.Template,
 			http.NotFound(w, r)
 			return
 		}
-		err := tmplAncestors.Execute(w, generateAncestorTable(urlParts[2]))
+		id, err := strconv.Atoi(urlParts[2])
 		if err != nil {
-			log.Printf("ERROR: Unable to execute ancestor template for ID '%s': %v", urlParts[2], err)
+			log.Printf("ERROR: Dog ID '%s' isn't a valid integer: %v", urlParts[2], err)
+			http.NotFound(w, r)
+			return
+		}
+		err = tmplAncestors.Execute(w, generateAncestorTable(id, db)) // no own transaction (read only)
+		if err != nil {
+			log.Printf("ERROR: Unable to execute ancestor template for ID '%d': %v", id, err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	}
 }
 
-func generateAncestorTable(id string) template.HTML {
-	// TODO: find ancestors from DB
-	return template.HTML(id)
+func generateAncestorTable(id int, tx *gorm.DB) tmplAncestors {
+	ancestors, err := mygorm.FindAncestorsForID(tx, id, generationsForTree)
+	return tmplAncestors{Ancestors: ancestors, Error: err}
 }

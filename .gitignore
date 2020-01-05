@@ -19,7 +19,6 @@
 
 # Project specific stuff
 dogs
-dog_server
-dogs.db
 DogBreeding.db
+DogBreeding.db.*
 DogBreeding.log
