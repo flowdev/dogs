@@ -18,21 +18,21 @@
 ### Enable Dynamic Fields Of Required Types
 
 Enable definition of dynamic fields:
-[ ] Strings
-[ ] Ints
-[ ] Floats
+- [ ] Strings
+- [ ] Ints
+- [ ] Floats
 
 Enable input of dynamic fields:
-[ ] Strings
-[ ] Ints
-[ ] Floats
+- [ ] Strings
+- [ ] Ints
+- [ ] Floats
 
 ### Basic JS Table Page
 
-[ ] Show table data
-[ ] Show headings
-[ ] Show general data (e.g. birth date)
-[ ] Allow sorting
+- [ ] Show table data
+- [ ] Show headings
+- [ ] Show general data (e.g. birth date)
+- [ ] Allow sorting
 
 ### Allow Filtering
 
@@ -44,10 +44,10 @@ Enable input of dynamic fields:
 
 ### Import Existing Data From Excel
 
-[ ] Import raw data
-[ ] Import highlighting (bad, important, ...)
+- [ ] Import raw data
+- [ ] Import highlighting (bad, important, ...)
 
 ### Show Selected Feature(s) Across Litters
 
-[ ] Litters of a certain time range
-[ ] Litters from same breeder
+- [ ] Litters of a certain time range
+- [ ] Litters from same breeder
