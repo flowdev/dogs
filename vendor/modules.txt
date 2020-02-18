@@ -46,8 +46,6 @@ github.com/qor/validations
 github.com/rainycape/unidecode
 # github.com/theplant/cldr v0.0.0-20170713054817-b97a4c2a76cf
 github.com/theplant/cldr
-# github.com/zserge/webview v0.0.0-20190123072648-16c93bcaeaeb
-github.com/zserge/webview
 # golang.org/x/net v0.0.0-20190311183353-d8887717615a
 golang.org/x/net/html
 golang.org/x/net/html/atom
