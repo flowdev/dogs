@@ -2,7 +2,7 @@
 
 ### Fix Bugs
 
-- [ ] Rename `Breeds` to `Litters`
+- [x] Rename `Breeds` to `Litters`
 - [ ] Copy `Remarks` to mate tables
 - [ ] Print HD and ALC in mate table heading
 - [ ] In mate table: show ancestors of eventual puppy not the male dog
