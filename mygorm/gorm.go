@@ -271,8 +271,8 @@ func readMateIDs(tx *gorm.DB, tableIdx int) ([]uint, error) {
 	return dadIDs, nil
 }
 
-// Breed is the result of a successful mating action.
-type Breed struct {
+// Litter is the result of a successful mating action.
+type Litter struct {
 	ID        uint `gorm:"primary_key"`
 	CreatedAt time.Time
 	Name      string
@@ -285,9 +285,9 @@ type Breed struct {
 	Remark    string
 }
 
-// BeforeSave is initializing the new breeds HD value as soon as both parents
+// BeforeSave is initializing the new litters HD value as soon as both parents
 // are known.
-func (p *Breed) BeforeSave(tx *gorm.DB) error {
+func (p *Litter) BeforeSave(tx *gorm.DB) error {
 	if (p.HD == "" || p.HD == UnknownHD) && p.MotherID != 0 && p.FatherID != 0 {
 		m := Dog{}
 		if err := tx.First(&m, p.MotherID).Error; err != nil {
@@ -477,7 +477,7 @@ func Init(dbFname string) (*gorm.DB, error) {
 		return nil, fmt.Errorf("the database '%s' could not be opened", dbFname)
 	}
 
-	if err = db.AutoMigrate(&Dog{}, &Chick{}, &Breed{}, &Mate1{}, &Mate2{}, &Mate3{},
+	if err = db.AutoMigrate(&Dog{}, &Chick{}, &Litter{}, &Mate1{}, &Mate2{}, &Mate3{},
 		&Mate4{}, &Mate5{}, &Mate6{}, &Mate7{}, &Mate8{}, &Mate9{}).Error; err != nil {
 
 		return nil, fmt.Errorf("unable to migrate DB to current state: %v", err)

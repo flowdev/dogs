@@ -152,15 +152,15 @@ func Init(db *gorm.DB, assetFS assetfs.Interface, workDir string) (*admin.Admin,
 	adm.RegisterFuncMap("DogForTable", getDogForTable(db, dogTmplRes))
 	adm.RegisterFuncMap("css_classes_for_value", cssClassesForValue(db))
 
-	// Resource for Breed (the results of mating)
-	breedRes := adm.AddResource(&mygorm.Breed{}, &admin.Config{
+	// Resource for Litter (the results of mating)
+	litterRes := adm.AddResource(&mygorm.Litter{}, &admin.Config{
 		Priority: 3,
 	})
-	breedRes.Meta(&admin.Meta{Name: "CreatedAt", Permission: roles.Allow(roles.Read, roles.Anyone), Type: "date"})
-	breedRes.Meta(&admin.Meta{Name: "Mother", Permission: roles.Allow(roles.Read, roles.Anyone)})
-	breedRes.Meta(&admin.Meta{Name: "Father", Permission: roles.Allow(roles.Read, roles.Anyone)})
-	breedRes.Meta(&admin.Meta{Name: "Name", Permission: roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)})
-	breedRes.Meta(&admin.Meta{Name: "Remark", Permission: roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)})
+	litterRes.Meta(&admin.Meta{Name: "CreatedAt", Permission: roles.Allow(roles.Read, roles.Anyone), Type: "date"})
+	litterRes.Meta(&admin.Meta{Name: "Mother", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	litterRes.Meta(&admin.Meta{Name: "Father", Permission: roles.Allow(roles.Read, roles.Anyone)})
+	litterRes.Meta(&admin.Meta{Name: "Name", Permission: roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)})
+	litterRes.Meta(&admin.Meta{Name: "Remark", Permission: roles.Allow(roles.Read, roles.Anyone).Allow(roles.Update, roles.Anyone)})
 
 	showMateTables(db)
 
@@ -379,7 +379,7 @@ func handleMating(argument *admin.ActionArgument) error {
 		mateValue := strct.FieldByName("Mate")
 		mateIface := mateValue.Interface()
 		if mate, ok := mateIface.(mygorm.Mate); ok {
-			p := mygorm.Breed{
+			p := mygorm.Litter{
 				Name:     mum.Name + " + " + mate.Name,
 				ALC:      (mum.ALC + mate.ALC) / 2,
 				HD:       mygorm.CombineHD(mum.HD, mate.HD),
@@ -388,7 +388,7 @@ func handleMating(argument *admin.ActionArgument) error {
 				FatherID: mate.ID,
 			}
 			if err := tx.Create(&p).Error; err != nil {
-				msg := fmt.Sprintf("Unable to store breed %s: %v", p.Name, err)
+				msg := fmt.Sprintf("Unable to store litter %s: %v", p.Name, err)
 				log.Print("ERROR: " + msg)
 				return errors.New(msg)
 			}
