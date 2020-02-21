@@ -6,7 +6,7 @@
 - [x] Copy `Remarks` to mate tables
 - [ ] Print HD and ALC in mate table heading
 - [ ] In mate table: show ancestors of eventual puppy not the male dog
-- [ ] Red cells in printed tables
+- [x] Red cells in printed tables
 - [ ] Make header table in mate table not clickable
 - [ ] Make HD and ALC of mate table editable???
 

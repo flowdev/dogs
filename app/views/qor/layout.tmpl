@@ -42,11 +42,10 @@
       body div {
         font-family: Roboto,Helvetica,Arial,sans-serif;
       }
-      [qor-icon-name*="check"] > a::before {
-        content: "\E5CA";
-      }
-      [qor-icon-name*="close"] > a::before {
-        content: "\E5CD";
+      @media print{
+        .qor-table tbody td .bad-value {
+          color: red!important;
+        }
       }
     </style>
     {{javascript_tag "vendors"}}
