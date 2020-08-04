@@ -381,9 +381,9 @@ func handleMating(argument *admin.ActionArgument) error {
 		if mate, ok := mateIface.(mygorm.Mate); ok {
 			p := mygorm.Litter{
 				Name:     mum.Name + " + " + mate.Name,
-				ALC:      (mum.ALC + mate.ALC) / 2,
+				ALC:      mate.ChildALC,
 				HD:       mygorm.CombineHD(mum.HD, mate.HD),
-				Remark:   "Mum: " + mum.Remark + "\nDad: " + mate.Remark,
+				Remark:   "Mum: " + mum.Remark + "; Dad: " + mate.Remark,
 				MotherID: mum.ID,
 				FatherID: mate.ID,
 			}
