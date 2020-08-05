@@ -85,10 +85,13 @@ type tmplAncestors struct {
 func handleAncestors(tmplAncestors *template.Template, db *gorm.DB,
 ) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var id2 int
+
 		// The "/ancestors/" pattern matches everything after this, too.
 		// So we need to check that the ID (and only that) exists.
 		urlParts := strings.Split(r.URL.Path, "/")
-		if len(urlParts) != 3 {
+		n := len(urlParts)
+		if n < 3 || n > 4 {
 			log.Printf("ERROR: Ancestor handler called for illegal path: %s", r.URL.Path)
 			http.NotFound(w, r)
 			return
@@ -99,7 +102,17 @@ func handleAncestors(tmplAncestors *template.Template, db *gorm.DB,
 			http.NotFound(w, r)
 			return
 		}
-		err = tmplAncestors.Execute(w, generateAncestorTable(id, db)) // no own transaction (read only)
+		if n > 3 {
+			id2, err = strconv.Atoi(urlParts[3])
+			if err != nil {
+				log.Printf("ERROR: Dog ID (2) '%s' isn't a valid integer: %v", urlParts[3], err)
+				http.NotFound(w, r)
+				return
+			}
+		} else {
+			id2 = -1
+		}
+		err = tmplAncestors.Execute(w, generateAncestorTable(id, id2, db)) // no own transaction (read only)
 		if err != nil {
 			log.Printf("ERROR: Unable to execute ancestor template for ID '%d': %v", id, err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -108,7 +121,19 @@ func handleAncestors(tmplAncestors *template.Template, db *gorm.DB,
 	}
 }
 
-func generateAncestorTable(id int, tx *gorm.DB) tmplAncestors {
-	ancestors, err := mygorm.FindAncestorsForID(tx, id, generationsForTree)
+func generateAncestorTable(id, id2 int, tx *gorm.DB) tmplAncestors {
+	var ancestors []*mygorm.Dog
+	var err error
+
+	if id2 < 0 {
+		ancestors, err = mygorm.FindAncestorsForID(tx, id, generationsForTree)
+	} else {
+		d := mygorm.Dog{
+			MotherID: uint(id),
+			FatherID: uint(id2),
+			Name:     fmt.Sprintf("<Potential Puppy of %d>", id2),
+		}
+		ancestors, err = mygorm.FindAncestorsForDog(tx, &d, generationsForTree)
+	}
 	return tmplAncestors{Ancestors: ancestors, Error: err}
 }

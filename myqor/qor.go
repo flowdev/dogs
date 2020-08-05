@@ -299,7 +299,11 @@ func updateMateResource(mateRes *admin.Resource) {
 		Name: "Ancestors",
 		URL: func(record interface{}, context *admin.Context) string {
 			mate := mygorm.GenericMate(record)
-			return fmt.Sprintf("/ancestors/%d", mate.ID)
+			chick, _ := mygorm.ChickForMate(context.DB, record)
+			if chick == nil {
+				return fmt.Sprintf("/ancestors/%d", mate.ID)
+			}
+			return fmt.Sprintf("/ancestors/%d/%d", chick.ID, mate.ID)
 		},
 		Modes: []string{"show", "edit", "menu_item"},
 	})

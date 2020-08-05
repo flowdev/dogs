@@ -545,6 +545,36 @@ func GenericMate(result interface{}) *Mate {
 	panic(fmt.Sprintf("Unknown mate type: %T", result))
 }
 
+func ChickForMate(tx *gorm.DB, result interface{}) (*Chick, error) {
+	var table int
+
+	switch result.(type) {
+	case *Mate1:
+		table = 1
+	case *Mate2:
+		table = 2
+	case *Mate3:
+		table = 3
+	case *Mate4:
+		table = 4
+	case *Mate5:
+		table = 5
+	case *Mate6:
+		table = 6
+	case *Mate7:
+		table = 7
+	case *Mate8:
+		table = 8
+	case *Mate9:
+		table = 9
+	}
+	if table == 0 {
+		panic(fmt.Sprintf("Unknown mate type: %T", result))
+	}
+
+	return GetChickForTable(tx, strconv.Itoa(table))
+}
+
 // Mate1 is the 1. mate table.
 type Mate1 struct {
 	Mate
