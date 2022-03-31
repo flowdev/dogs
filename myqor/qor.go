@@ -25,7 +25,7 @@ const MainRoute = "/admin/dogs"
 // MateResourcePrefix is the prefix of all QOR mate table resources.
 const MateResourcePrefix = "Mate table "
 
-const cssClassBadValue = " bad-value"
+const cssClassBadValue = "bad-value"
 
 const year = time.Hour*24*365 + time.Hour*6 // 365.25 days per year
 const mateMaxAge = 10 * year
@@ -36,23 +36,21 @@ type dogsMateAction struct {
 	HD  string
 }
 
-// we have 9 mate tables: 1 ... 9
+// we have 11 mate tables: 1 ... 10
 // so we don't use index 0
-var mateResources [10]*admin.Resource
+var mateResources [11]*admin.Resource
 
 // Init initializes the qor admin UI by creating and configuring all resources.
 func Init(db *gorm.DB, assetFS assetfs.Interface, workDir string) (*admin.Admin, error) {
 	adm := admin.New(&admin.AdminConfig{DB: db, SiteName: "Dog Breeding"})
 	adm.SetAssetFS(assetFS)
 
-	/*
-		// Resource for looking at the chicks
-		adm.AddResource(&mygorm.Chick{}, &admin.Config{
-			Invisible:  false,
-			Priority:   2,
-			Permission: roles.Deny(roles.Create, roles.Anyone),
-		})
-	*/
+	// Resource for looking at the chicks
+	adm.AddResource(&mygorm.Chick{}, &admin.Config{
+		Invisible:  false,
+		Priority:   2,
+		Permission: roles.Deny(roles.Create, roles.Anyone),
+	})
 
 	// Resource for mating dialogue
 	dogsMateRes := adm.NewResource(&dogsMateAction{})
@@ -135,7 +133,12 @@ func Init(db *gorm.DB, assetFS assetfs.Interface, workDir string) (*admin.Admin,
 	mateResources[9] = adm.AddResource(&mygorm.Mate9{}, &admin.Config{
 		Name: "Mate table 9", Priority: 109,
 	})
+
 	updateMateResource(mateResources[9])
+	mateResources[10] = adm.AddResource(&mygorm.Mate10{}, &admin.Config{
+		Name: "Mate table 10", Priority: 110,
+	})
+	updateMateResource(mateResources[10])
 
 	// Special Resource for a Dog that should be shown in a HTML template...
 	dogTmplRes := adm.NewResource(&mygorm.Dog{}, &admin.Config{
