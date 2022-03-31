@@ -13,7 +13,7 @@ import (
 
 // MateTableCount is the number of tables used for mating.
 // Counting starts at 1.
-const MateTableCount = 9
+const MateTableCount = 10
 
 // UnknownHD is the display and DB value for an unknown HD.
 const UnknownHD = "--"
@@ -161,7 +161,7 @@ func GetChickForTable(tx *gorm.DB, tableNumber string) (*Chick, error) {
 	return &chick, nil
 }
 
-// FindFreeMateTable returns the number (between 1 and 9) of the first
+// FindFreeMateTable returns the number (between 1 and 10) of the first
 // currently unused mate table.
 func FindFreeMateTable(tx *gorm.DB) int {
 	used := make([]bool, MateTableCount)
@@ -478,7 +478,7 @@ func Init(dbFname string) (*gorm.DB, error) {
 	}
 
 	if err = db.AutoMigrate(&Dog{}, &Chick{}, &Litter{}, &Mate1{}, &Mate2{}, &Mate3{},
-		&Mate4{}, &Mate5{}, &Mate6{}, &Mate7{}, &Mate8{}, &Mate9{}).Error; err != nil {
+		&Mate4{}, &Mate5{}, &Mate6{}, &Mate7{}, &Mate8{}, &Mate9{}, &Mate10{}).Error; err != nil {
 
 		return nil, fmt.Errorf("unable to migrate DB to current state: %v", err)
 	}
@@ -511,7 +511,8 @@ func Init(dbFname string) (*gorm.DB, error) {
 	SELECT id, 3 AS mate_table from mate3 UNION SELECT id, 4 AS mate_table from mate4 UNION
 	SELECT id, 5 AS mate_table from mate5 UNION SELECT id, 6 AS mate_table from mate6 UNION
 	SELECT id, 7 AS mate_table from mate7 UNION SELECT id, 8 AS mate_table from mate8 UNION
-	SELECT id, 9 AS mate_table from mate9;`).Error
+	SELECT id, 9 AS mate_table from mate9 UNION SELECT id, 9 AS mate_table from mate10 UNION
+	SELECT id, 10 AS mate_table from mate10;`).Error
 	if err != nil {
 		return nil, fmt.Errorf("unable to create view 'all_mates': %v", err)
 	}
@@ -541,6 +542,8 @@ func GenericMate(result interface{}) *Mate {
 		return &mate.Mate
 	case *Mate9:
 		return &mate.Mate
+	case *Mate10:
+		return &mate.Mate
 	}
 	panic(fmt.Sprintf("Unknown mate type: %T", result))
 }
@@ -567,6 +570,8 @@ func ChickForMate(tx *gorm.DB, result interface{}) (*Chick, error) {
 		table = 8
 	case *Mate9:
 		table = 9
+	case *Mate10:
+		table = 10
 	}
 	if table == 0 {
 		panic(fmt.Sprintf("Unknown mate type: %T", result))
@@ -617,5 +622,10 @@ type Mate8 struct {
 
 // Mate9 is the 9. mate table.
 type Mate9 struct {
+	Mate
+}
+
+// Mate10 is the 10. mate table.
+type Mate10 struct {
 	Mate
 }
