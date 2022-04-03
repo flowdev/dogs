@@ -25,7 +25,7 @@ const MainRoute = "/admin/dogs"
 // MateResourcePrefix is the prefix of all QOR mate table resources.
 const MateResourcePrefix = "Mate table "
 
-const cssClassBadValue = "bad-value"
+const cssClassBadValue = " bad-value"
 
 const year = time.Hour*24*365 + time.Hour*6 // 365.25 days per year
 const mateMaxAge = 10 * year
