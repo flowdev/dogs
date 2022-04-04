@@ -55,7 +55,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// Initalize Qor Admin
+	// Initalize QOR Admin
 	adm, err := myqor.Init(db, assetFS, workDir)
 	if err != nil {
 		log.Fatal(err)

@@ -39,12 +39,16 @@
       .qor-table tbody td .bad-value {
         color: red;
       }
+
       body div {
         font-family: Roboto,Helvetica,Arial,sans-serif;
       }
-      @media print{
-        .qor-table tbody td .bad-value {
-          color: red!important;
+
+      @media print {
+        .bad-value, .bad-value:before, .bad-value:after, .bad-value:first-letter {
+            background:transparent!important;
+            color:#F22!important;
+            box-shadow:none!important
         }
       }
     </style>
