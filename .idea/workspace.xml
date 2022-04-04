@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="31378bb3-1f22-472a-88ec-6eb847568b36" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/qor/layout.tmpl" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/qor/layout.tmpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bindatafs/templates_bindatafs.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/bindatafs/templates_bindatafs.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
