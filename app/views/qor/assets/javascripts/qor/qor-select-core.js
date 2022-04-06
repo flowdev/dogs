@@ -46,6 +46,7 @@
 
         processingData: function(e) {
             let $this = $(e.target).closest('tr'),
+                $bottomsheets = $this.closest('.qor-bottomsheets'),
                 data = {},
                 url,
                 options = this.options,
@@ -58,10 +59,11 @@
             url = data.mediaLibraryUrl || data.url;
 
             if (loading && $.isFunction(loading)) {
-                loading($this.closest('.qor-bottomsheets'));
+                loading($bottomsheets);
             }
 
             if (url) {
+
                 $.getJSON(url, function(json) {
                     json.MediaOption && (json.MediaOption = JSON.parse(json.MediaOption));
                     data = $.extend({}, json, data);
@@ -69,7 +71,10 @@
                         onSelect(data, e);
                         $(document).trigger(EVENT_ONSELECT);
                     }
-                });
+                }).always(function() {
+                    $bottomsheets.find('.qor-media-loading').remove();
+                  });
+
             } else {
                 if (onSelect && $.isFunction(onSelect)) {
                     onSelect(data, e);

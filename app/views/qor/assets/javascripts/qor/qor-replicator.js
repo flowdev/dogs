@@ -13,6 +13,7 @@
     'use strict';
 
     let _ = window._,
+        QOR = window.QOR,
         NAMESPACE = 'qor.replicator',
         EVENT_ENABLE = 'enable.' + NAMESPACE,
         EVENT_DISABLE = 'disable.' + NAMESPACE,
@@ -50,6 +51,8 @@
 
             // Should destroy all components here
             $template.trigger('disable');
+            // remove data-select2-id attribute or select2 will disable all previous instance
+            $template.find('select[data-toggle]').removeAttr('data-select2-id');
 
             // if have isMultiple data value or template length large than 1
             this.isMultipleTemplate = $element.data('isMultiple');
@@ -69,8 +72,7 @@
 
                 this.parseMultiple();
             } else {
-                this.template = $template.prop('outerHTML');
-                this.parse();
+                this.parse($template.prop('outerHTML'));
             }
 
             $template.hide();
@@ -113,13 +115,13 @@
             }
         },
 
-        parse: function() {
+        parse: function($tmp) {
             let template;
 
-            if (!this.template) {
+            if (!$tmp) {
                 return;
             }
-            template = this.initTemplate(this.template);
+            template = this.initTemplate($tmp);
 
             this.template = template.template;
             this.index = template.index;
@@ -289,6 +291,10 @@
             let $item,
                 $element = this.$element;
 
+            if (!this.template) {
+                return;
+            }
+
             $item = $(this.template.replace(/\{\{index\}\}/g, this.index));
             // add order property for sortable fieldset
             if (this.isSortable) {
@@ -307,35 +313,46 @@
         del: function(e) {
             let options = this.options,
                 $item = $(e.target).closest(options.itemClass),
-                $alert;
+                $alert,
+                that = this,
+                message = {
+                    confirm:
+                        $(e.target)
+                            .closest(options.delClass)
+                            .data('confirm') || 'Are you sure?'
+                };
 
-            $item
-                .addClass('is-deleted')
-                .children(':visible')
-                .addClass('hidden')
-                .hide();
-            $alert = $(options.alertTemplate.replace('{{name}}', this.parseName($item)));
-            $alert.find(options.undoClass).one(
-                EVENT_CLICK,
-                function() {
-                    if (this.maxitems <= this.getCurrentItems()) {
-                        window.QOR.qorConfirm(this.$element.data('maxItemHint'));
-                        return false;
-                    }
-
-                    $item.find('> .qor-fieldset__alert').remove();
+            QOR.qorConfirm(message, function(confirm) {
+                if (confirm) {
                     $item
-                        .removeClass('is-deleted')
-                        .children('.hidden')
-                        .removeClass('hidden')
-                        .show();
-                    this.resetButton();
-                    this.resetPositionButton();
-                }.bind(this)
-            );
-            this.resetButton();
-            this.resetPositionButton();
-            $item.append($alert);
+                        .addClass('is-deleted')
+                        .children(':visible')
+                        .addClass('hidden')
+                        .hide();
+                    $alert = $(options.alertTemplate.replace('{{name}}', that.parseName($item)));
+                    $alert.find(options.undoClass).one(
+                        EVENT_CLICK,
+                        function() {
+                            if (that.maxitems <= that.getCurrentItems()) {
+                                window.QOR.qorConfirm(that.$element.data('maxItemHint'));
+                                return false;
+                            }
+
+                            $item.find('> .qor-fieldset__alert').remove();
+                            $item
+                                .removeClass('is-deleted')
+                                .children('.hidden')
+                                .removeClass('hidden')
+                                .show();
+                            that.resetButton();
+                            that.resetPositionButton();
+                        }.bind(this)
+                    );
+                    that.resetButton();
+                    that.resetPositionButton();
+                    $item.append($alert);
+                }
+            });
         },
 
         parseName: function($item) {

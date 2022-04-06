@@ -5,7 +5,7 @@
 
   {{$current_values := (raw_value_of .ResourceValue .Meta)}}
   <div class="qor-field__show qor-field__selectmany-show">
-    {{range $value := $current_values}}
+    {{range $value := .Value}}
       <span>{{stringify $value}}</span>
     {{end}}
   </div>
@@ -73,7 +73,7 @@
         {{end}}
       </select>
     {{else}}
-      <select class="qor-field__input hidden" id="{{.InputId}}" {{if not (eq .Meta.Config.SelectMode "bottom_sheet")}} data-toggle="qor.chooser" {{end}} data-placeholder="{{meta_placeholder .Meta .Context "Select some Options"}}" name="{{.InputName}}" multiple {{if  (not (has_change_permission .Meta)) }}disabled{{end}} {{if .Meta.Config.RemoteDataResource}}data-remote-data="true" data-ajax--url="{{url_for .Meta.Config.RemoteDataResource}}" {{if .Meta.Config.PrimaryField}}data-remote-data-primary-key="{{.Meta.Config.PrimaryField}}"{{end}}{{end}}>
+      <select class="qor-field__input hidden" id="{{.InputId}}" {{if not (eq .Meta.Config.SelectMode "bottom_sheet")}} data-toggle="qor.chooser" {{end}} data-placeholder="{{meta_placeholder .Meta .Context "Select some Options"}}" name="{{.InputName}}" multiple {{if  (not (has_change_permission .Meta)) }}disabled{{end}} {{if .Meta.Config.RemoteDataResource}}data-remote-data="true" data-remote-url="{{url_for .Meta.Config.RemoteDataResource}}" {{if .Meta.Config.PrimaryField}}data-remote-data-primary-key="{{.Meta.Config.PrimaryField}}"{{end}}{{end}}>
         {{if .Meta.Config.RemoteDataResource}}
           {{range $value := $current_values}}
             <option value="{{primary_key_of $value}}" selected>{{stringify $value}}</option>

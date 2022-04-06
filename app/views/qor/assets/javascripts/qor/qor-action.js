@@ -28,7 +28,8 @@
         CLASS_TABLE_MDL = 'mdl-data-table--selectable',
         CLASS_SLIDEOUT = '.qor-slideout',
         ACTION_FORM_DATA = 'primary_values[]',
-        CLASS_HEADER_TOGGLE = '.qor-page__header .qor-actions, .qor-page__header .qor-search-container';
+        CLASS_HEADER_TOGGLE = '.qor-page__header .qor-actions, .qor-page__header .qor-search-container',
+        CLASS_BODY_LOADING = ".qor-body__loading";
 
     function QorAction(element, options) {
         this.$element = $(element);
@@ -196,10 +197,21 @@
             return Mustache.render(flashMessageTmpl, data);
         },
 
+        addLoading: function() {
+          $(CLASS_BODY_LOADING).remove();
+          var $loading = $(QorAction.TEMPLATE_LOADING);
+          $loading.appendTo($("body")).trigger("enable.qor.material");
+        },
+
         submit: function($actionButton) {
             let _this = this,
                 ajaxForm = this.ajaxForm || {},
                 properties = ajaxForm.properties || $actionButton.data();
+
+
+            if($actionButton.hasClass("qor-action-disabled")){
+                return false;
+            }
 
             if (properties.fromIndex && (!ajaxForm.formData || !ajaxForm.formData.length)) {
                 QOR.qorConfirm(ajaxForm.properties.errorNoItem);
@@ -222,6 +234,7 @@
         handleAjaxSubmit: function(ajaxForm, $actionButton) {
             let _this = this,
                 $element = this.$element,
+                $parent = $actionButton.closest(".qor-action-forms"),
                 properties = ajaxForm.properties || $actionButton.data(),
                 url = properties.url,
                 undoUrl = properties.undoUrl,
@@ -233,6 +246,14 @@
                 url = undoUrl; // notification has undo url
             }
 
+            this.addLoading();
+            if($parent.length){
+                $parent.find('[data-ajax-form="true"][data-method]').addClass("qor-action-disabled");
+            } else {
+                $actionButton.addClass("qor-action-disabled");
+            }
+            
+
             $.ajax(url, {
                 method: properties.method,
                 data: ajaxForm.formData,
@@ -243,6 +264,7 @@
                     } else if (needDisableButtons) {
                         _this.switchButtons($element, 1);
                     }
+
                 },
                 success: function(data) {
                     // has undo action
@@ -270,6 +292,14 @@
                 complete: function(response) {
                     let contentType = response.getResponseHeader('content-type'),
                         disposition = response.getResponseHeader('Content-Disposition');
+
+                    $(CLASS_BODY_LOADING).remove();
+                    $actionButton.prop('disabled', false);
+                    if($parent.length){
+                        $parent.find('[data-ajax-form="true"][data-method]').removeClass("qor-action-disabled");
+                    } else {
+                        $actionButton.removeClass("qor-action-disabled");
+                    }
 
                     // handle file download from form submit
                     if (disposition && disposition.indexOf('attachment') !== -1) {
@@ -312,6 +342,11 @@
     };
 
     QorAction.DEFAULTS = {};
+
+    QorAction.TEMPLATE_LOADING = `<div class="qor-body__loading">
+                                        <div class="mdl-dialog-bg"></div>
+                                        <div><div class="mdl-spinner mdl-js-spinner is-active qor-layout__bottomsheet-spinner"></div></div>
+                                    </div>`;
 
     $.fn.qorSliderAfterShow.qorInsertActionData = function(url, html) {
         let $action = $(html).find('[data-toggle="qor-action-slideout"]'),

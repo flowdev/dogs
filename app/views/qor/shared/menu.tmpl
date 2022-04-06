@@ -6,13 +6,8 @@
         {{render "shared/menu" $value.SubMenus}}
       </li>
     {{else}}
-      {{$icon := $value.IconName}}
-      <li qor-icon-name="" {{if $value.Active}}class="active"{{end}}>
-        {{if $icon}}
-          {{link_to (printf "%s (%s)" (t (printf "qor_admin.menus.%v" $value.Name) $value.Name) $icon) $value.URL}}
-        {{else}}
-          {{link_to (t (printf "qor_admin.menus.%v" $value.Name) $value.Name) $value.URL}}
-        {{end}}
+      <li qor-icon-name="{{get_icon $value}}" {{if $value.Active}}class="active"{{end}}>
+        {{link_to (t (printf "qor_admin.menus.%v" $value.Name) $value.Name) $value.URL}}
       </li>
     {{end}}
   {{end}}

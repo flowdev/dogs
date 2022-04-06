@@ -92,19 +92,14 @@
 
     $(function() {
         $(document).on('submit', 'form', function() {
-            window.onbeforeunload = null;
             $.fn.qorSlideoutBeforeHide = null;
         });
 
         $(document).on('change', 'form', function() {
             if ($(this).dirtyForm()) {
                 $.fn.qorSlideoutBeforeHide = true;
-                window.onbeforeunload = function() {
-                    return 'You have unsaved changes on this page. If you leave this page, you will lose all unsaved changes.';
-                };
             } else {
                 $.fn.qorSlideoutBeforeHide = null;
-                window.onbeforeunload = null;
             }
         });
     });

@@ -20,6 +20,29 @@
     position: relative;
     &::before,
     &::after {
+      font-family: 'Material Icons';
+      font-weight: normal;
+      font-style: normal;
+      display: inline-block;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      word-break: normal;
+    
+      /* Support for all WebKit browsers. */
+      -webkit-font-smoothing: antialiased;
+      /* Support for Safari and Chrome. */
+      text-rendering: optimizeLegibility;
+    
+      /* Support for Firefox. */
+      -moz-osx-font-smoothing: grayscale;
+    
+      /* Support for IE. */
+      -webkit-font-feature-settings: 'liga';
+      -moz-font-feature-settings: 'liga';
+      font-feature-settings: 'liga';
+      -ms-font-feature-settings: 'liga';
+
       position: absolute;
       width: 24px;
       height: 24px;
@@ -27,7 +50,6 @@
       line-height: 24px;
       text-align: center;
       color: inherit;
-      @extend .material-icons;
     }
   }
   &.mdl-menu__item{
@@ -62,7 +84,8 @@
 }
 
 [qor-icon-name*="Dashboard"] > a::before {
-  content: "\e871";
+  content: "dashboard";
+  
 }
 
 [qor-icon-name*="Asset"] > a::before {
@@ -140,6 +163,12 @@
 [qor-icon-name*="Public keys"] > a::before {
   content: "\e897";
 }
+
+[qor-icon-name*="Pages Management"] > a::before {
+  content: "pending_actions";
+}
+
+
 
 [qor-icon-name] [qor-icon-name] > a::before {
   content: " " !important;
