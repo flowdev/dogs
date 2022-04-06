@@ -71,9 +71,13 @@
         },
 
         initActionTemplate: function() {
-            var scheduleStartAt = this.getUrlParameter('schedule_start_at'),
-                scheduleEndAt = this.getUrlParameter('schedule_end_at'),
-                $filterToggle = $(this.options.trigger);
+            let paramFrom = this.$element.data('schedule-from');
+            let paramTo = this.$element.data('schedule-to');
+
+            
+            let scheduleStartAt = this.getUrlParameter(paramFrom || 'schedule_start_at');
+            let scheduleEndAt = this.getUrlParameter(paramTo || 'schedule_end_at');
+            let $filterToggle = $(this.options.trigger);
 
             if (scheduleStartAt || scheduleEndAt) {
                 this.$timeStart.val(scheduleStartAt);
@@ -160,7 +164,7 @@
             var month = dateNow.getMonth() + 1,
                 date = dateNow.getDate();
 
-            month = month < 8 ? '0' + month : month;
+            month = month < 10 ? '0' + month : month;
             date = date < 10 ? '0' + date : date;
 
             return dateNow.getFullYear() + '-' + month + '-' + date;
@@ -180,12 +184,12 @@
         },
 
         getUrlParameter: function(name) {
-            let search = location.search,
+            let search = decodeURIComponent(location.search),
                 parameterName = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]'),
                 regex = new RegExp('[\\?&]' + parameterName + '=([^&#]*)'),
                 results = regex.exec(search);
 
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            return results === null ? '' : results[1].replace(/\+/g, ' ');
         },
 
         updateQueryStringParameter: function(key, value, url) {

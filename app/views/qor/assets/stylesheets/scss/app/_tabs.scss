@@ -27,8 +27,35 @@
         height: 48px;
         background-color: $color-main-header;
         &:after{
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;  /* Preferred icon size */
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            word-break: normal;
+          
+            /* Support for all WebKit browsers. */
+            -webkit-font-smoothing: antialiased;
+            /* Support for Safari and Chrome. */
+            text-rendering: optimizeLegibility;
+          
+            /* Support for Firefox. */
+            -moz-osx-font-smoothing: grayscale;
+          
+            /* Support for IE. */
+            -webkit-font-feature-settings: 'liga';
+            -moz-font-feature-settings: 'liga';
+            font-feature-settings: 'liga';
+            -ms-font-feature-settings: 'liga';
+            
             content: '\E409';
-            @extend .material-icons;
+            
             color: #fff;
             line-height: 48px;
             width: 48px;

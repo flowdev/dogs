@@ -3,6 +3,8 @@
     .mdl-layout__content {
         overflow: auto;
         padding-top: 8px;
+        padding-left: 240px;
+        margin-left: 0;
         &.has-subnav {
             padding-top: 56px;
         }

@@ -30,10 +30,8 @@
     init: function () {
       var $this = this.$element;
 
-      this.overflow = $this.css('overflow');
       this.paddingTop = parseInt($this.css('padding-top'), 10);
       this.paddingBottom = parseInt($this.css('padding-bottom'), 10);
-      $this.css('overflow', 'hidden');
       this.resize();
       this.bind();
     },
@@ -48,17 +46,18 @@
 
     resize: function () {
       var $this = this.$element;
+      var scrollHeight = $this.prop('scrollHeight');
 
-      if ($this.is(':hidden')) {
-        return;
+      if(scrollHeight){
+        $this.height('auto').height(scrollHeight - this.paddingTop - this.paddingBottom);
+      } else {
+        $this.height('40px');
       }
-
-      $this.height('auto').height($this.prop('scrollHeight') - this.paddingTop - this.paddingBottom);
     },
 
     destroy: function () {
       this.unbind();
-      this.$element.css('overflow', this.overflow).removeData(NAMESPACE);
+      this.$element.removeData(NAMESPACE);
     }
   };
 

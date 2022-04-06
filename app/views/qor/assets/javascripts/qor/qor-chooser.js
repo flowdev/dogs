@@ -10,7 +10,6 @@
         factory(jQuery);
     }
 })(function($) {
-
     'use strict';
 
     var NAMESPACE = 'qor.chooser';
@@ -34,27 +33,38 @@
                     minimumResultsForSearch: 8,
                     dropdownParent: $this.parent()
                 };
+            let getSelect2AjaxDynamicURL = window.getSelect2AjaxDynamicURL;
+            let remoteImage = select2Data.remoteImage;
 
             if (select2Data.remoteData) {
                 option.ajax = $.fn.select2.ajaxCommonOptions(select2Data);
+                if (getSelect2AjaxDynamicURL && $.isFunction(getSelect2AjaxDynamicURL)) {
+                    option.ajax.url = function() {
+                        return getSelect2AjaxDynamicURL(select2Data);
+                    };
+                } else {
+                    option.ajax.url = select2Data.remoteUrl;
+                }
 
                 option.templateResult = function(data) {
                     let tmpl = $this.parents('.qor-field').find('[name="select2-result-template"]');
-                    return $.fn.select2.ajaxFormatResult(data, tmpl);
+                    return $.fn.select2.ajaxFormatResult(data, tmpl, remoteImage);
                 };
 
                 option.templateSelection = function(data) {
                     if (data.loading) return data.text;
                     let tmpl = $this.parents('.qor-field').find('[name="select2-selection-template"]');
-                    return $.fn.select2.ajaxFormatResult(data, tmpl);
+                    return $.fn.select2.ajaxFormatResult(data, tmpl, remoteImage);
                 };
             }
 
-            $this.on('select2:select', function(evt) {
-                $(evt.target).attr('chooser-selected', 'true');
-            }).on('select2:unselect', function(evt) {
-                $(evt.target).attr('chooser-selected', '');
-            });
+            $this
+                .on('select2:select', function(evt) {
+                    $(evt.target).attr('chooser-selected', 'true');
+                })
+                .on('select2:unselect', function(evt) {
+                    $(evt.target).attr('chooser-selected', '');
+                });
 
             $this.select2(option);
 
@@ -69,12 +79,12 @@
         },
 
         resetSelect2Width: function() {
-            var $container, select2 = this.$element.data().select2;
+            var $container,
+                select2 = this.$element.data().select2;
             if (select2 && select2.$container) {
                 $container = select2.$container;
                 $container.width($container.parent().width());
             }
-
         },
 
         destroy: function() {
@@ -91,7 +101,6 @@
             var fn;
 
             if (!data) {
-
                 if (/destroy/.test(options)) {
                     return;
                 }
@@ -99,7 +108,7 @@
                 $this.data(NAMESPACE, (data = new QorChooser(this, options)));
             }
 
-            if (typeof options === 'string' && $.isFunction(fn = data[options])) {
+            if (typeof options === 'string' && $.isFunction((fn = data[options]))) {
                 fn.apply(data);
             }
         });
@@ -108,16 +117,15 @@
     $(function() {
         var selector = 'select[data-toggle="qor.chooser"]';
 
-        $(document).
-        on(EVENT_DISABLE, function(e) {
-            QorChooser.plugin.call($(selector, e.target), 'destroy');
-        }).
-        on(EVENT_ENABLE, function(e) {
-            QorChooser.plugin.call($(selector, e.target));
-        }).
-        triggerHandler(EVENT_ENABLE);
+        $(document)
+            .on(EVENT_DISABLE, function(e) {
+                QorChooser.plugin.call($(selector, e.target), 'destroy');
+            })
+            .on(EVENT_ENABLE, function(e) {
+                QorChooser.plugin.call($(selector, e.target));
+            })
+            .triggerHandler(EVENT_ENABLE);
     });
 
     return QorChooser;
-
 });

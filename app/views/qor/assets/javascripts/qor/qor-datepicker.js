@@ -86,8 +86,13 @@
             this.$modal = $modal = $(replaceText(QorDatepicker.TEMPLATE, this.options.text)).appendTo('body');
 
             if ($targetInput.data('start-date')) {
-                datepickerOptions.startDate = new Date();
+                datepickerOptions.startDate = new Date($targetInput.data('start-date'));
             }
+
+            if ($targetInput.data('end-date')) {
+                datepickerOptions.endDate = new Date($targetInput.data('end-date'));
+            }
+
 
             $modal
                 .find(CLASS_EMBEDDED)

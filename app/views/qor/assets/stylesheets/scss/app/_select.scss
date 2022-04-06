@@ -31,6 +31,16 @@
             margin-left: 8px;
         }
     }
+    .select2-results__option-withimage{
+        img{
+            height: 20px;
+            margin-right: 8px;
+        }
+    }
+}
+
+.select2-dropdown .select2-results__option{
+    padding: 8px 16px;
 }
 
 .qor-field__selectmany {

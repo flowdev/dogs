@@ -137,6 +137,10 @@
                             $show = $parent.removeClass(CLASS_CONTAINER).find(CLASS_FIELD_SHOW),
                             $inner = $show.find(CLASS_FIELD_SHOW_INNER);
 
+                        if (typeof newValue === 'string' || newValue instanceof String){
+                            newValue = newValue.escapeSymbol();
+                        }
+                        
                         if ($inner.length) {
                             $inner.html(newValue);
                         } else {

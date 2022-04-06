@@ -4,6 +4,20 @@ window.QOR = {
     $formLoading: '<div id="qor-submit-loading" class="clearfix"><div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div></div>'
 };
 
+String.prototype.escapeSymbol = function() {
+    var tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"' : '&quot;',
+        "'" : '&#x27;',
+        '/' : '&#x2F;'
+    };
+    return this.replace(/[&<>"']/g, function(tag) {
+        return tagsToReplace[tag] || tag;
+    });
+};
+
 // change Mustache tags from {{}} to [[]]
 window.Mustache && (window.Mustache.tags = ['[[', ']]']);
 
@@ -24,6 +38,7 @@ $.fn.select2.ajaxCommonOptions = function(select2Data) {
 
     return {
         dataType: 'json',
+        headers: getSelect2Header(select2Data),
         cache: true,
         delay: 250,
         data: function(params) {
@@ -57,17 +72,55 @@ $.fn.select2.ajaxCommonOptions = function(select2Data) {
 
 // select2 ajax common options
 // format ajax template data
-$.fn.select2.ajaxFormatResult = function(data, tmpl) {
+$.fn.select2.ajaxFormatResult = function(data, tmpl, remoteDataImage) {
     var result = '';
-    if (tmpl.length > 0) {
-        result = window.Mustache.render(tmpl.html().replace(/{{(.*?)}}/g, '[[$1]]'), data);
-    } else {
-        result = data.text || data.Name || data.Title || data.Code || data[Object.keys(data)[0]];
+
+    if (data.loading) {
+        return data.text;
     }
 
-    // if is HTML
-    if (/<(.*)(\/>|<\/.+>)/.test(result)) {
+    console.log('select2.ajaxFormatResult: Data');
+    console.log(data);
+
+    console.log('select2.ajaxFormatResult: has remote image');
+    console.log(remoteDataImage);
+
+    if (remoteDataImage) {
+        var resultName = data.text || data.Name || data.Title || data.Code || data[Object.keys(data)[0]];
+        var imageUrl = data.Image;
+        if (imageUrl) {
+            result = '<div class="select2-results__option-withimage">' + '<img src="' + imageUrl + '">' + '<span>' + resultName + '</span></div>';
+        } else {
+            result = '<div class="select2-results__option-withimage">' + resultName + '</span></div>';
+        }
+
         return $(result);
+    } else {
+        if (tmpl.length > 0) {
+            result = window.Mustache.render(tmpl.html().replace(/{{(.*?)}}/g, '[[$1]]'), data);
+        } else {
+            result = data.text || data.Name || data.Title || data.Code || data[Object.keys(data)[0]];
+        }
+
+        // if is HTML
+        if (/<(.*)(\/>|<\/.+>)/.test(result)) {
+            return $(result);
+        }
+
+        return result;
     }
-    return result;
 };
+
+function getSelect2Header() {
+    let data = $('body').data();
+    let selectAjaxHeader = data.selectAjaxHeader;
+    let getSelect2HeaderFunction = window.getSelect2HeaderFunction;
+    let headers = {};
+
+    if (selectAjaxHeader && getSelect2HeaderFunction && $.isFunction(getSelect2HeaderFunction)) {
+        headers[selectAjaxHeader] = getSelect2HeaderFunction();
+        return headers;
+    } else {
+        return {};
+    }
+}
