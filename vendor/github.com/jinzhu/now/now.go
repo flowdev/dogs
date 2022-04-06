@@ -28,8 +28,8 @@ func (now *Now) BeginningOfWeek() time.Time {
 	t := now.BeginningOfDay()
 	weekday := int(t.Weekday())
 
-	if WeekStartDay != time.Sunday {
-		weekStartDayInt := int(WeekStartDay)
+	if now.WeekStartDay != time.Sunday {
+		weekStartDayInt := int(now.WeekStartDay)
 
 		if weekday < weekStartDayInt {
 			weekday = weekday + 7 - weekStartDayInt
@@ -50,6 +50,13 @@ func (now *Now) BeginningOfMonth() time.Time {
 func (now *Now) BeginningOfQuarter() time.Time {
 	month := now.BeginningOfMonth()
 	offset := (int(month.Month()) - 1) % 3
+	return month.AddDate(0, -offset, 0)
+}
+
+// BeginningOfHalf beginning of half year
+func (now *Now) BeginningOfHalf() time.Time {
+	month := now.BeginningOfMonth()
+	offset := (int(month.Month()) - 1) % 6
 	return month.AddDate(0, -offset, 0)
 }
 
@@ -90,6 +97,11 @@ func (now *Now) EndOfQuarter() time.Time {
 	return now.BeginningOfQuarter().AddDate(0, 3, 0).Add(-time.Nanosecond)
 }
 
+// EndOfHalf end of half year
+func (now *Now) EndOfHalf() time.Time {
+	return now.BeginningOfHalf().AddDate(0, 6, 0).Add(-time.Nanosecond)
+}
+
 // EndOfYear end of year
 func (now *Now) EndOfYear() time.Time {
 	return now.BeginningOfYear().AddDate(1, 0, 0).Add(-time.Nanosecond)
@@ -120,9 +132,10 @@ func (now *Now) EndOfSunday() time.Time {
 	return New(now.Sunday()).EndOfDay()
 }
 
-func parseWithFormat(str string) (t time.Time, err error) {
-	for _, format := range TimeFormats {
-		t, err = time.Parse(format, str)
+func (now *Now) parseWithFormat(str string, location *time.Location) (t time.Time, err error) {
+	for _, format := range now.TimeFormats {
+		t, err = time.ParseInLocation(format, str, location)
+
 		if err == nil {
 			return
 		}
@@ -147,11 +160,8 @@ func (now *Now) Parse(strs ...string) (t time.Time, err error) {
 	for _, str := range strs {
 		hasTimeInStr := hasTimeRegexp.MatchString(str) // match 15:04:05, 15
 		onlyTimeInStr = hasTimeInStr && onlyTimeInStr && onlyTimeRegexp.MatchString(str)
-		if t, err = parseWithFormat(str); err == nil {
+		if t, err = now.parseWithFormat(str, currentLocation); err == nil {
 			location := t.Location()
-			if location.String() == "UTC" {
-				location = currentLocation
-			}
 
 			parseTime = []int{t.Nanosecond(), t.Second(), t.Minute(), t.Hour(), t.Day(), int(t.Month()), t.Year()}
 

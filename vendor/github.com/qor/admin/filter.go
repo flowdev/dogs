@@ -1,6 +1,8 @@
 package admin
 
 import (
+	"strings"
+
 	"github.com/jinzhu/gorm"
 	"github.com/qor/qor"
 	"github.com/qor/qor/resource"
@@ -65,7 +67,14 @@ func (res *Resource) Filter(filter *Filter) {
 		// generate default handler
 		filter.Handler = func(db *gorm.DB, filterArgument *FilterArgument) *gorm.DB {
 			if metaValue := filterArgument.Value.Get("Value"); metaValue != nil {
-				if keyword := utils.ToString(metaValue.Value); keyword != "" {
+				keyword := utils.ToString(metaValue.Value)
+				if _, ok := filter.Config.(*SelectManyConfig); ok {
+					if arr, ok := metaValue.Value.([]string); ok {
+						keyword = strings.Join(arr, ",")
+					}
+				}
+
+				if keyword != "" {
 					field := filterField{FieldName: filter.Name}
 					if operationMeta := filterArgument.Value.Get("Operation"); operationMeta != nil {
 						if operation := utils.ToString(operationMeta.Value); operation != "" {
