@@ -144,6 +144,8 @@
             data.displayName = data.Text || data.Name || data.Title || data.Code || data[Object.keys(data)[0]];
             data.selectoneValue = data.primaryKey || data.ID;
 
+            data.displayName = (data.displayName).escapeSymbol();
+
             if (!$select.length) {
                 return;
             }

@@ -75,11 +75,38 @@ table {
             color: unquote('rgb(#{$color-black})');
             font-weight: 500;
             &[data-order-by]::after {
+                font-family: 'Material Icons';
+                font-weight: normal;
+                font-style: normal;
+                font-size: 24px;  /* Preferred icon size */
+                display: inline-block;
+                width: 1em;
+                height: 1em;
+                line-height: 1;
+                text-transform: none;
+                letter-spacing: normal;
+                word-wrap: normal;
+                word-break: normal;
+              
+                /* Support for all WebKit browsers. */
+                -webkit-font-smoothing: antialiased;
+                /* Support for Safari and Chrome. */
+                text-rendering: optimizeLegibility;
+              
+                /* Support for Firefox. */
+                -moz-osx-font-smoothing: grayscale;
+              
+                /* Support for IE. */
+                -webkit-font-feature-settings: 'liga';
+                -moz-font-feature-settings: 'liga';
+                font-feature-settings: 'liga';
+                -ms-font-feature-settings: 'liga';
+                
                 margin-left: 8px;
                 font-size: 14px;
                 content: '\e164';
                 vertical-align: middle;
-                @extend .material-icons;
+                
             }
             &[data-order-by*='desc']::after {
                 transform: scaleY(-1);

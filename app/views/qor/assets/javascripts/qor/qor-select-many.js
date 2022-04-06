@@ -272,6 +272,8 @@
         handleResults: function(data, isNewData) {
             data.displayName = data.Text || data.Name || data.Title || data.Code || data[Object.keys(data)[0]];
 
+            data.displayName = (data.displayName).escapeSymbol();
+
             if (isNewData) {
                 this.addItem(data, true);
                 return;

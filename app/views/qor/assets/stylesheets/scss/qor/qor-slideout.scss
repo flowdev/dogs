@@ -103,6 +103,7 @@
     height: calc(100% - 64px);
     overflow: hidden;
     overflow-y: auto;
+    position: relative;
     .qor-action-alert {
         margin: 56px 0 0;
     }
@@ -180,3 +181,4 @@
         margin-top: 0;
     }
 }
+

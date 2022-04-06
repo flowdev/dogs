@@ -66,7 +66,8 @@
                 $('.qor-global-search--container').length > 0 ||
                 $this.hasClass('qor-table--medialibrary') ||
                 $this.is(':hidden') ||
-                $this.find('tbody > tr:visible').length <= 1
+                $this.find('tbody > tr:visible').length <= 1 ||
+                $this.data("disable-fixer")
             ) {
                 return true;
             }

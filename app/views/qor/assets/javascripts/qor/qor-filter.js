@@ -24,7 +24,16 @@
 
     function encodeSearch(data, detached) {
         var search = decodeURI(location.search);
+        var per_page = location.search.match(/per_page=\d+/);
         var params;
+
+        search = search.replace(/per_page=\d+/g,'').replace(/page=\d+/,'page=1');
+
+
+        if(per_page && per_page.length){
+            search = search + "&" + per_page[0];
+        }
+
 
         if ($.isArray(data)) {
             params = decodeSearch(search);
@@ -62,9 +71,6 @@
                     var value;
 
                     n = n.split('=');
-                    if (/page/.test(n[0])) {
-                        return;
-                    }
                     value = n[1];
                     param.push(n[0]);
 

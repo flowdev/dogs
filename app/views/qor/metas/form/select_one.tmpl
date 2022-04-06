@@ -51,7 +51,7 @@
         {{end}}
       </select>
     {{else}}
-      <select id="{{.InputId}}" class="qor-field__input hidden" {{if .Meta.Config.RemoteDataResource}}{{if $is_existing_record}}chooser-selected="true"{{end}}{{end}} data-toggle="qor.chooser" data-placeholder="{{meta_placeholder .Meta .Context "Select an Option"}}" name="{{.InputName}}" {{if  (not (has_change_permission .Meta)) }}disabled{{end}} {{if .Meta.Config.AllowBlank}}data-allow-clear="true"{{end}} {{if .Meta.Config.RemoteDataResource}}data-ajax--url="{{url_for .Meta.Config.RemoteDataResource}}" data-remote-data="true" {{if .Meta.Config.PrimaryField}}data-remote-data-primary-key="{{.Meta.Config.PrimaryField}}"{{end}}{{end}}>
+      <select id="{{.InputId}}" class="qor-field__input hidden" {{if .Meta.Config.RemoteDataResource}}{{if $is_existing_record}}chooser-selected="true"{{end}}{{end}} data-toggle="qor.chooser" data-placeholder="{{meta_placeholder .Meta .Context "Select an Option"}}" name="{{.InputName}}" {{if  (not (has_change_permission .Meta)) }}disabled{{end}} {{if .Meta.Config.AllowBlank}}data-allow-clear="true"{{end}} {{if .Meta.Config.RemoteDataResource}}data-remote-url="{{url_for .Meta.Config.RemoteDataResource}}" data-remote-data="true" {{if .Meta.Config.RemoteDataHasImage}}data-remote-image="true"{{end}} {{if .Meta.Config.PrimaryField}}data-remote-data-primary-key="{{.Meta.Config.PrimaryField}}"{{end}}{{end}}>
         {{if .Meta.Config.RemoteDataResource}}
           {{if $is_existing_record}}
             <option value="{{primary_key_of $current_value}}" selected>{{.Value}}</option>

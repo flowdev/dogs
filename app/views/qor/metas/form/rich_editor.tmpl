@@ -12,7 +12,7 @@
   {{end}}
 
   {{$asset_manager := .Meta.Config.AssetManager}}
-  <div class="qor-field__edit qor-field__block">
+  <div class="qor-field__edit qor-field__block qor-redactor-box">
       <textarea class="qor-field__input" id="{{.InputId}}" name="{{.InputName}}" rows="10"
                 data-redactor-settings="{{marshal .Meta.Config.Settings}}"
                 data-toggle="qor.redactor"

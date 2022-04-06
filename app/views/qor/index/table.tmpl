@@ -4,7 +4,7 @@
 {{if eq $resource.Name "dogTmplRes"}}{{$doSort = false}}{{end}}
 
 {{if len .Result}}
-  <table class="mdl-data-table qor-table {{if $doSort}}mdl-js-data-table qor-js-table{{end}}">
+  <table class="mdl-data-table qor-table{{if $doSort}} mdl-js-data-table qor-js-table{{end}}">
     <thead>
       <tr>
         {{$order_by := ""}}

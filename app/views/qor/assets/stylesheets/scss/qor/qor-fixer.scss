@@ -1,6 +1,9 @@
 // Fixed table header
 
 .qor-table {
+  thead{
+    position: static;
+  }
   .is-fixed {
     position: fixed;
     top: 0;
@@ -18,4 +21,8 @@
   .is-hidden {
     display: none;
   }
+}
+
+.qor-table-fixed-header > thead {
+  position: fixed;
 }
