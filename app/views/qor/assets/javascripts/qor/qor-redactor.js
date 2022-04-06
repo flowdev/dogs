@@ -104,6 +104,7 @@
     }
 
     function redactorToolbarSrcoll($editor, toolbarFixedTopOffset) {
+        console.log("Testing Loogggg");
         let $toolbar = $editor.find('.redactor-toolbar'),
             offsetTop = $editor.offset().top,
             editorHeight = $editor.height(),
