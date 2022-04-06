@@ -487,7 +487,7 @@ func Init(dbFname string) (*gorm.DB, error) {
 		return nil, fmt.Errorf("unable to delete view 'female_dogs': %v", err)
 	}
 	err = db.Exec(`CREATE VIEW female_dogs AS
-	SELECT id, created_at, updated_at, deleted_at, name || ' / ' || CAST(alc AS text) || ' / ' || hd AS name FROM dogs
+	SELECT id, created_at, updated_at, deleted_at, name || ' / ' || round(alc, 2) || ' / ' || hd AS name FROM dogs
 	WHERE gender = 'F' AND hd IN ('A1', 'A2', 'B1', 'B2', 'C1', 'C2');`).Error
 	if err != nil {
 		return nil, fmt.Errorf("unable to create view 'female_dogs': %v", err)
@@ -497,7 +497,7 @@ func Init(dbFname string) (*gorm.DB, error) {
 		return nil, fmt.Errorf("unable to delete view 'male_dogs': %v", err)
 	}
 	err = db.Exec(`CREATE VIEW male_dogs AS
-	SELECT id, created_at, updated_at, deleted_at, name || ' / ' || CAST(alc AS text) || ' / ' || hd AS name FROM dogs
+	SELECT id, created_at, updated_at, deleted_at, name || ' / ' || round(alc, 2) || ' / ' || hd AS name FROM dogs
 	WHERE gender = 'M' AND hd IN ('A1', 'A2', 'B1', 'B2', 'C1', 'C2');`).Error
 	if err != nil {
 		return nil, fmt.Errorf("unable to create view 'male_dogs': %v", err)
