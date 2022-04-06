@@ -270,10 +270,16 @@ func (s *Searcher) parseContext(withDefaultScope bool) *qor.Context {
 		}
 	}
 
+	limit := s.Pagination.PerPage
+	if s.Context.Request != nil {
+		if l, err := strconv.Atoi(s.Context.Request.Form.Get("limit")); err == nil {
+			limit = l
+		}
+	}
+
 	if s.Pagination.CurrentPage > 0 {
 		s.Pagination.Pages = (s.Pagination.Total-1)/s.Pagination.PerPage + 1
-
-		db = db.Limit(s.Pagination.PerPage).Offset((s.Pagination.CurrentPage - 1) * s.Pagination.PerPage)
+		db = db.Limit(limit).Offset((s.Pagination.CurrentPage - 1) * s.Pagination.PerPage)
 	}
 
 	context.SetDB(db)
@@ -292,6 +298,7 @@ func filterResourceByFields(res *Resource, filterFields []filterField, keyword s
 			joinConditionsMap  = map[string][]string{}
 			conditions         []string
 			keywords           []interface{}
+			keywordEx          []string //for select_many_config filter
 			generateConditions func(field filterField, scope *gorm.Scope)
 		)
 
@@ -335,7 +342,6 @@ func filterResourceByFields(res *Resource, filterFields []filterField, keyword s
 								joinConditionsMap[key] = []string{fmt.Sprintf("%v LEFT JOIN %v ON %v", condition, nextScope.QuotedTableName(), strings.Join(conditions, " AND "))}
 							} else {
 								key := fmt.Sprintf("LEFT JOIN %v ON", nextScope.QuotedTableName())
-
 								for index := range relationship.ForeignDBNames {
 									if relationship.Kind == "has_one" || relationship.Kind == "has_many" {
 										joinConditionsMap[key] = append(joinConditionsMap[key],
@@ -358,6 +364,10 @@ func filterResourceByFields(res *Resource, filterFields []filterField, keyword s
 			}
 			tableName := currentScope.QuotedTableName()
 
+			if filterfield.Operation == "In" {
+				keywordEx = strings.Split(strings.ToUpper(keyword), ",")
+			}
+
 			appendString := func(field *gorm.Field) {
 				switch filterfield.Operation {
 				case "equal", "eq":
@@ -375,6 +385,9 @@ func filterResourceByFields(res *Resource, filterFields []filterField, keyword s
 				case "blank":
 					conditions = append(conditions, fmt.Sprintf("%v.%v = ? OR %v.%v IS NULL", tableName, scope.Quote(field.DBName), tableName, scope.Quote(field.DBName)))
 					keywords = append(keywords, "")
+				case "In":
+					conditions = append(conditions, fmt.Sprintf("upper(%v.%v) in (?)", tableName, scope.Quote(field.DBName)))
+					keywords = append(keywords, keywordEx)
 				default:
 					conditions = append(conditions, fmt.Sprintf("upper(%v.%v) like upper(?)", tableName, scope.Quote(field.DBName)))
 					keywords = append(keywords, "%"+keyword+"%")
@@ -396,6 +409,9 @@ func filterResourceByFields(res *Resource, filterFields []filterField, keyword s
 					default:
 						conditions = append(conditions, fmt.Sprintf("%v.%v = ?", tableName, scope.Quote(field.DBName)))
 					}
+				} else if filterfield.Operation == "In" {
+					conditions = append(conditions, fmt.Sprintf("%v.%v in (?)", tableName, scope.Quote(field.DBName)))
+					keywords = append(keywords, keywordEx)
 				}
 			}
 
@@ -466,12 +482,17 @@ func filterResourceByFields(res *Resource, filterFields []filterField, keyword s
 					case reflect.Struct, reflect.Ptr:
 						appendStruct(field)
 					default:
-						conditions = append(conditions, fmt.Sprintf("%v.%v = ?", tableName, scope.Quote(field.DBName)))
-						keywords = append(keywords, keyword)
+						if filterfield.Operation == "In" {
+							conditions = append(conditions, fmt.Sprintf("%v.%v in (?)", tableName, scope.Quote(field.DBName)))
+							keywords = append(keywords, keywordEx)
+						} else {
+							conditions = append(conditions, fmt.Sprintf("%v.%v = ?", tableName, scope.Quote(field.DBName)))
+							keywords = append(keywords, keyword)
+						}
 					}
 				} else if relationship := field.Relationship; relationship != nil {
 					switch relationship.Kind {
-					case "select_one", "select_many":
+					case "select_one", "select_many", "has_many", "has_one":
 						for _, foreignFieldName := range relationship.ForeignFieldNames {
 							generateConditions(filterField{
 								FieldName: strings.Join([]string{field.Name, foreignFieldName}, "."),

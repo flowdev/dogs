@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -52,6 +53,26 @@ type Router struct {
 	Prefix      string
 	routers     map[string][]*routeHandler
 	middlewares []*Middleware
+}
+
+// PrintRoutes print all routes in the terminal
+func (r *Router) PrintRoutes() {
+	fmt.Println("==================== Routes in Admin =======================")
+	for k, routes := range r.routers {
+		fmt.Println("\n********************************************")
+		fmt.Printf(" %+v", k)
+		fmt.Println("\n********************************************")
+		for _, route := range routes {
+			fmt.Printf("%+v\n", route.Path)
+		}
+	}
+
+	fmt.Println("==================== Middlewares =======================")
+	for _, m := range r.middlewares {
+		fmt.Printf("%+v\n", m.Name)
+	}
+
+	fmt.Println("==================== End =======================")
 }
 
 // Use reigster a middleware to the router
