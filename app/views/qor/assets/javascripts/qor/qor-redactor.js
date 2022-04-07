@@ -117,6 +117,7 @@
       $toolbar.css(normallCSS);
       $container.css("padding-top", 0);
     }
+
   }
 
   function QorRedactor(element, options) {

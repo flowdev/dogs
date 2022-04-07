@@ -54,6 +54,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	db.SetLogger(log.New(f, "\n", 0))
 
 	// Initalize QOR Admin
 	adm, err := myqor.Init(db, assetFS, workDir)
@@ -66,7 +67,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer ln.Close()
-	msg := fmt.Sprintf("Listening on http://%s", ln.Addr().String())
+	msg := fmt.Sprintf("Listening on http://%s/admin", ln.Addr().String())
 	log.Print(msg)
 	fmt.Println(msg)
 	mux := http.NewServeMux()
