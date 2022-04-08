@@ -2,8 +2,7 @@
 github.com/asaskevich/govalidator
 # github.com/aymerick/douceur v0.2.0
 github.com/aymerick/douceur/css
-# github.com/chris-ramon/douceur v0.2.0
-github.com/chris-ramon/douceur/parser
+github.com/aymerick/douceur/parser
 # github.com/containous/go-bindata v1.0.0
 github.com/containous/go-bindata
 # github.com/davecgh/go-spew v1.1.1
@@ -26,8 +25,9 @@ github.com/jinzhu/inflection
 github.com/jinzhu/now
 # github.com/mattn/go-sqlite3 v1.14.0
 github.com/mattn/go-sqlite3
-# github.com/microcosm-cc/bluemonday v1.0.3
+# github.com/microcosm-cc/bluemonday v1.0.16
 github.com/microcosm-cc/bluemonday
+github.com/microcosm-cc/bluemonday/css
 # github.com/qor/admin v1.2.0
 github.com/qor/admin
 # github.com/qor/assetfs v0.0.0-20170713023933-ff57fdc13a14
@@ -52,6 +52,6 @@ github.com/qor/validations
 github.com/rainycape/unidecode
 # github.com/theplant/cldr v0.0.0-20190423050709-9f76f7ce4ee8
 github.com/theplant/cldr
-# golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e
+# golang.org/x/net v0.0.0-20210614182718-04defd469f4e
 golang.org/x/net/html
 golang.org/x/net/html/atom
