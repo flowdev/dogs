@@ -10,6 +10,7 @@ require (
 	github.com/jinzhu/gorm v1.9.15
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/mattn/go-sqlite3 v1.14.0
+	github.com/microcosm-cc/bluemonday v1.0.16 // indirect
 	github.com/qor/admin v1.2.0
 	github.com/qor/assetfs v0.0.0-20170713023933-ff57fdc13a14
 	github.com/qor/middlewares v0.0.0-20170822143614-781378b69454 // indirect
