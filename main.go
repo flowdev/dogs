@@ -129,12 +129,18 @@ func generateAncestorTable(id, id2 int, tx *gorm.DB) tmplAncestors {
 	if id2 < 0 {
 		ancestors, err = mygorm.FindAncestorsForID(tx, id, generationsForTree)
 	} else {
-		d := mygorm.Dog{
+		d := &mygorm.Dog{
 			MotherID: uint(id),
 			FatherID: uint(id2),
-			Name:     fmt.Sprintf("<Potential Puppy of %d>", id2),
+			Name:     "Puppy",
 		}
-		ancestors, err = mygorm.FindAncestorsForDog(tx, &d, generationsForTree)
+		alc, err2 := mygorm.ComputeALC(tx, d)
+		if err2 != nil {
+			log.Printf("ERROR: Unable to calculate the ALC for Puppy of %d and %d: %v", id, id2, err2)
+		} else {
+			d.ALC = mygorm.Percentage(alc)
+		}
+		ancestors, err = mygorm.FindAncestorsForDog(tx, d, generationsForTree)
 	}
 	return tmplAncestors{Ancestors: ancestors, Error: err}
 }
