@@ -33,11 +33,15 @@
     background-color: #eee;
     cursor: default;
 }
+.qor-page__body {
+    margin-bottom: 1rem;
+}
+
 
 /* Make ancestor table look nice: */
 .mdl-data-table td {
     position: relative;
-    height: 20px;
+    height: 51px;
 	max-height: 22px;
     border-top: 1px solid rgba(0,0,0);
     border-bottom: 1px solid rgba(0,0,0);
@@ -64,6 +68,20 @@
 .mdl-data-table td:last-of-type, .mdl-data-table th:last-of-type {
     padding-left: 8px;
     padding-right: 8px;
+}
+
+.qor-layout .mdl-layout__content {
+    padding-left: 0;
+
+}
+
+.qor-table {
+     margin: 0 1rem;
+}
+
+.qor-table__content {
+    overflow: visible;
+    white-space: initial;
 }
 .qor-table__content, .qor-table__content p {
     max-height: 16px;

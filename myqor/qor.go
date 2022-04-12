@@ -46,11 +46,11 @@ func Init(db *gorm.DB, assetFS assetfs.Interface, workDir string) (*admin.Admin,
 	adm.SetAssetFS(assetFS)
 
 	// Resource for looking at the chicks
-	adm.AddResource(&mygorm.Chick{}, &admin.Config{
+	/*adm.AddResource(&mygorm.Chick{}, &admin.Config{
 		Invisible:  false,
 		Priority:   2,
 		Permission: roles.Deny(roles.Create, roles.Anyone),
-	})
+	})*/
 
 	// Resource for mating dialogue
 	dogsMateRes := adm.NewResource(&dogsMateAction{})
