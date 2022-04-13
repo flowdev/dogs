@@ -37,11 +37,10 @@
     margin-bottom: 1rem;
 }
 
-
 /* Make ancestor table look nice: */
 .mdl-data-table td {
     position: relative;
-    height: 51px;
+    height: 32px;
 	max-height: 22px;
     border-top: 1px solid rgba(0,0,0);
     border-bottom: 1px solid rgba(0,0,0);
@@ -69,16 +68,12 @@
     padding-left: 8px;
     padding-right: 8px;
 }
-
 .qor-layout .mdl-layout__content {
     padding-left: 0;
-
 }
-
 .qor-table {
      margin: 0 1rem;
 }
-
 .qor-table__content {
     overflow: visible;
     white-space: initial;
@@ -93,6 +88,11 @@ table {
     font-size: 14px;
     line-height: 16px;
 }
+.bad-value {
+     color: red;
+}
+
+
 </style>
   </head>
 
@@ -140,286 +140,669 @@ table {
     <tbody>
         <tr>
             <td rowspan="32" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 0}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+             {{$count := index .Quantities 0}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 0}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
+              </div>
             </td>
             <td rowspan="16" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 1}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 1}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 1}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
+              </div>
             </td>
             <td rowspan="8" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 2}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 2}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 2}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
+              </div>
             </td>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 3}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 3}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 3}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 4}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 4}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 4}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 5}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 5}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 5}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 6}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 6}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 6}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 7}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 7}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 7}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 8}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 8}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 8}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 9}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 9}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 9}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 10}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 10}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 10}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 11}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 11}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 11}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
+              </div>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 12}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 12}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 12}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 13}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 13}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 13}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 14}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 14}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 14}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 15}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 15}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 15}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 16}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 16}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 16}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="8" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 17}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 17}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 17}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 18}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 18}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 18}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 19}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 19}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 19}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 20}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 20}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 20}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 21}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 21}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 21}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 22}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 22}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 22}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 23}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 23}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 23}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 24}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 24}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 24}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 25}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 25}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 25}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 26}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 26}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 26}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 27}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 27}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 27}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 28}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 28}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 28}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 29}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 29}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 29}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 30}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 30}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 30}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 31}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 31}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 31}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="16" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 32}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 32}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 32}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td rowspan="8" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 33}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 33}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 33}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 34}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 34}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 34}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 35}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 35}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 35}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 36}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 36}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 36}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 37}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 37}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 37}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 38}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 38}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 38}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 39}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 39}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 39}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 40}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 40}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 40}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 41}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 41}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 41}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 42}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 42}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 42}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 43}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 43}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 43}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 44}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 44}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 44}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 45}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 45}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 45}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 46}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 46}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 46}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 47}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 47}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 47}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="8" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 48}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 48}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 48}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 49}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 49}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 49}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 50}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 50}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 50}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 51}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 51}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 51}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 52}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 52}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 52}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 53}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 53}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 53}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 54}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 54}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 54}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 55}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 55}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 55}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="4" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 56}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 56}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 56}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 57}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 57}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 57}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 58}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 58}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 58}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 59}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 59}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 59}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 
         <tr>
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 60}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 60}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 60}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 61}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 61}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 61}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
+              </div>
             </td>
         </tr>
 
         <tr>
             <td class="mdl-data-table__cell--non-numeric">
-              <div class="qor-table__content">{{$dog := index .Ancestors 62}}{{if $dog}}{{$dog.Name}} / {{$dog.ALC}} / {{$dog.HD}}{{end}}</div>
+              {{$count := index .Quantities 62}}
+              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
+                {{$dog := index .Ancestors 62}}
+                {{if $dog}}{{$dog.Name}}
+                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
+                     / {{$dog.ALC}} / {{$dog.HD}}
+                {{end}}
             </td>
         </tr>
 

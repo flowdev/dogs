@@ -79,8 +79,9 @@ func main() {
 }
 
 type tmplAncestors struct {
-	Ancestors []*mygorm.Dog
-	Error     error
+	Ancestors  []*mygorm.Dog
+	Quantities []int //Number of times the ancestors appear in the tree
+	Error      error
 }
 
 func handleAncestors(tmplAncestors *template.Template, db *gorm.DB,
@@ -142,5 +143,25 @@ func generateAncestorTable(id, id2 int, tx *gorm.DB) tmplAncestors {
 		}
 		ancestors, err = mygorm.FindAncestorsForDog(tx, d, generationsForTree)
 	}
-	return tmplAncestors{Ancestors: ancestors, Error: err}
+
+	quantities := calculateQuantities(ancestors)
+
+	return tmplAncestors{
+		Ancestors:  ancestors,
+		Quantities: quantities,
+		Error:      err,
+	}
+}
+
+func calculateQuantities(ancestors []*mygorm.Dog) []int {
+	tmpDogCount := make(map[uint]int, len(ancestors))
+	for _, dog := range ancestors {
+		tmpDogCount[dog.ID]++
+	}
+
+	quantities := make([]int, len(ancestors))
+	for i, dog := range ancestors {
+		quantities[i] = tmpDogCount[dog.ID]
+	}
+	return quantities
 }
