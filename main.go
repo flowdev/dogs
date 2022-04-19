@@ -42,11 +42,16 @@ func main() {
 	log.Printf("INFO: Dogs app is starting, work dir=%s", workDir)
 
 	assetFS := bindatafs.AssetFS
-	tmplContent, err := assetFS.Asset("ancestors/index.tmpl")
+	tmplContentAncestors, err := assetFS.Asset("ancestors/index.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
-	tmplAncestors := template.Must(template.New("ancestors").Parse(string(tmplContent)))
+	tmplContentBreedindbook, err := assetFS.Asset("breedingbook/index.tmpl")
+	if err != nil {
+		log.Fatal(err)
+	}
+	tmplAncestors := template.Must(template.New("ancestors").Parse(string(tmplContentAncestors)))
+	tmplBreedingbook := template.Must(template.New("breedingbook").Parse(string(tmplContentBreedindbook)))
 
 	libVersion, _, sourceID := sqlite3.Version()
 	log.Printf("INFO: sqlite3 libVersion=%s, sourceID:%s", libVersion, sourceID)
@@ -72,13 +77,14 @@ func main() {
 	fmt.Println(msg)
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ancestors/", handleAncestors(tmplAncestors, db))
+	mux.HandleFunc("/breedingbook/", handleAncestors(tmplBreedingbook, db))
 	adm.MountTo("/admin", mux)
 
 	fmt.Println("Press 'control' + 'c' to stop the server")
 	log.Fatal(http.Serve(ln, mux))
 }
 
-type tmplAncestors struct {
+type tmplAncestorsDate struct {
 	Ancestors  []*mygorm.Dog
 	Quantities []int //Number of times the ancestors appear in the tree
 	Error      error
@@ -123,7 +129,7 @@ func handleAncestors(tmplAncestors *template.Template, db *gorm.DB,
 	}
 }
 
-func generateAncestorTable(id, id2 int, tx *gorm.DB) tmplAncestors {
+func generateAncestorTable(id, id2 int, tx *gorm.DB) tmplAncestorsDate {
 	var ancestors []*mygorm.Dog
 	var err error
 
@@ -146,7 +152,7 @@ func generateAncestorTable(id, id2 int, tx *gorm.DB) tmplAncestors {
 
 	quantities := calculateQuantities(ancestors)
 
-	return tmplAncestors{
+	return tmplAncestorsDate{
 		Ancestors:  ancestors,
 		Quantities: quantities,
 		Error:      err,
