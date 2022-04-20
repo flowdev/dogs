@@ -79,7 +79,10 @@
     white-space: initial;
 }
 .qor-table__content, .qor-table__content p {
-    max-height: 16px;
+    max-height: 128px;
+    max-width: 20rem;
+    height: 128px;
+    width: 20rem;
 }
 .qor-table td {
     font-size: 14px;
@@ -140,56 +143,42 @@ table {
         <tr>
         <!-- Here add a experimental table cell -->
          <td  class="mdl-data-table__cell--non-numeric">
-             {{$count := index .Quantities 54}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 54}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                Name: Einstein <br/>
+                WK: r + l |
+                Ohren: offen <br/>
+                Rute: 23 / 38 | Säbel <br/>
+                Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s <br/>
+                F-Farbe: weizen |
+                Größe: 62,5 <br/>
+                Zähne: Schere / Schere <br/>
+                HD: A2 |
+                Herz: o.b. |
+                Merle: frei |
+                Hoden: Einhoder
               </div>
             </td>
          <td  class="mdl-data-table__cell--non-numeric">
-             {{$count := index .Quantities 55}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 55}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                Row 1 - Col 2
               </div>
             </td>
              <!-- End of the experimental table cell -->
 
             <td  class="mdl-data-table__cell--non-numeric">
-             {{$count := index .Quantities 0}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 0}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 1 - Col 3
               </div>
             </td>
 
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              {{$count := index .Quantities 1}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 1}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 1 - Col 4
               </div>
             </td>
             <td rowspan="1" class="mdl-data-table__cell--non-numeric">
-              {{$count := index .Quantities 2}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 2}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                Row 1 - Col 5
               </div>
             </td>
         </tr>
@@ -197,144 +186,83 @@ table {
         <tr>
              <!-- Here add a experimental table cell -->
          <td  class="mdl-data-table__cell--non-numeric">
-             {{$count := index .Quantities 51}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 51}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                Row 2 - Col 1
               </div>
             </td>
          <td  class="mdl-data-table__cell--non-numeric">
-             {{$count := index .Quantities 56}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 56}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                Row 2 - Col 2
               </div>
             </td>
          <td  class="mdl-data-table__cell--non-numeric">
-             {{$count := index .Quantities 57}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 57}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 2 - Col 3
               </div>
             </td>
              <!-- End of the experimental table cell -->
 
             <td rowspan="1" class="mdl-data-table__cell--non-numeric">
-              {{$count := index .Quantities 17}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 17}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 2 - Col 4
+              </div>
             </td>
         </tr>
 
         <tr>
          <!-- Here add a experimental table cell -->
          <td  class="mdl-data-table__cell--non-numeric">
-             {{$count := index .Quantities 52}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 52}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 3 - Col 1
               </div>
             </td>
          <td  class="mdl-data-table__cell--non-numeric">
-             {{$count := index .Quantities 58}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 58}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 3 - Col 2
               </div>
             </td>
          <td  class="mdl-data-table__cell--non-numeric">
-             {{$count := index .Quantities 59}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 59}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 3 - Col 3
               </div>
             </td>
              <!-- End of the experimental table cell -->
 
             <td rowspan="2" class="mdl-data-table__cell--non-numeric">
-              {{$count := index .Quantities 32}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 32}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 3 - Col 4
+              </div>
             </td>
             <td rowspan="1" class="mdl-data-table__cell--non-numeric">
-              {{$count := index .Quantities 33}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 33}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 3 - Col 5
+              </div>
             </td>
         </tr>
 
         <tr>
          <!-- Here add a experimental table cell -->
          <td  class="mdl-data-table__cell--non-numeric">
-             {{$count := index .Quantities 53}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 53}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 4 - Col 1
               </div>
             </td>
          <td  class="mdl-data-table__cell--non-numeric">
-             {{$count := index .Quantities 60}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 60}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 4 - Col 2
               </div>
             </td>
          <td  class="mdl-data-table__cell--non-numeric">
-             {{$count := index .Quantities 61}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 61}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 4 - Col 3
               </div>
             </td>
              <!-- End of the experimental table cell -->
 
             <td rowspan="1" class="mdl-data-table__cell--non-numeric">
-              {{$count := index .Quantities 48}}
-              <div class="qor-table__content{{if and $count (gt $count 1)}} bad-value{{end}}">
-                {{$dog := index .Ancestors 48}}
-                {{if $dog}}{{$dog.Name}}
-                     {{if and $count (gt $count 1)}}: {{$count}}{{end}}
-                     / {{$dog.ALC}} / {{$dog.HD}}
-                {{end}}
+              <div class="qor-table__content">
+                 Row 4 - Col 4
+              </div>
             </td>
         </tr>
     </tbody>
