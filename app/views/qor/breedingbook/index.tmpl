@@ -35,6 +35,7 @@
 }
 .qor-page__body {
     margin-bottom: 1rem;
+    position: relative;
 }
 
 /* Make ancestor table look nice: */
@@ -78,6 +79,27 @@
     overflow: visible;
     white-space: initial;
 }
+
+.c1r1 {
+    display: none;
+    position: absolute;
+    bottom: -215px;
+    width:  40rem!important;
+}
+
+.mdl-data-table__cell--non-numeric:hover .c1r1 {
+    display: block;
+    z-index: 1000;
+    background: #afd275;
+    box-shadow:
+    12px 12px 16px 0 rgba(0, 0, 0, 0.25),
+    -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
+    padding: 10px;
+    height: 80vh!important;
+    width:  40rem!important;
+    top: 5px;
+}
+
 .qor-table__content, .qor-table__content p {
     max-height: 128px;
     max-width: 20rem;
@@ -106,7 +128,7 @@ table {
     <div class="mdl-layout__container"><div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header qor-layout has-drawer is-upgraded" data-upgraded=",MaterialLayout">
       <header class="mdl-layout__header is-casting-shadow has-search">
         <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">Ancestors</span>
+            <span class="mdl-layout-title">Breeding Book</span>
 
     <div class="qor-menu-container">
       <ul class="qor-menu">
@@ -157,6 +179,60 @@ table {
                 Merle: frei |
                 Hoden: Einhoder
               </div>
+
+            <!-- Here starts the hover! -->
+             <div class="c1r1 table-hover">
+                Name: Einstein <br/>
+                WK: r + l |
+                Ohren: offen <br/>
+                Rute: 23 / 38 | Säbel <br/>
+                Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s <br/>
+                F-Farbe: weizen |
+                Größe: 62,5 <br/>
+                Zähne: Schere / Schere <br/>
+                HD: A2 |
+                Herz: o.b. |
+                Merle: frei |
+                Hoden: Einhoder <br/>
+                 Name: Einstein <br/>
+                WK: r + l |
+                Ohren: offen <br/>
+                Rute: 23 / 38 | Säbel <br/>
+                Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s <br/>
+                F-Farbe: weizen |
+                Größe: 62,5 <br/>
+                Zähne: Schere / Schere <br/>
+                HD: A2 |
+                Herz: o.b. |
+                Merle: frei |
+                Hoden: Einhoder
+                Name: Einstein <br/>
+                WK: r + l |
+                Ohren: offen <br/>
+                Rute: 23 / 38 | Säbel <br/>
+                Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s <br/>
+                F-Farbe: weizen |
+                Größe: 62,5 <br/>
+                Zähne: Schere / Schere <br/>
+                HD: A2 |
+                Herz: o.b. |
+                Merle: frei |
+                Hoden: Einhoder
+                Name: Einstein <br/>
+                WK: r + l |
+                Ohren: offen <br/>
+                Rute: 23 / 38 | Säbel <br/>
+                Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s <br/>
+                F-Farbe: weizen |
+                Größe: 62,5 <br/>
+                Zähne: Schere / Schere <br/>
+                HD: A2 |
+                Herz: o.b. |
+                Merle: frei |
+                Hoden: Einhoder
+              </div>
+           <!-- Here finish the hover! -->
+
             </td>
          <td  class="mdl-data-table__cell--non-numeric">
               <div class="qor-table__content">
