@@ -42,16 +42,22 @@ func main() {
 	log.Printf("INFO: Dogs app is starting, work dir=%s", workDir)
 
 	assetFS := bindatafs.AssetFS
-	tmplContentAncestors, err := assetFS.Asset("ancestors/index.tmpl")
+	tmplContentAncestors, err := assetFS.Asset("ancestors/index.html.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
-	tmplContentBreedindbook, err := assetFS.Asset("breedingbook/index.tmpl")
+	tmplContentBreedindbook, err := assetFS.Asset("breedingbook/index.html.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
+	tmplContentBreedingbookNew, err := assetFS.Asset("new_breedingbook/new_index.html.tmpl")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	tmplAncestors := template.Must(template.New("ancestors").Parse(string(tmplContentAncestors)))
 	tmplBreedingbook := template.Must(template.New("breedingbook").Parse(string(tmplContentBreedindbook)))
+	tmplBreedingbookNew := template.Must(template.New("newbreedingbook").Parse(string(tmplContentBreedingbookNew)))
 
 	libVersion, _, sourceID := sqlite3.Version()
 	log.Printf("INFO: sqlite3 libVersion=%s, sourceID:%s", libVersion, sourceID)
@@ -78,6 +84,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ancestors/", handleAncestors(tmplAncestors, db))
 	mux.HandleFunc("/breedingbook/", handleAncestors(tmplBreedingbook, db))
+	mux.HandleFunc("/newbreedingbook/", handleAncestors(tmplBreedingbookNew, db))
 	adm.MountTo("/admin", mux)
 
 	fmt.Println("Press 'control' + 'c' to stop the server")

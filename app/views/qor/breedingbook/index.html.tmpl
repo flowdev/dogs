@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html class="mdl-js" lang="en-US">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <title>Ancestors - Dog Breeding</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link type="text/css" rel="stylesheet" href="/admin/assets/stylesheets/qor_admin_default.css">
+
+
+    <script src="/admin/assets/javascripts/vendors.js"></script>
+    <style>
+        .qor-menu-container {
+            margin-left: 100px;
+        }
+
+        #content {
+            margin-left: 10px;
+        }
+
+        .mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen) > .mdl-layout__header {
+            margin-left: 0px;
+            padding-left: 240px;
+            width: 100%;
+        }
+
+        /* Make button back to dogs look nice: */
+        .qor-menu > .active:hover > a,
+        .qor-menu > .active:hover > a:focus,
+        .qor-menu > .active:hover > a:hover,
+        .qor-menu > .active > a,
+        .qor-menu > .active > a:focus,
+        .qor-menu > .active > a:hover {
+            color: #0389a4;
+            background-color: #eee;
+            cursor: default;
+        }
+
+        .qor-page__body {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        /* Make ancestor table look nice: */
+        .mdl-data-table td {
+            position: relative;
+            height: 32px;
+            max-height: 22px;
+            border-top: 1px solid rgba(0, 0, 0);
+            border-bottom: 1px solid rgba(0, 0, 0);
+            border-left: 1px solid rgba(0, 0, 0);
+            border-right: 1px solid rgba(0, 0, 0);
+            padding: 3px 8px;
+            box-sizing: border-box;
+        }
+
+        .mdl-data-table td:first-of-type {
+            padding-left: 8px;
+        }
+
+        .mdl-data-table {
+            border-collapse: separate;
+        }
+
+        .mdl-data-table tbody {
+            border-top: 1px solid rgba(0, 0, 0);
+        }
+
+        .mdl-data-table tbody tr {
+            height: 22px;
+        }
+
+        .mdl-data-table tbody tr:hover {
+            background-color: #fff;
+        }
+
+        .mdl-data-table td:last-of-type, .mdl-data-table th:last-of-type {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        .qor-layout .mdl-layout__content {
+            padding-left: 0;
+        }
+
+        .qor-table {
+            margin: 0 1rem;
+        }
+
+        .qor-table__content {
+            overflow: visible;
+            white-space: initial;
+        }
+
+        .c1r1 {
+            display: none;
+            position: absolute;
+            bottom: -215px;
+            width: 40rem !important;
+        }
+
+        .c5r1 {
+            display: none;
+            position: absolute;
+            bottom: -215px;
+            width: 40rem !important;
+        }
+
+
+        .c4r4 {
+            display: none;
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            width: 40rem !important;
+        }
+
+        .table-hover {
+            z-index: 1000;
+            background: #afd275;
+            box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.25),
+            -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
+            padding: 10px;
+            height: 70vh !important;
+            width: 35rem !important;
+        }
+
+
+        .mdl-data-table__cell--non-numeric:hover .c1r1.table-hover {
+            display: block;
+            top: 5px;
+        }
+
+
+        .mdl-data-table__cell--non-numeric:hover .c5r1.table-hover {
+            display: block;
+            top: 5px;
+            right: 0px;
+        }
+
+        .mdl-data-table__cell--non-numeric:hover .c4r4.table-hover {
+            display: block;
+        }
+
+        .ul-style {
+            overflow: visible;
+            white-space: initial;
+        }
+
+        .qor-table__content, .qor-table__content p {
+            max-height: 128px;
+            max-width: 20rem;
+            height: 128px;
+            width: 20rem;
+        }
+
+        .qor-table td {
+            font-size: 14px;
+        }
+
+        table {
+            font-size: 14px;
+            line-height: 16px;
+        }
+
+        .bad-value {
+            color: red;
+        }
+
+        .color-category {
+            padding: 10px 0 10px 15px;
+            width: 100vw;
+            margin-bottom: 5px;
+        }
+
+        .span-color {
+            padding: 10px;
+            color: whitesmoke;
+        }
+
+        .wolfskrallen {
+            background-color: #158FC2;
+        }
+
+        .ohren {
+            background-color: #577E8F;
+        }
+
+        .rute {
+            background-color: #F67E71;
+        }
+
+        .fangrucken {
+            background-color: #C2158A;
+        }
+
+        .z-fleisch {
+            background-color: #FFAEBC;
+        }
+
+        .nase {
+            background-color: #65463E;
+        }
+
+        .fellfarbe {
+            background-color: #749EB2;
+        }
+
+        .augen {
+            background-color: #A0E7E5;
+        }
+
+        .lefzen {
+            background-color: #A3A300;
+        }
+
+        .nabelbruch {
+            background-color: #FAD02C;
+        }
+
+        .wurf {
+            background-color: #E6C2BF;
+        }
+
+        .m-gebiss {
+            background-color: #4CD7D0;
+        }
+
+        .bl-gebiss {
+            background-color: #059DC0;
+        }
+
+        .hd {
+            background-color: #FFD898;
+        }
+
+        .herz {
+            background-color: #FB475E;
+        }
+
+        .edta {
+            background-color: #D66879;
+        }
+
+        .merle {
+            background-color: #B2C4CB;
+        }
+
+        .hoden {
+            background-color: #76B947;
+        }
+
+        .dekt {
+            background-color: #887BB0;
+        }
+
+        .diverses {
+            background-color: #F79489;
+        }
+
+
+    </style>
+</head>
+
+<body class="qor-theme-slideout">
+
+<a class="visuallyhidden" href="#content" tabindex="1">Skip to content</a>
+
+<div class="mdl-layout__container">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header qor-layout has-drawer is-upgraded"
+         data-upgraded=",MaterialLayout">
+        <header class="mdl-layout__header is-casting-shadow has-search">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title">Breeding Book</span>
+
+                <div class="qor-menu-container">
+                    <ul class="qor-menu">
+                        <li qor-icon-name="Dogs" class="active">
+                            <a href="/admin/dogs">Dogs</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </header>
+
+
+        <main class="mdl-layout__content qor-page" id="content">
+
+            <div class="qor-page__body">
+
+                <!-- Here the own code starts! -->
+                {{if .Error}}
+                <p> {{.Error}}</p>
+                {{else}}
+                <table class="mdl-data-table qor-table">
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric ">Puppies 1</th>
+                        <th class="mdl-data-table__cell--non-numeric ">Puppies 2</th>
+                        <th class="mdl-data-table__cell--non-numeric ">Puppies 3</th>
+                        <th class="mdl-data-table__cell--non-numeric ">Parents</th>
+                        <th class="mdl-data-table__cell--non-numeric ">Grandparents</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <!-- Here add an experimental table cell -->
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Name: Einstein <br/>
+                                WK: r + l |
+                                Ohren: offen <br/>
+                                Rute: 23 / 38 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s <br/>
+                                F-Farbe: weizen |
+                                Größe: 62,5 <br/>
+                                Zähne: Schere / Schere <br/>
+                                HD: A2 |
+                                Herz: o.b. |
+                                Merle: frei |
+                                Hoden: Einhoder
+                            </div>
+
+                            <!-- Here starts the hover! -->
+                            <div class="c1r1 table-hover">
+                                <ul class="ul-style">
+                                    <li>
+                                        Name: Einstein
+                                    </li>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2
+                                    </li>
+                                    <li>
+                                        Ohren: offen
+                                    </li>
+                                    <li>
+                                        Rute: 23 / 38 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 62,5
+                                    </li>
+                                    <li>
+                                        Zähne: Schere / Schere
+                                    </li>
+                                    <li>
+                                        HD: A2
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li>
+                                        Merle: frei
+                                    </li>
+                                    <li>
+                                        Hoden: Einhoder
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein
+                                    </li>
+                                    <li>
+                                        DIVERSES: Hier trage ich ganz unterschiedliche Dinge ein, auf jeden Fall schwere
+                                        Erkrankungen, Todeszeitpunkt und Todesursache
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hover! -->
+
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 1 - Col 2
+                            </div>
+                        </td>
+                        <!-- End of the experimental table cell -->
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 1 - Col 3
+                            </div>
+                        </td>
+
+                        <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 1 - Col 4
+                            </div>
+                        </td>
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span> Name:</span> <span> Einstein </span> <br/>
+                                WK: r + l |
+                                Ohren: offen <br/>
+                                Rute: 23 / 38 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s <br/>
+                                F-Farbe: weizen |
+                                Größe: 62,5 <br/>
+                                Zähne: Schere / Schere <br/>
+                                HD: A2 |
+                                Herz: o.b. |
+                                Merle: frei |
+                                Hoden: Einhoder
+                            </div>
+
+                            <!-- Here starts the hover! -->
+                            <div class="c5r1 table-hover">
+                                <ul class="ul-style">
+                                    <li>
+                                        Name: Einstein
+                                    </li>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2
+                                    </li>
+                                    <li>
+                                        Ohren: offen
+                                    </li>
+                                    <li>
+                                        Rute: 23 / 38 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 62,5
+                                    </li>
+                                    <li>
+                                        Zähne: Schere / Schere
+                                    </li>
+                                    <li>
+                                        HD: A2
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li>
+                                        Merle: frei
+                                    </li>
+                                    <li>
+                                        Hoden: Einhoder
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein
+                                    </li>
+                                    <li>
+                                        DIVERSES: Hier trage ich ganz unterschiedliche Dinge ein, auf jeden Fall schwere
+                                        Erkrankungen, Todeszeitpunkt und Todesursache
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hover! -->
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <!-- Here add a experimental table cell -->
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 2 - Col 1
+                            </div>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 2 - Col 2
+                            </div>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 2 - Col 3
+                            </div>
+                        </td>
+                        <!-- End of the experimental table cell -->
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 2 - Col 4
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <!-- Here add a experimental table cell -->
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 3 - Col 1
+                            </div>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 3 - Col 2
+                            </div>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 3 - Col 3
+                            </div>
+                        </td>
+                        <!-- End of the experimental table cell -->
+
+                        <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 3 - Col 4
+                            </div>
+                        </td>
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 3 - Col 5
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <!-- Here add a experimental table cell -->
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 4 - Col 1
+                            </div>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 4 - Col 2
+                            </div>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Row 4 - Col 3
+                            </div>
+                        </td>
+                        <!-- End of the experimental table cell -->
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                Name: Einstein <br/>
+                                WK: r + l |
+                                Ohren: offen <br/>
+                                Rute: 23 / 38 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s <br/>
+                                F-Farbe: weizen |
+                                Größe: 62,5 <br/>
+                                Zähne: Schere / Schere <br/>
+                                HD: A2 |
+                                Herz: o.b. |
+                                Merle: frei |
+                                Hoden: Einhoder
+                            </div>
+                            <!-- Here starts the hover! -->
+                            <div class="c4r4 table-hover">
+                                <ul class="ul-style">
+                                    <li>
+                                        Name: Einstein
+                                    </li>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2
+                                    </li>
+                                    <li>
+                                        Ohren: offen
+                                    </li>
+                                    <li>
+                                        Rute: 23 / 38 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 62,5
+                                    </li>
+                                    <li>
+                                        Zähne: Schere / Schere
+                                    </li>
+                                    <li>
+                                        HD: A2
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li>
+                                        Merle: frei
+                                    </li>
+                                    <li>
+                                        Hoden: Einhoder
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein
+                                    </li>
+                                    <li>
+                                        DIVERSES: Hier trage ich ganz unterschiedliche Dinge ein, auf jeden Fall schwere
+                                        Erkrankungen, Todeszeitpunkt und Todesursache
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hover! -->
+                        </td>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                {{end}}
+                <!-- Here the own code ends! -->
+
+            </div>
+            <div class="color-category">
+                <span class="wolfskrallen span-color">Wolfskrallen</span>
+                <span class="ohren span-color">OHREN</span>
+                <span class="rute span-color">RUTE</span>
+                <span class="fangrucken span-color">FANGRÜCKEN</span>
+                <span class="z-fleisch span-color">Z-FLEISCH</span>
+                <span class="nase span-color">NASE</span>
+                <span class="fellfarbe span-color">FELLFARBE</span>
+                <span class="augen span-color">AUGEN</span>
+                <span class="lefzen span-color">LEFZEN</span>
+                <span class="nabelbruch span-color">NABELBRUCH</span>
+            </div>
+
+            <div class="color-category">
+                <span class="wurf span-color">WURF</span>
+                <span class="m-gebiss span-color">M-Gebiss</span>
+                <span class="bl-gebiss span-color">bl-Gebiss</span>
+                <span class="hd span-color">HD</span>
+                <span class="herz span-color">HERZ</span>
+                <span class="edta span-color">EDTA</span>
+                <span class="merle span-color">MERLE</span>
+                <span class="hoden span-color">HODEN</span>
+                <span class="dekt span-color">DEKT</span>
+                <span class="diverses span-color">DIVERSES</span>
+            </div>
+
+        </main>
+        <div class="mdl-layout__obfuscator"></div>
+    </div>
+</div>
+
+
+<script src="/admin/assets/javascripts/qor_admin_default.js"></script>
+
+
+<div id="dialog" style="display: none;">
+    <div class="mdl-dialog-bg"></div>
+    <div class="mdl-dialog">
+        <div class="mdl-dialog__content">
+            <p><i class="material-icons">warning</i></p>
+            <p class="mdl-dialog__message dialog-message">
+            </p>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="button" class="mdl-button mdl-button--raised mdl-button--colored dialog-ok dialog-button"
+                    data-type="confirm">
+                ok
+            </button>
+            <button type="button" class="mdl-button dialog-cancel dialog-button" data-type="">
+                cancel
+            </button>
+        </div>
+    </div>
+</div>
+<div class="qor-bottomsheets">
+    <div class="qor-bottomsheets__header">
+        <h3 class="qor-bottomsheets__title"></h3>
+        <button type="button"
+                class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-bottomsheets__close"
+                data-dismiss="bottomsheets">
+            <span class="material-icons">close</span>
+        </button>
+    </div>
+    <div class="qor-bottomsheets__body"></div>
+</div>
+<div class="qor-slideout">
+    <div class="qor-slideout__header">
+        <div class="qor-slideout__header-link">
+            <a href="#" target="_blank"
+               class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__opennew"><i
+                    class="material-icons">open_in_new</i></a>
+            <a href="#" class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__fullscreen">
+                <i class="material-icons">fullscreen</i>
+                <i class="material-icons" style="display: none;">fullscreen_exit</i>
+            </a>
+        </div>
+        <button type="button" class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__close"
+                data-dismiss="slideout">
+            <span class="material-icons">close</span>
+        </button>
+        <h3 class="qor-slideout__title"></h3>
+    </div>
+    <div class="qor-slideout__body"></div>
+</div>
+</body>
+</html>

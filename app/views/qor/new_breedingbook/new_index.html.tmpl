@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html class="mdl-js" lang="en-US">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <title>Ancestors - Dog Breeding</title>
+    <link rel="shortcut icon" href="/admin/assets/images/logo.png">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link type="text/css" rel="stylesheet" href="/admin/assets/stylesheets/qor_admin_default.css">
+    <link type="text/css" rel="stylesheet" href="/admin/assets/stylesheets/style-breeding-tb.css">
+
+
+    <script src="/admin/assets/javascripts/vendors.js"></script>
+
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <script type="application/javascript">
+        function showExtraContent(id) {
+            let showTable = document.getElementById(id);
+
+            if (showTable) {
+                if (showTable.style.display === "none") {
+                    showTable.style.display = "block";
+                }
+            }
+        }
+
+        function hideExtraContent(id) {
+            let hideTable = document.getElementById(id);
+
+            if (hideTable) {
+                if (hideTable.style.display === "block") {
+                    hideTable.style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</head>
+
+<body class="qor-theme-slideout">
+
+<a class="visuallyhidden" href="#content" tabindex="1">Skip to content</a>
+
+<div class="mdl-layout__container">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header qor-layout has-drawer is-upgraded"
+         data-upgraded=",MaterialLayout">
+        <header class="mdl-layout__header is-casting-shadow has-search">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title">Breeding Book</span>
+
+                <div class="qor-menu-container">
+                    <ul class="qor-menu">
+                        <li qor-icon-name="Dogs" class="active">
+                            <a href="/admin/dogs">Dogs</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </header>
+
+
+        <main class="mdl-layout__content qor-page" id="content">
+
+            <div class="qor-page__body">
+
+                <!-- Here the own code starts! -->
+                {{if .Error}}
+                <p> {{.Error}}</p>
+                {{else}}
+                <table class="mdl-data-table qor-table">
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric ">Puppies 1</th>
+                        <th class="mdl-data-table__cell--non-numeric ">Puppies 2</th>
+                        <th class="mdl-data-table__cell--non-numeric ">Puppies 3</th>
+                        <th class="mdl-data-table__cell--non-numeric ">Parents</th>
+                        <th class="mdl-data-table__cell--non-numeric ">Grandparents</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <!-------------------------------=^.^=  Beginning of Row 1 =^.^=--------------------->
+                    <tr>
+                        <!-- Here add an experimental table cell -->
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c1r1-summary"
+                                 onclick="showExtraContent('c1r1-details')">
+                                <span class="name-hund">
+                                    Babu (IGPZ 031301)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: 25 / 41+1 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = 90% | Nase = s <br/>
+                                weizen |
+                                Gr: 60 <br/>
+                                Schere / Schere <br/>
+                                A |
+                                Herz: o.b. | <br/>
+                                Hoden: <span class="hoden highlighted"> Einhoder(lt.TB 2 Hoden)</span>
+                            </div>
+
+                            <!-- Here starts the hover! -->
+                            <div class="c1r1 table-details table-position top" id="c1r1-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c1r1-details')">
+                                    &#10060;
+                                </button>
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Babu (IGPZ 031301)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2 (data not found! :( )
+                                    </li>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: 25 / 41+1 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = 90% | Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 60
+                                    </li>
+                                    <li>
+                                        Zähne: Schere / Schere
+                                    </li>
+                                    <li>
+                                        HD: A
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li class="augen highlighted">
+                                        Augen: grün braun
+                                    </li>
+                                    <li class="hoden highlighted">
+                                        Hoden: Einhoder(lt.TB 2 Hoden)
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein (data not found! :( )
+                                    </li>
+                                    <li>
+                                        DIVERSES:
+                                        <span class="diverses highlighted"> Knickrute </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hover! -->
+
+                        </td>
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c2r1-summary"
+                                 onclick="showExtraContent('c2r1-details')">
+                                <span class="name-hund">
+                                    Bolle (IGPZ 031305)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: 26 / 39+2 | Säbel <br/>
+                                Pigm.: Fangr.: s / -- | Z-Fl. = 100% | Nase = b <br/>
+                                weizen |
+                                Gr: 60,5 <br/>
+                                Schere / Schere <br/>
+                                A2 |
+                                Herz: o.b. | <br/>
+                                Hoden: <span class="hoden highlighted"> Einhoder</span>
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c2r1 table-details table-position" id="c2r1-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c2r1-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Bolle (IGPZ 031305)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2 (data not found! :( )
+                                    </li>
+                                    <li>
+                                        IK: 5,63% | <br/>
+                                    </li>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: 26 / 39+2 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / -- | Z-Fl. = 100% | Nase = b
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 57,5
+                                    </li>
+                                    <li>
+                                        Zähne: Schere / Schere
+                                    </li>
+                                    <li>
+                                        HD: A2
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li class="augen highlighted">
+                                        Augen: grün braun
+                                    </li>
+                                    <li>
+                                        <span class="hoden highlighted"> Hoden: Einhoder </span>
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein (data not found! :( )
+                                    </li>
+                                    <li>
+                                        DIVERSES:
+                                        <span class="diverses highlighted"> Einhoder / Augen grün/braun </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+                        <!-- End of the experimental table cell -->
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c3r1-summary"
+                                 onclick="showExtraContent('c3r1-details')">
+                                <span class="name-hund">
+                                    Butler (IGPZ 031309)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: 25 / 37+2 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted">10%br</span> | Nase =
+                                s <br/>
+                                weizen |
+                                Gr: 60 <br/>
+                                Schere <span class="zaehne highlighted"> (c-eng r gek)</span> / Schere <br/>
+                                A2 |
+                                Herz: o.b. | <br/>
+                                Hoden: <span class="hoden highlighted">  Einhoder | TB 2 Hoden  </span>
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c3r1 table-details table-position" id="c3r1-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c3r1-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Butler (IGPZ 031309)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2 (data not found! :( )
+                                    </li>
+                                    <li>
+                                        IK: 5,63% | <br/>
+                                    </li>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: 25 / 37+2 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted">10%br</span> |
+                                        Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 60
+                                    </li>
+                                    <li>
+                                        Zähne: Schere <span class="zaehne highlighted"> (c-eng r gek)</span> / Schere
+                                    </li>
+                                    <li>
+                                        HD: A2
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li>
+                                        <span class="hoden highlighted"> Hoden: Einhoder lt.TB P1 o.r. doppelt</span>
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein (data not found! :( )
+                                    </li>
+                                    <li>
+                                        DIVERSES:
+                                        <span class="diverses highlighted"> Einhoder | TB 2 Hoden | Knickrute </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+
+                        <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+                            <div class=" qor-table__content" id="c4r1-summary"
+                                 onclick="showExtraContent('c4r1-details')">
+                                <span class="name-hund">
+                                    Doris-MissMarple (IGPZ 051007)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: 19 / 36-1 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = 50% | Nase = s <br/>
+                                weizen |
+                                Gr: 53 <br/>
+                                Schere <span class="zaehne highlighted"> (C-eng l.)  </span> / Schere <br/>
+                                B2 |
+                                Herz: o.b. | <br/>
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c4r1 table-details table-position" id="c4r1-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c4r1-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Doris-MissMarple (IGPZ 051007)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2 (data not found! :( )
+                                    </li>
+                                    <li>
+                                        IK: 5,63% | <br/>
+                                    </li>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: 19 / 36-1 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = 50% | Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 53
+                                    </li>
+                                    <li>
+                                        Zähne: Schere <span class="zaehne highlighted">  (C-eng l.)</span> / Schere
+                                        <br/>
+                                    </li>
+                                    <li>
+                                        HD: B2
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein (data not found! :( )
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c5r1-summary"
+                                 onclick="showExtraContent('c5r1-details')">
+                                <span class="name-hund">
+                                    ESRA-Noa (IGPZ 97117)
+                                </span> <br/>
+                                WK: r + l | <br/>
+                                Rute: 23 / 38 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted"> <50% </span> | Nase =
+                                s
+                                <br/>
+                                weizen |
+                                Gr: 52 <br/>
+                                Schere / Schere <br/>
+                                B2 |
+                                Herz: o.b. |
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c5r1 table-details table-position top" id="c5r1-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c5r1-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        ESRA-Noa (IGPZ 97117)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: <span class="wolfskrallen highlighted">r+l</span>
+                                    </li>
+                                    <li>
+                                        Ohren: <span class="ohren highlighted"> 1Steh </span>
+                                    </li>
+                                    <li>
+                                        Rute: 23 / 38 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted"> <50% </span>
+                                        | Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 52
+                                    </li>
+                                    <li>
+                                        Zähne: Schere / Schere
+                                    </li>
+                                    <li>
+                                        HD: B2
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li>
+                                        Merle: frei
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein
+                                    </li>
+                                    <li>
+                                        DIVERSES:
+                                        <span class="diverses highlighted">12/12 gest. Gehirntumor</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+                    </tr>
+                    <!-------------------------------=^.^=  Ending of Row 1 =^.^=--------------------->
+
+
+                    <!-------------------------------=^.^=  Start of Row 2 =^.^=--------------------->
+                    <tr>
+                        <!-- Here add an experimental table cell -->
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c1r2-summary"
+                                 onclick="showExtraContent('c1r2-details')">
+                                <span class="name-hund">
+                                    Bero (IGPZ 031302)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: 23,5 / 36-2 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = 60% | Nase = s <br/>
+                                weizen |
+                                Gr: 60,5 <br/>
+                                Schere <span class="zaehne highlighted"> (c-eng l gek)</span> / Schere <br/>
+                                B2 |
+                                Herz: o.b. | <br/>
+                                Hoden: <span class="hoden highlighted"> Einhoder lt.TB P1 o.r. doppelt </span>
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c1r2 table-details table-position" id="c1r2-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c1r2-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Bero (IGPZ 031302)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2 (data not found! :( )
+                                    </li>
+                                    <li>
+                                        IK: 5,63% | <br/>
+                                    </li>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: 23,5 / 36-2 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = 60% | Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 60,5
+                                    </li>
+                                    <li>
+                                        Zähne: Schere <span class="zaehne highlighted"> (c-eng l gek)</span> / Schere
+                                    </li>
+                                    <li>
+                                        HD: B2
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li class="augen highlighted">
+                                        Augen: grün braun
+                                    </li>
+                                    <li>
+                                        <span class="hoden highlighted"> Hoden: Einhoder lt.TB P1 o.r. doppelt </span>
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein (data not found! :( )
+                                    </li>
+                                    <li>
+                                        DIVERSES:
+                                        <span class="diverses highlighted"> Knickrute </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c2r2-summary"
+                                 onclick="showExtraContent('c2r2-details')">
+                                <span class="name-hund">
+                                    Bowie (IGPZ 031306)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: 23,5 / 37-1 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s <br/>
+                                weizen |
+                                Gr: 58 <br/>
+                                Schere <span class="zaehne highlighted"> i3 u.l.zurück</span> / Schere <br/>
+                                B1 |
+                                Herz: o.b. | <br/>
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c2r2 table-details table-position" id="c2r2-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c2r2-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Bowie (IGPZ 031306)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2 (data not found! :( )
+                                    </li>
+                                    <li>
+                                        IK: 5,63% | <br/>
+                                    </li>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: 23,5 / 37-1 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 58
+                                    </li>
+                                    <li>
+                                        Zähne: Schere <span class="zaehne highlighted"> i3 u.l.zurück</span> / Schere
+                                    </li>
+                                    <li>
+                                        HD: B1
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li class="augen highlighted">
+                                        Augen: grün braun
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein (data not found! :( )
+                                    </li>
+                                    <li>
+                                        DIVERSES:
+                                        <span class="diverses highlighted"> i3 u.l.zurück </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric keine-puppies">
+                            <div class="qor-table__content">
+                                Row 2 - Col 3
+                            </div>
+                        </td>
+                        <!-- End of the experimental table cell -->
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c4r2-summary"
+                                 onclick="showExtraContent('c4r2-details')">
+                                <span class="name-hund">
+                                    Kosse's Michel-Tigger (IGPZ 97118)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: -- / 36-1 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s <br/>
+                                fauve |
+                                Gr: 57 <br/>
+                                Schere / Schere <br/>
+                                B2 |
+                                Herz: o.b. | <br/>
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c4r2 table-details table-position" id="c4r2-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c4r2-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Kosse's Michel-Tigger (IGPZ 97118)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: r+l
+                                    </li>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: <span class="rute highlighted"> -- </span> / 36-1 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: fauve
+                                    </li>
+                                    <li>
+                                        Größe: 57
+                                    </li>
+                                    <li>
+                                        Zähne: Schere / Schere
+                                    </li>
+                                    <li>
+                                        HD: B2
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein (data not found! :( )
+                                    </li>
+                                    <li>
+                                        DIVERSES:
+                                        --
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+                    </tr>
+
+                    <!-------------------------------=^.^=  Ending of Row 2 =^.^=--------------------->
+
+
+                    <!-------------------------------=^.^=  Starting of Row 3 =^.^=--------------------->
+                    <tr>
+                        <!-- Here add a experimental table cell -->
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c1r3-summary"
+                                 onclick="showExtraContent('c1r3-details')">
+                                <span class="name-hund">
+                                    Bilbo (IGPZ 031303)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: 24 / 35 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s <br/>
+                                weizen |
+                                Gr: 60 <br/>
+                                Schere <span class="zaehne highlighted"> (c-eng l gek)</span> / Schere <br/>
+                                B2 |
+                                Herz: -- | <br/>
+                                Hoden: <span class="hoden highlighted"> Einhoder  </span>
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c1r3 table-details table-position" id="c1r3-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c1r3-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Bilbo (IGPZ 031303)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2 (data not found! :( )
+                                    </li>
+                                    <li>
+                                        IK: 5,63% | <br/>
+                                    </li>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: 24 / 35 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 60
+                                    </li>
+                                    <li>
+                                        Zähne: Schere <span class="zaehne highlighted"> (c-eng r gek)</span> / Schere
+                                    </li>
+                                    <li>
+                                        HD: B2
+                                    </li>
+                                    <li>
+                                        Herz: --
+                                    </li>
+                                    <li class="augen highlighted">
+                                        Augen: grün braun
+                                    </li>
+                                    <li>
+                                        <span class="hoden highlighted"> Hoden: Einhoder </span>
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein (data not found! :( )
+                                    </li>
+                                    <li>
+                                        DIVERSES:
+                                        <span class="diverses highlighted"> Knickrute </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c2r3-summary"
+                                 onclick="showExtraContent('c2r3-details')">
+                                <span class="name-hund">
+                                    Bruder Carlo (IGPZ 031307)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: 22 / 32 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted">0%</span> | Nase = s
+                                <br/>
+                                weizen |
+                                Gr: 58 <br/>
+                                Schere / Schere <br/>
+                                B2 |
+                                Herz: o.b. | <br/>
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c2r3 table-details table-position" id="c2r3-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c2r3-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Bruder Carlo (IGPZ 031307)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2 (data not found! :( )
+                                    </li>
+                                    <li>
+                                        IK: 5,63% | <br/>
+                                    </li>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: 22 / 32 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted">0%</span> |
+                                        Nase = s <br/>
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 58
+                                    </li>
+                                    <li>
+                                        Zähne: Schere / Schere
+                                    </li>
+                                    <li>
+                                        HD: B2
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein (data not found! :( )
+                                    </li>
+                                    <li>
+                                        DIVERSES:
+                                        <span class="diverses highlighted"> Knickrute | Nase 95% schwarz </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric keine-puppies">
+                            <div class="qor-table__content">
+                                Row 3 - Col 3
+                            </div>
+                        </td>
+                        <td rowspan="2" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c4r3-summary"
+                                 onclick="showExtraContent('c4r3-details')">
+                                <span class="name-hund">
+                                    Vierbeiner-OLE (IGPZ 041102)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: 19 / 41/-1 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted">5%s</span> | Nase = s
+                                <br/>
+                                weizen |
+                                Gr: 58,5 <br/>
+                                Schere <span class="zaehne highlighted"> (c-eng l gek)</span> / Schere <br/>
+                                B |
+                                Herz: o.b. | <br/>
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c4r3 table-details table-position" id="c4r3-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c4r3-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Vierbeiner-OLE (IGPZ 041102)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2 (data not found! :( )
+                                    </li>
+                                    <li>
+                                        IK: 5,63% | <br/>
+                                    </li>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: 19 / 41/-1 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted">5%s</span> |
+                                        Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 58,5
+                                    </li>
+                                    <li>
+                                        Zähne: Schere / Schere
+                                    </li>
+                                    <li>
+                                        HD: B
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+
+                                    <li>
+                                        DEKT: ja/nein (data not found! :( )
+                                    </li>
+                                    <li>
+                                        DIVERSES:
+                                        <span class="diverses highlighted"> nerv. Magen/Erbrechen </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c5r3-summary"
+                                 onclick="showExtraContent('c5r3-details')">
+                                <span class="name-hund">
+                                    Dipl.Ing. Würfel (IGPZ 060905)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: 18 / 38 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted"> -- </span> | Nase = s
+                                <br/>
+                                weizen |
+                                Gr: 54 <br/>
+                                Schere / Schere <br/>
+                                <span class="hd"> -- </span> |
+                                Herz: o.b. |
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c5r3 table-details table-position" id="c5r3-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c5r3-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Dipl.Ing. Würfel (IGPZ 060905)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2
+                                    </li>
+                                    <li>
+                                        Ohren: Hänge
+                                    </li>
+                                    <li>
+                                        Rute: 18 / 38 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted"> -- </span> |
+                                        Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 54
+                                    </li>
+                                    <li>
+                                        Zähne: Schere / Schere
+                                    </li>
+                                    <li>
+                                        <span class="hd"> -- </span>
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li>
+                                        Merle: frei
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein
+                                    </li>
+                                    <li>
+                                        DIVERSES:
+                                        <span class="diverses highlighted">7 Zitzen</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+                    </tr>
+
+                    <!-------------------------------=^.^=  Ending of Row 3 =^.^=--------------------->
+
+
+                    <tr>
+                        <!-- Here add a experimental table cell -->
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c1r4-summary"
+                                 onclick="showExtraContent('c1r4-details')">
+                                <span class="name-hund">
+                                    Bjalla (IGPZ 031304)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: 25 / 38+2 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted">40%br.</span> | Nase =
+                                s <br/>
+                                weizen |
+                                Gr: 54 <br/>
+                                Schere / Schere <br/>
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c1r4 table-details table-position" id="c1r4-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c1r4-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Bjalla (IGPZ 031304)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2 (data not found! :( )
+                                    </li>
+                                    <li>
+                                        IK: 5,63% | <br/>
+                                    </li>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: 25 / 38+2 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = 40%br. | Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 54
+                                    </li>
+                                    <li>
+                                        Zähne: Schere / Schere
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein (data not found! :( )
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c2r4-summary"
+                                 onclick="showExtraContent('c2r4-details')">
+                                <span class="name-hund">
+                                    Bruno (IGPZ 031308)
+                                </span> <br/>
+                                <!--WK: r + l | <br/>-->
+                                Rute: 23 / 33-1 | Säbel <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s <br/>
+                                weizen |
+                                Gr: 57 <br/>
+                                Schere / Schere <br/>
+                                A2 |
+                                Herz: o.b. | <br/>
+                                Hoden: <span class="hoden highlighted">  Einhoder | TB+Körung 2 Hoden </span>
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c2r4 table-details table-position" id="c2r4-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c2r4-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        Bruno (IGPZ 031308)
+                                    </p>
+                                    <li>
+                                        Wolfskrallen: 0, r1, r2, l1, l2, r1l1, r2l1, r1l2, r2l2 (data not found! :( )
+                                    </li>
+                                    <li>
+                                        IK: 5,63% | <br/>
+                                    </li>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: 23 / 33-1 | Säbel
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = 100% | Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 57
+                                    </li>
+                                    <li>
+                                        Zähne: Schere / Schere
+                                    </li>
+                                    <li>
+                                        HD: A2
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li>
+                                        <span class="hoden"> Hoden: Einhoder | TB + Körung 2 Hoden </span>
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein (data not found! :( )
+                                    </li>
+                                    <li>
+                                        DIVERSES: <br>
+                                        <span class="diverses highlighted"> Einhoder | <br> TB + Körung 2 Hoden | <br>Einhoder,TB+Körung 2 Hoden  </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric keine-puppies">
+                            <div class="qor-table__content">
+                                Row 4 - Col 3
+                            </div>
+                        </td>
+                        <!-- End of the experimental table cell -->
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content" id="c4r4-summary"
+                                 onclick="showExtraContent('c4r4-details')">
+                                <span class="name-hund">
+                                    BEN v.d.Neisseaus (AAH 05-126)
+                                </span> <br/>
+                                Rute: <span class="rute highlighted"> -- </span> / <span
+                                    class="rute highlighted"> -- </span> | <span
+                                    class="rute highlighted"> 38,5(-1) </span> <br/>
+                                Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted"> s </span> | Nase = s
+                                <br/>
+                                weizen |
+                                Gr: 62 <br/>
+                                <span class="zaehne highlighted"> -- </span> / Schere <br/>
+                                B1 |
+                                Herz: o.b. |
+                            </div>
+
+                            <!-- Here starts hided content! -->
+                            <div class="c4r4 table-details table-position" id="c4r4-details" style="display: none">
+                                <button class="button-details-hide" onclick="hideExtraContent('c4r4-details')">
+                                    &#10060;
+                                </button>
+
+                                <ul class="ul-style">
+                                    <p class="name-hund">
+                                        BEN v.d.Neisseaus (AAH 05-126)
+                                    </p>
+                                    <li>
+                                        Ohren: steh/kipp
+                                    </li>
+                                    <li>
+                                        Rute: <span class="rute highlighted"> -- </span> /
+                                        <span class="rute highlighted"> -- </span> |
+                                        <span class="rute highlighted"> 38,5(-1) </span>
+                                        <br/>
+                                    </li>
+                                    <li>
+                                        Pigm.: Fangr.: s / s | Z-Fl. = <span class="pigmente highlighted"> s </span> |
+                                        Nase = s
+                                    </li>
+                                    <li>
+                                        F-Farbe: weizen
+                                    </li>
+                                    <li>
+                                        Größe: 62
+                                    </li>
+                                    <li>
+                                        Zähne: <span class="zaehne highlighted"> -- </span> / Schere <br/>
+                                    </li>
+                                    <li>
+                                        HD: <span class="hd"> B1 </span>
+                                    </li>
+                                    <li>
+                                        Herz: o.b.
+                                    </li>
+                                    <li>
+                                        Merle: frei
+                                    </li>
+                                    <li>
+                                        DEKT: ja/nein
+                                    </li>
+                                    <li>
+                                        DIVERSES:
+                                        --
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Here finish the hided content! -->
+                        </td>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                {{end}}
+                <!-- Here the own code ends! -->
+
+            </div>
+            <div class="color-category">
+                <span class="wolfskrallen span-color">Wolfskrallen</span>
+                <span class="ohren span-color">OHREN</span>
+                <span class="rute span-color">RUTE</span>
+                <span class="pigmente span-color">PIGMENTE</span>
+                <span class="fellfarbe span-color">FELLFARBE</span>
+                <span class="augen span-color">AUGEN</span>
+                <span class="lefzen span-color">LEFZEN</span>
+                <span class="nabelbruch span-color">NABELBRUCH</span>
+
+                <span class="zaehne span-color">ZÄHNE</span>
+                <span class="hd span-color">HD</span>
+                <span class="herz span-color">HERZ</span>
+                <span class="edta span-color">EDTA</span>
+                <span class="hoden span-color">HODEN</span>
+                <span class="dekt span-color">DEKT</span>
+                <span class="diverses span-color">DIVERSES</span>
+            </div>
+
+        </main>
+        <div class="mdl-layout__obfuscator"></div>
+    </div>
+</div>
+
+
+<script src="/admin/assets/javascripts/qor_admin_default.js"></script>
+
+
+<div id="dialog" style="display: none;">
+    <div class="mdl-dialog-bg"></div>
+    <div class="mdl-dialog">
+        <div class="mdl-dialog__content">
+            <p><i class="material-icons">warning</i></p>
+            <p class="mdl-dialog__message dialog-message">
+            </p>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="button" class="mdl-button mdl-button--raised mdl-button--colored dialog-ok dialog-button"
+                    data-type="confirm">
+                ok
+            </button>
+            <button type="button" class="mdl-button dialog-cancel dialog-button" data-type="">
+                cancel
+            </button>
+        </div>
+    </div>
+</div>
+<div class="qor-bottomsheets">
+    <div class="qor-bottomsheets__header">
+        <h3 class="qor-bottomsheets__title"></h3>
+        <button type="button"
+                class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-bottomsheets__close"
+                data-dismiss="bottomsheets">
+            <span class="material-icons">close</span>
+        </button>
+    </div>
+    <div class="qor-bottomsheets__body"></div>
+</div>
+<div class="qor-slideout">
+    <div class="qor-slideout__header">
+        <div class="qor-slideout__header-link">
+            <a href="#" target="_blank"
+               class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__opennew"><i
+                    class="material-icons">open_in_new</i></a>
+            <a href="#" class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__fullscreen">
+                <i class="material-icons">fullscreen</i>
+                <i class="material-icons" style="display: none;">fullscreen_exit</i>
+            </a>
+        </div>
+        <button type="button" class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__close"
+                data-dismiss="slideout">
+            <span class="material-icons">close</span>
+        </button>
+        <h3 class="qor-slideout__title"></h3>
+    </div>
+    <div class="qor-slideout__body"></div>
+</div>
+</body>
+</html>
