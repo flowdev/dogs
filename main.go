@@ -42,16 +42,18 @@ func main() {
 	log.Printf("INFO: Dogs app is starting, work dir=%s", workDir)
 
 	assetFS := bindatafs.AssetFS
-	tmplContentAncestors, err := assetFS.Asset("ancestors/index.tmpl")
+	tmplContentAncestors, err := assetFS.Asset("ancestors/index.html.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
-	tmplContentBreedindbook, err := assetFS.Asset("breedingbook/index.tmpl")
+
+	tmplContentBreedingbook, err := assetFS.Asset("breedingbook/index.html.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	tmplAncestors := template.Must(template.New("ancestors").Parse(string(tmplContentAncestors)))
-	tmplBreedingbook := template.Must(template.New("breedingbook").Parse(string(tmplContentBreedindbook)))
+	tmplBreedingbook := template.Must(template.New("breedingbook").Parse(string(tmplContentBreedingbook)))
 
 	libVersion, _, sourceID := sqlite3.Version()
 	log.Printf("INFO: sqlite3 libVersion=%s, sourceID:%s", libVersion, sourceID)
