@@ -303,3 +303,8 @@ table {
 .keine-puppies {
     background-color: #B1B1B1;
 }
+
+.separator {
+    font-weight: bold;
+    color: red;
+}

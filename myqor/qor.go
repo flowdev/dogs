@@ -63,6 +63,7 @@ func Init(db *gorm.DB, assetFS assetfs.Interface, workDir string) (*admin.Admin,
 	dogRes.Meta(&admin.Meta{Name: "BirthDate", Type: "date"})
 	dogRes.Meta(&admin.Meta{Name: "Gender", Config: &admin.SelectOneConfig{Collection: []string{"F", "M"}}})
 	dogRes.Meta(&admin.Meta{Name: "HD", Config: &admin.SelectOneConfig{Collection: []string{mygorm.UnknownHD, "A1", "A2", "B1", "B2", "C1", "C2"}}})
+
 	dogRes.Action(&admin.Action{
 		Name: "Ancestors",
 		URL: func(record interface{}, context *admin.Context) string {
