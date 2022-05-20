@@ -1,12 +1,7 @@
 /*
-Themen:
-
-Naechste Schritte:
-- Schrift verbessern per font-family in: app/views/qor/layout.tmpl
-- SQLite3 upgraden: (SQLite3 >= 3.28.0) => (go-sqlite3 >= 1.10.0) => (GORM >= v1.9.11/v1.9.1?)
-
 Build with: go build -tags=bindatafs
 */
+
 package main
 
 import (
