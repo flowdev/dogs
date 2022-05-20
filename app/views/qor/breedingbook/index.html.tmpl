@@ -72,12 +72,16 @@
         <main class="mdl-layout__content qor-page" id="content">
 
             <div class="qor-page__body">
-
                 <!-- Here the own code starts! -->
                 {{if .Error}}
                 <p> {{.Error}}</p>
                 {{else}}
                 <table class="mdl-data-table qor-table">
+                    <div class="heading">
+                        <p><span class="heading-span">Ort:</span> B-vom Dienstagabend-Club</p>
+                        <p><span class="heading-span">Wurfdatum:</span> 01.04.2013</p>
+                        <p><span class="heading-span">IK:</span> 5,63%</p>
+                    </div>
                     <thead>
                     <tr>
                         <th class="mdl-data-table__cell--non-numeric ">Puppies 1</th>
@@ -120,6 +124,9 @@
                                     <p class="name-hund">
                                         Babu (IGPZ 031301)
                                     </p>
+                                    <li>
+                                        IK: 5,63% <br/>
+                                    </li>
                                     <li>
                                         Ohren: steh/kipp
                                     </li>
@@ -313,6 +320,11 @@
                         <td rowspan="2" class="mdl-data-table__cell--non-numeric">
                             <div class=" qor-table__content" id="c4r1-summary"
                                  onclick="showExtraContent('c4r1-details')">
+                                <div class="heading-parents">
+                                    <span> <strong>Ort:</strong> Evanko</span> <br>
+                                    <span> <strong>Wurfdatum:</strong> 10.05.2010</span><br>
+                                    <span> <strong>IK:</strong> 0,12%</span><br>
+                                </div>
                                 <span class="name-hund">
                                     Doris-MissMarple (IGPZ 051007)
                                 </span> <br/>
@@ -378,7 +390,7 @@
                                 <span class="name-hund">
                                     ESRA-Noa (IGPZ 97117)
                                 </span> <br/>
-                                WK: <span class="wolfskrallen highlighted">r + l </span>  <br/>
+                                WK: <span class="wolfskrallen highlighted">r + l </span> <br/>
                                 Rute: 23 / 38 | Säbel <br/>
                                 Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
                                     class="pigmente highlighted"> <50% </span> <span class="separator"> | </span> Nase =
@@ -779,10 +791,11 @@
                                         Ohren: steh/kipp
                                     </li>
                                     <li>
-                                        Rute: 22 / 32  <span class="separator"> | </span> Säbel
+                                        Rute: 22 / 32 <span class="separator"> | </span> Säbel
                                     </li>
                                     <li>
-                                        Pigm.: Fangr.: s / s  <span class="separator"> | </span> Z-Fl. = <span class="pigmente highlighted">0%</span>  <span class="separator"> | </span>
+                                        Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                            class="pigmente highlighted">0%</span> <span class="separator"> | </span>
                                         Nase = s <br/>
                                     </li>
                                     <li>
@@ -805,7 +818,8 @@
                                     </li>
                                     <li>
                                         Diverses:
-                                        <span class="diverses highlighted"> Knickrute  <span class="separator"> | </span> Nase 95% schwarz </span>
+                                        <span class="diverses highlighted"> Knickrute  <span
+                                                class="separator"> | </span> Nase 95% schwarz </span>
                                     </li>
                                 </ul>
                             </div>
@@ -819,13 +833,19 @@
                         <td rowspan="2" class="mdl-data-table__cell--non-numeric">
                             <div class="qor-table__content" id="c4r3-summary"
                                  onclick="showExtraContent('c4r3-details')">
+                                <div class="heading-parents">
+                                    <span> <strong>Ort:</strong> V-Piastenniederung</span> <br>
+                                    <span> <strong>Wurfdatum:</strong> 04.02.2011</span><br>
+                                    <span> <strong>IK:</strong> 0,12%</span><br>
+                                </div>
                                 <span class="name-hund">
                                     Vierbeiner-OLE (IGPZ 041102)
                                 </span> <br/>
-                                Rute: 19 / 41/-1  <span class="separator"> | </span> Säbel <br/>
-                                Pigm.: Fangr.: s / s  <span class="separator"> | </span> Z-Fl. = <span class="pigmente highlighted">5%s</span> | Nase = s
+                                Rute: 19 / 41/-1 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted">5%s</span> | Nase = s
                                 <br/>
-                                weizen  <span class="separator"> | </span>
+                                weizen <span class="separator"> | </span>
                                 Gr: 58,5 <br/>
                                 Schere <span class="zaehne highlighted"> (c-eng l gek)</span> / Schere <br/>
                                 B <br/>
@@ -848,10 +868,11 @@
                                         Ohren: steh/kipp
                                     </li>
                                     <li>
-                                        Rute: 19 / 41/-1  <span class="separator"> | </span> Säbel
+                                        Rute: 19 / 41/-1 <span class="separator"> | </span> Säbel
                                     </li>
                                     <li>
-                                        Pigm.: Fangr.: s / s  <span class="separator"> | </span> Z-Fl. = <span class="pigmente highlighted">5%s</span>  <span class="separator"> | </span>
+                                        Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                            class="pigmente highlighted">5%s</span> <span class="separator"> | </span>
                                         Nase = s
                                     </li>
                                     <li>
@@ -886,14 +907,15 @@
                                 <span class="name-hund">
                                     Dipl.Ing. Würfel (IGPZ 060905)
                                 </span> <br/>
-                                Rute: 18 / 38  <span class="separator"> | </span> Säbel <br/>
-                                Pigm.: Fangr.: s / s  <span class="separator"> | </span> Z-Fl. = <span class="pigmente highlighted"> -- </span>  <span class="separator"> | </span> Nase = s
+                                Rute: 18 / 38 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted"> -- </span> <span class="separator"> | </span> Nase = s
                                 <br/>
-                                weizen  <span class="separator"> | </span>
+                                weizen <span class="separator"> | </span>
                                 Gr: 54 <br/>
                                 Schere / Schere <br/>
-                                <span class="hd highlighted"> -- </span>  <br/>
-                                Diverses:  <span class="diverses highlighted">7 Zitzen</span>
+                                <span class="hd highlighted"> -- </span> <br/>
+                                Diverses: <span class="diverses highlighted">7 Zitzen</span>
                             </div>
 
                             <!-- Here starts hided content! -->
@@ -910,10 +932,11 @@
                                         Ohren: Hänge
                                     </li>
                                     <li>
-                                        Rute: 18 / 38  <span class="separator"> | </span> Säbel
+                                        Rute: 18 / 38 <span class="separator"> | </span> Säbel
                                     </li>
                                     <li>
-                                        Pigm.: Fangr.: s / s  <span class="separator"> | </span> Z-Fl. = <span class="pigmente highlighted"> -- </span>  <span class="separator"> | </span>
+                                        Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                            class="pigmente highlighted"> -- </span> <span class="separator"> | </span>
                                         Nase = s
                                     </li>
                                     <li>
@@ -956,10 +979,11 @@
                                 <span class="name-hund">
                                     Bjalla (IGPZ 031304)
                                 </span> <br/>
-                                Rute: 25 / 38+2  <span class="separator"> | </span> Säbel <br/>
-                                Pigm.: Fangr.: s / s  <span class="separator"> | </span> Z-Fl. = <span class="pigmente highlighted">40%br.</span> | Nase =
+                                Rute: 25 / 38+2 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted">40%br.</span> | Nase =
                                 s <br/>
-                                weizen  <span class="separator"> | </span>
+                                weizen <span class="separator"> | </span>
                                 Gr: 54 <br/>
                                 Schere / Schere <br/>
                             </div>
@@ -981,10 +1005,11 @@
                                         Ohren: steh/kipp
                                     </li>
                                     <li>
-                                        Rute: 25 / 38+2  <span class="separator"> | </span> Säbel
+                                        Rute: 25 / 38+2 <span class="separator"> | </span> Säbel
                                     </li>
                                     <li>
-                                        Pigm.: Fangr.: s / s  <span class="separator"> | </span> Z-Fl. = <span class="pigmente highlighted">40%br.</span>
+                                        Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                            class="pigmente highlighted">40%br.</span>
                                         <span class="separator"> | </span> Nase = s
                                     </li>
                                     <li>
@@ -1013,9 +1038,10 @@
                                 <span class="name-hund">
                                     Bruno (IGPZ 031308)
                                 </span> <br/>
-                                Rute: 23 / 33-1  <span class="separator"> | </span> Säbel <br/>
-                                Pigm.: Fangr.: s / s  <span class="separator"> | </span> Z-Fl. = 100%  <span class="separator"> | </span> Nase = s <br/>
-                                weizen  <span class="separator"> | </span>
+                                Rute: 23 / 33-1 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = 100% <span
+                                    class="separator"> | </span> Nase = s <br/>
+                                weizen <span class="separator"> | </span>
                                 Gr: 57 <br/>
                                 Schere / Schere <br/>
                                 A2 <br/>
@@ -1039,10 +1065,11 @@
                                         Ohren: steh/kipp
                                     </li>
                                     <li>
-                                        Rute: 23 / 33-1  <span class="separator"> | </span> Säbel
+                                        Rute: 23 / 33-1 <span class="separator"> | </span> Säbel
                                     </li>
                                     <li>
-                                        Pigm.: Fangr.: s / s  <span class="separator"> | </span> Z-Fl. = 100% <span class="separator"> | </span> Nase = s
+                                        Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = 100% <span
+                                            class="separator"> | </span> Nase = s
                                     </li>
                                     <li>
                                         F-Farbe: weizen
@@ -1086,11 +1113,12 @@
                                     BEN v.d.Neisseaus (AAH 05-126)
                                 </span> <br/>
                                 Rute: <span class="rute highlighted"> -- </span> / <span
-                                    class="rute highlighted"> 38,5(-1) </span>  <span class="separator"> | </span> <span
+                                    class="rute highlighted"> 38,5(-1) </span> <span class="separator"> | </span> <span
                                     class="rute highlighted"> --  </span> <br/>
-                                Pigm.: Fangr.: s / s  <span class="separator"> | </span> Z-Fl. = <span class="pigmente highlighted"> s </span> | Nase = s
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted"> s </span> | Nase = s
                                 <br/>
-                                weizen  <span class="separator"> | </span>
+                                weizen <span class="separator"> | </span>
                                 Gr: 62 <br/>
                                 <span class="zaehne highlighted"> -- </span> / Schere <br/>
                                 B1 <br/>
@@ -1116,7 +1144,8 @@
                                         <br/>
                                     </li>
                                     <li>
-                                        Pigm.: Fangr.: s / s  <span class="separator"> | </span> Z-Fl. = <span class="pigmente highlighted"> s </span>  <span class="separator"> | </span>
+                                        Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                            class="pigmente highlighted"> s </span> <span class="separator"> | </span>
                                         Nase = s
                                     </li>
                                     <li>
