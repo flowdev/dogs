@@ -88,7 +88,6 @@
 }
 
 .c1r1 {
-    /*display: none;*/
     bottom: -215px;
 }
 
@@ -316,13 +315,9 @@ table {
     margin-left: 1rem;
 }
 
-.heading-parents{
-    margin-bottom: 1rem;
-}
 
 .heading p {
     padding: 0 1rem;
-    background-color: #ffffff;
 }
 
 .heading-span {

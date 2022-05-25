@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html class="mdl-js" lang="en-US">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <title>Ancestors - Dog Breeding</title>
+    <link rel="shortcut icon" href="/admin/assets/images/logo.png">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link type="text/css" rel="stylesheet" href="/admin/assets/stylesheets/qor_admin_default.css">
+    <link type="text/css" rel="stylesheet" href="/admin/assets/stylesheets/style-parentssiblings-tb.css">
+
+
+    <script src="/admin/assets/javascripts/vendors.js"></script>
+
+</head>
+
+<body class="qor-theme-slideout">
+
+<a class="visuallyhidden" href="#content" tabindex="1">Skip to content</a>
+
+<div class="mdl-layout__container.has-scrolling-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header qor-layout has-drawer is-upgraded"
+         data-upgraded="MaterialLayout">
+        <header class="mdl-layout__header is-casting-shadow has-search">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title">Parents Siblings</span>
+
+                <div class="qor-menu-container">
+                    <ul class="qor-menu">
+                        <li qor-icon-name="Dogs" class="active">
+                            <a href="/admin/dogs">Dogs</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </header>
+
+
+        <main class="mdl-layout__content qor-page" id="content">
+
+            <div class="qor-page__body">
+                <!-- Here the own code starts! -->
+                {{if .Error}}
+                <p> {{.Error}}</p>
+                {{else}}
+                <table class="mdl-data-table qor-table">
+                    <div class="heading">
+                        <div class="parents-place-of-birth">
+                            <p><span class="heading-span">Potential Father</span></p>
+                            <p><span class="heading-span">Ort:</span> B-vom Dienstagabend-Club</p>
+                            <p><span class="heading-span">Wurfdatum:</span> 01.04.2013</p>
+                            <p><span class="heading-span">IK:</span> 5,63%</p>
+                        </div>
+
+                        <div class="parents-place-of-birth">
+                            <p><span class="heading-span">Potential Mother</span></p>
+                            <p><span class="heading-span">Ort:</span> B-vom Dienstagabend-Club</p>
+                            <p><span class="heading-span">Wurfdatum:</span> 01.04.2013</p>
+                            <p><span class="heading-span">IK:</span> 5,63%</p>
+                        </div>
+
+                    </div>
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric ">Siblings</th>
+                        <th class="mdl-data-table__cell--non-numeric ">Siblings</th>
+                        <th class="mdl-data-table__cell--non-numeric ">Siblings</th>
+                        <th class="mdl-data-table__cell--non-numeric ">Siblings</th>
+                        <th class="mdl-data-table__cell--non-numeric ">Parents</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <!-------------------------------=^.^=  Beginning of Row 1 =^.^=--------------------->
+                    <tr>
+                        <!-- Here add an experimental table cell -->
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric potential-mate">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    Bowie (IGPZ 031306)
+                                </span> <br/>
+                                Rute: 23,5 / 37-1 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = 100% <span
+                                    class="separator"> | </span> Nase = s <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 58 <br/>
+                                Schere <span class="zaehne highlighted"> i3 u.l.zurück</span> / Schere <br/>
+                                B1 <br/>
+                                Diverses:
+                                <span class="diverses highlighted"> i3 u.l.zurück </span>
+                            </div>
+                        </td>
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    Bilbo (IGPZ 031303)
+                                </span> <br/>
+                                Rute: 24 / 35 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = 100% <span
+                                    class="separator"> | </span> Nase = s <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 60 <br/>
+                                Schere <span class="zaehne highlighted"> (c-eng l gek)</span> / Schere <br/>
+                                B2 <br/>
+                                Hoden: <span class="hoden highlighted"> Einhoder  </span> <br/>
+                                Diverses:
+                                <span class="diverses highlighted"> Knickrute </span>
+                            </div>
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    Bruder Carlo (IGPZ 031307)
+                                </span> <br/>
+                                Rute: 22 / 32 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted">0%</span> <span class="separator"> | </span> Nase = s
+                                <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 58 <br/>
+                                Schere / Schere <br/>
+                                B2 <br/>
+                                Diverses:
+                                <span class="diverses highlighted"> Knickrute  <span class="separator"> | </span> Nase 95% schwarz </span>
+                            </div>
+                        </td>
+
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric keine-puppies">
+                            <div class="qor-table__content ">
+                                <span class="name-hund ">
+                                    Puppy 10
+                                </span>
+                            </div>
+                        </td>
+
+                        <td rowspan="3" class="parents">
+                            <div class="qor-table__content fatherProbFather">
+                                   <span class="name-hund">
+                                    Vierbeiner-OLE (IGPZ 031307)
+                                </span> <br/>
+                                Rute: 22 / 32 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted">0%</span> <span class="separator"> | </span> Nase = s
+                                <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 58 <br/>
+                                Schere / Schere <br/>
+                                B2 <br/>
+                                Diverses:
+                                <span class="diverses highlighted"> Knickrute  <span class="separator"> | </span> Nase 95% schwarz </span>
+                                </span>
+                            </div>
+                            <br/>
+                            <div class="qor-table__content motherProbMother">
+                                   <span class="name-hund">
+                                    Doris-MissMarple (IGPZ 031307)
+                                </span> <br/>
+                                Rute: 22 / 32 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted">0%</span> <span class="separator"> | </span> Nase = s
+                                <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 58 <br/>
+                                Schere / Schere <br/>
+                                B2 <br/>
+                                Diverses:
+                                <span class="diverses highlighted"> Knickrute  <span class="separator"> | </span> Nase 95% schwarz </span>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    Bolle (IGPZ 031305)
+                                </span> <br/>
+                                Rute: 26 / 39+2 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / <span class="pigmente highlighted"> -- </span> <span
+                                    class="separator"> | </span> Z-Fl. = 100% <span class="separator"> | </span> Nase
+                                = <span class="pigmente highlighted"> b </span> <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 60,5 <br/>
+                                Schere / Schere <br/>
+                                A2 <br/>
+                                Hoden: <span class="hoden highlighted"> Einhoder</span>
+                            </div>
+                        </td>
+                        <!-- End of the experimental table cell -->
+
+                        <!-- Here add an experimental table cell -->
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    Bero (IGPZ 031302)
+                                </span> <br/>
+                                Rute: 23,5 / 36-2 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = 60% <span
+                                    class="separator"> | </span> Nase = s <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 60,5 <br/>
+                                Schere <span class="zaehne highlighted"> (c-eng l gek)</span> / Schere <br/>
+                                B2 <br/>
+                                Hoden: <span class="hoden highlighted"> Einhoder lt.TB P1 o.r. doppelt </span> <br/>
+                                Diverses:
+                                <span class="diverses highlighted"> Knickrute </span>
+                            </div>
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    Babu (IGPZ 031301)
+                                </span> <br/>
+                                Rute: 25 / 41+1 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = 90% <span
+                                    class="separator"> | </span> Nase = s <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 60 <br/>
+                                Schere / Schere <br/>
+                                A <br/>
+                                Hoden: <span class="hoden highlighted"> Einhoder(lt.TB 2 Hoden)</span> <br/>
+                                Diverses:
+                                <span class="diverses highlighted"> Knickrute </span>
+                            </div>
+                        </td>
+                        <!-- End of the experimental table cell -->
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric keine-puppies">
+                            <div class="qor-table__content">
+                                <span class="name-hund ">
+                                    Puppy 11
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr rowspan="1" class="mdl-data-table__cell--non-numeric">
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                               <span class="name-hund">
+                                    Bjalla (IGPZ 031304)
+                                </span> <br/>
+                                Rute: 25 / 38+2 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted">40%br.</span> | Nase =
+                                s <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 54 <br/>
+                                Schere / Schere <br/>
+                            </div>
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                               <span class="name-hund">
+                                    Bruno (IGPZ 031308)
+                                </span> <br/>
+                                Rute: 23 / 33-1 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = 100% <span
+                                    class="separator"> | </span> Nase = s <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 57 <br/>
+                                Schere / Schere <br/>
+                                A2 <br/>
+                                Hoden: <span class="hoden highlighted">  Einhoder  <span class="separator"> | </span> TB+Körung 2 Hoden </span>
+                            </div>
+                        </td>
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    Butler (IGPZ 031309)
+                                </span> <br/>
+                                Rute: 25 / 37+2 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted">10%br</span> <span class="separator"> | </span> Nase =
+                                s <br/>
+                                weizen |
+                                Gr: 60 <br/>
+                                Schere <span class="zaehne highlighted"> (c-eng r gek)</span> / Schere <br/>
+                                A2 <br/>
+                                Hoden: <span class="hoden highlighted">  Einhoder  <span class="separator"> | </span> TB 2 Hoden  </span>
+                            </div>
+
+                        </td>
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric keine-puppies">
+                            <div class="qor-table__content">
+                                <span class="name-hund ">
+                                    Puppy 12
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <!-- Here add an experimental table cell -->
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric potential-mate">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    E-Frida (IGPZ 031304)
+                                </span> <br/>
+                                Rute: 25 / 38+2 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted">40%br.</span> | Nase =
+                                s <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 54 <br/>
+                                Schere / Schere <br/>
+                            </div>
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    Egon (IGPZ 031308)
+                                </span> <br/>
+                                Rute: 23 / 33-1 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = 100% <span
+                                    class="separator"> | </span> Nase = s <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 57 <br/>
+                                Schere / Schere <br/>
+                                A2 <br/>
+                                Hoden: <span class="hoden highlighted">  Einhoder  <span class="separator"> | </span> TB+Körung 2 Hoden </span>
+                            </div>
+
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    EJ (IGPZ 031308)
+                                </span> <br/>
+                                Rute: 23 / 33-1 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = 100% <span
+                                    class="separator"> | </span> Nase = s <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 57 <br/>
+                                Schere / Schere <br/>
+                                A2 <br/>
+                                Hoden: <span class="hoden highlighted">  Einhoder  <span class="separator"> | </span> TB+Körung 2 Hoden </span>
+                            </div>
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    Eylo (IGPZ 031308)
+                                </span> <br/>
+                                Rute: 23 / 33-1 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = 100% <span
+                                    class="separator"> | </span> Nase = s <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 57 <br/>
+                                Schere / Schere <br/>
+                                A2 <br/>
+                                Hoden: <span class="hoden highlighted">  Einhoder  <span class="separator"> | </span> TB+Körung 2 Hoden </span>
+                            </div>
+                        </td>
+                        <td rowspan="3" class="parents">
+                            <div class="qor-table__content fatherProbFather">
+                                   <span class="name-hund">
+                                    Akino (IGPZ 031307)
+                                </span> <br/>
+                                Rute: 22 / 32 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted">0%</span> <span class="separator"> | </span> Nase = s
+                                <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 58 <br/>
+                                Schere / Schere <br/>
+                                B2 <br/>
+                                Diverses:
+                                <span class="diverses highlighted"> Knickrute  <span class="separator"> | </span> Nase 95% schwarz </span>
+                                </span>
+                            </div>
+
+                            <br/>
+                            <div class="qor-table__content motherProbMother">
+                                   <span class="name-hund">
+                                    Dipl.Ing. Würfel (IGPZ 031307)
+                                </span> <br/>
+                                Rute: 22 / 32 <span class="separator"> | </span> Säbel <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted">0%</span> <span class="separator"> | </span> Nase = s
+                                <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 58 <br/>
+                                Schere / Schere <br/>
+                                B2 <br/>
+                                Diverses:
+                                <span class="diverses highlighted"> Knickrute  <span class="separator"> | </span> Nase 95% schwarz </span>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    E-Bogart (AAH 05-126)
+                                </span> <br/>
+                                Rute: <span class="rute highlighted"> -- </span> / <span
+                                    class="rute highlighted"> 38,5(-1) </span> <span class="separator"> | </span> <span
+                                    class="rute highlighted"> --  </span> <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted"> s </span> | Nase = s
+                                <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 62 <br/>
+                                <span class="zaehne highlighted"> -- </span> / Schere <br/>
+                                B1 <br/>
+                            </div>
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    Elfi (AAH 05-126)
+                                </span> <br/>
+                                Rute: <span class="rute highlighted"> -- </span> / <span
+                                    class="rute highlighted"> 38,5(-1) </span> <span class="separator"> | </span> <span
+                                    class="rute highlighted"> --  </span> <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted"> s </span> | Nase = s
+                                <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 62 <br/>
+                                <span class="zaehne highlighted"> -- </span> / Schere <br/>
+                                B1 <br/>
+                            </div>
+                        </td>
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric keine-puppies">
+                            <div class="qor-table__content ">
+                                <span class="name-hund ">
+                                    Puppy 07
+                                </span>
+                            </div>
+                        </td>
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric keine-puppies">
+                            <div class="qor-table__content">
+                                <span class="name-hund ">
+                                    Puppy 08
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric">
+                            <div class="qor-table__content">
+                                <span class="name-hund">
+                                    Eloh (AAH 05-126)
+                                </span> <br/>
+                                Rute: <span class="rute highlighted"> -- </span> / <span
+                                    class="rute highlighted"> 38,5(-1) </span> <span class="separator"> | </span> <span
+                                    class="rute highlighted"> --  </span> <br/>
+                                Pigm.: Fangr.: s / s <span class="separator"> | </span> Z-Fl. = <span
+                                    class="pigmente highlighted"> s </span> | Nase = s
+                                <br/>
+                                weizen <span class="separator"> | </span>
+                                Gr: 62 <br/>
+                                <span class="zaehne highlighted"> -- </span> / Schere <br/>
+                                B1 <br/>
+                            </div>
+                        </td>
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric keine-puppies">
+                            <div class="qor-table__content ">
+                                <span class="name-hund ">
+                                    Puppy 10
+                                </span>
+                            </div>
+                        </td>
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric keine-puppies">
+                            <div class="qor-table__content">
+                                <span class="name-hund ">
+                                    Puppy 11
+                                </span>
+                            </div>
+                        </td>
+
+                        <td rowspan="1" class="mdl-data-table__cell--non-numeric keine-puppies">
+                            <div class="qor-table__content">
+                                <span class="name-hund ">
+                                    Puppy 12
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                {{end}}
+                <!-- Here the own code ends! -->
+
+            </div>
+            <div class="color-category">
+                <span class="wolfskrallen span-color">Wolfskrallen</span>
+                <span class="ohren span-color">OHREN</span>
+                <span class="rute span-color">RUTE</span>
+                <span class="pigmente span-color">PIGMENTE</span>
+                <span class="fellfarbe span-color">FELLFARBE</span>
+                <span class="augen span-color">AUGEN</span>
+                <span class="lefzen span-color">LEFZEN</span>
+                <span class="nabelbruch span-color">NABELBRUCH</span>
+
+                <span class="zaehne span-color">ZÄHNE</span>
+                <span class="hd span-color">HD</span>
+                <span class="herz span-color">HERZ</span>
+                <span class="edta span-color">EDTA</span>
+                <span class="hoden span-color">HODEN</span>
+                <span class="dekt span-color">DEKT</span>
+                <span class="diverses span-color">DIVERSES</span>
+            </div>
+
+        </main>
+        <div class="mdl-layout__obfuscator"></div>
+    </div>
+</div>
+
+
+<script src="/admin/assets/javascripts/qor_admin_default.js"></script>
+
+
+<div id="dialog" style="display: none;">
+    <div class="mdl-dialog-bg"></div>
+    <div class="mdl-dialog">
+        <div class="mdl-dialog__content">
+            <p><i class="material-icons">warning</i></p>
+            <p class="mdl-dialog__message dialog-message">
+            </p>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="button" class="mdl-button mdl-button--raised mdl-button--colored dialog-ok dialog-button"
+                    data-type="confirm">
+                ok
+            </button>
+            <button type="button" class="mdl-button dialog-cancel dialog-button" data-type="">
+                cancel
+            </button>
+        </div>
+    </div>
+</div>
+<div class="qor-bottomsheets">
+    <div class="qor-bottomsheets__header">
+        <h3 class="qor-bottomsheets__title"></h3>
+        <button type="button"
+                class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-bottomsheets__close"
+                data-dismiss="bottomsheets">
+            <span class="material-icons">close</span>
+        </button>
+    </div>
+    <div class="qor-bottomsheets__body"></div>
+</div>
+<div class="qor-slideout">
+    <div class="qor-slideout__header">
+        <div class="qor-slideout__header-link">
+            <a href="#" target="_blank"
+               class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__opennew"><i
+                    class="material-icons">open_in_new</i></a>
+            <a href="#" class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__fullscreen">
+                <i class="material-icons">fullscreen</i>
+                <i class="material-icons" style="display: none;">fullscreen_exit</i>
+            </a>
+        </div>
+        <button type="button" class="mdl-button mdl-button--icon mdl-js-button mdl-js-repple-effect qor-slideout__close"
+                data-dismiss="slideout">
+            <span class="material-icons">close</span>
+        </button>
+        <h3 class="qor-slideout__title"></h3>
+    </div>
+    <div class="qor-slideout__body"></div>
+</div>
+</body>
+</html>
