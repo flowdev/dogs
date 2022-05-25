@@ -37,17 +37,17 @@ func main() {
 	log.Printf("INFO: Dogs app is starting, work dir=%s", workDir)
 
 	assetFS := bindatafs.AssetFS
-	tmplContentAncestors, err := assetFS.Asset("ancestors/index.html.tmpl")
+	tmplContentAncestors, err := assetFS.Asset("ancestors/index.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	tmplContentBreedingbook, err := assetFS.Asset("breedingbook/index.html.tmpl")
+	tmplContentBreedingbook, err := assetFS.Asset("breedingbook/index.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	tmplContentParentssiblings, err := assetFS.Asset("parentssiblings/index.html.tmpl")
+	tmplContentParentssiblings, err := assetFS.Asset("parentssiblings/index.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
