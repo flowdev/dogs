@@ -47,8 +47,14 @@ func main() {
 		log.Fatal(err)
 	}
 
+	tmplContentParentssiblings, err := assetFS.Asset("parentssiblings/index.html.tmpl")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	tmplAncestors := template.Must(template.New("ancestors").Parse(string(tmplContentAncestors)))
 	tmplBreedingbook := template.Must(template.New("breedingbook").Parse(string(tmplContentBreedingbook)))
+	tmplParentssiblings := template.Must(template.New("parentssiblings").Parse(string(tmplContentParentssiblings)))
 
 	libVersion, _, sourceID := sqlite3.Version()
 	log.Printf("INFO: sqlite3 libVersion=%s, sourceID:%s", libVersion, sourceID)
@@ -75,6 +81,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ancestors/", handleAncestors(tmplAncestors, db))
 	mux.HandleFunc("/breedingbook/", handleAncestors(tmplBreedingbook, db))
+	mux.HandleFunc("/parentssiblings/", handleAncestors(tmplParentssiblings, db))
 	adm.MountTo("/admin", mux)
 
 	fmt.Println("Press 'control' + 'c' to stop the server")
