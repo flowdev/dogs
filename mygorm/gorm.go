@@ -430,8 +430,18 @@ func findAncestors(tx *gorm.DB, dog *Dog, ancestors []*Dog, curGeneration, maxGe
 			dog.Name, dog.FatherID, curGeneration+1, err)
 		log.Printf("ERROR: %v", msg)
 		return nil, errors.New(msg)
+	} else {
+		log.Printf("Debug father %d, %s (%s)", len(ancestors), f.Name, f.Gender)
 	}
 	ancestors = append(ancestors, f)
+
+	if curGeneration+1 < maxGeneration {
+		var err error
+		ancestors, err = findAncestors(tx, f, ancestors, curGeneration+1, maxGeneration)
+		if err != nil {
+			return nil, err
+		}
+	}
 
 	m := &Dog{}
 	if dog == nil || dog.MotherID == 0 {
@@ -443,23 +453,17 @@ func findAncestors(tx *gorm.DB, dog *Dog, ancestors []*Dog, curGeneration, maxGe
 			dog.Name, dog.MotherID, curGeneration+1, err)
 		log.Printf("ERROR: %v", msg)
 		return nil, errors.New(msg)
+	} else {
+		log.Printf("Debug mother %d, %s (%s)", len(ancestors), m.Name, m.Gender)
 	}
 	ancestors = append(ancestors, m)
-
-	if curGeneration+1 < maxGeneration {
-		var err error
-		ancestors, err = findAncestors(tx, m, ancestors, curGeneration+1, maxGeneration)
-		if err != nil {
-			return nil, err
-		}
-	}
 
 	curGeneration++
 	if curGeneration >= maxGeneration {
 		return ancestors, nil
 	}
 
-	return findAncestors(tx, f, ancestors, curGeneration, maxGeneration)
+	return findAncestors(tx, m, ancestors, curGeneration, maxGeneration)
 }
 
 // CombineHD combines the two given HD values in a predictable way.

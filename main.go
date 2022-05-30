@@ -37,17 +37,17 @@ func main() {
 	log.Printf("INFO: Dogs app is starting, work dir=%s", workDir)
 
 	assetFS := bindatafs.AssetFS
-	tmplContentAncestors, err := assetFS.Asset("ancestors/index.tmpl")
+	tmplContentAncestors, err := assetFS.Asset("ancestors/index.html.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	tmplContentBreedingbook, err := assetFS.Asset("breedingbook/index.tmpl")
+	tmplContentBreedingbook, err := assetFS.Asset("breedingbook/index.html.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	tmplContentParentssiblings, err := assetFS.Asset("parentssiblings/index.tmpl")
+	tmplContentParentssiblings, err := assetFS.Asset("parentssiblings/index.html.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -141,8 +141,8 @@ func generateAncestorTable(id, id2 int, tx *gorm.DB) tmplAncestorsDate {
 		ancestors, err = mygorm.FindAncestorsForID(tx, id, generationsForTree)
 	} else {
 		d := &mygorm.Dog{
-			MotherID: uint(id),
 			FatherID: uint(id2),
+			MotherID: uint(id),
 			Name:     "Puppy",
 		}
 		alc, err2 := mygorm.ComputeALC(tx, d)
