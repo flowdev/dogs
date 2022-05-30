@@ -64,18 +64,18 @@ func (s *Star) Scan(src interface{}) error {
 	return nil
 }
 
-// FemaleDog is a view of female dogs (rows in the dogs table with gender set
-// to 'F').
-// A FemaleDog belongs to a Dog (it's child) as Mother.
-type FemaleDog struct {
-	gorm.Model
-	Name string
-}
-
 // MaleDog is a view of male dogs (rows in the dogs table with gender set to
 // 'M').
 // A MaleDog belongs to a Dog (it's child) as Father.
 type MaleDog struct {
+	gorm.Model
+	Name string
+}
+
+// FemaleDog is a view of female dogs (rows in the dogs table with gender set
+// to 'F').
+// A FemaleDog belongs to a Dog (it's child) as Mother.
+type FemaleDog struct {
 	gorm.Model
 	Name string
 }
@@ -93,10 +93,10 @@ type Mate struct {
 	ALC       Percentage
 	HD        string `gorm:"size:8"`
 	MateCount int
-	MotherID  uint
-	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
 	FatherID  uint
 	Father    MaleDog `gorm:"foreignkey:FatherID;association_autocreate:false;association_autoupdate:false"`
+	MotherID  uint
+	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
 	ChildALC  Percentage
 	Remark    string
 }
@@ -278,30 +278,30 @@ type Litter struct {
 	Name      string
 	ALC       Percentage
 	HD        string `gorm:"size:8"`
-	MotherID  uint
-	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
 	FatherID  uint
 	Father    MaleDog `gorm:"foreignkey:FatherID;association_autocreate:false;association_autoupdate:false"`
+	MotherID  uint
+	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
 	Remark    string
 }
 
 // BeforeSave is initializing the new litters HD value as soon as both parents
 // are known.
 func (p *Litter) BeforeSave(tx *gorm.DB) error {
-	if (p.HD == "" || p.HD == UnknownHD) && p.MotherID != 0 && p.FatherID != 0 {
-		m := Dog{}
-		if err := tx.First(&m, p.MotherID).Error; err != nil {
-			msg := fmt.Sprintf("Unable to read mother with ID '%d'.", p.MotherID)
-			log.Printf("ERROR: %v", msg)
-			return errors.New(msg)
-		}
+	if (p.HD == "" || p.HD == UnknownHD) && p.FatherID != 0 && p.MotherID != 0 {
 		f := Dog{}
 		if err := tx.First(&f, p.FatherID).Error; err != nil {
 			msg := fmt.Sprintf("Unable to read father with ID '%d'.", p.FatherID)
 			log.Printf("ERROR: %v", msg)
 			return errors.New(msg)
 		}
-		p.HD = CombineHD(m.HD, f.HD)
+		m := Dog{}
+		if err := tx.First(&m, p.MotherID).Error; err != nil {
+			msg := fmt.Sprintf("Unable to read mother with ID '%d'.", p.MotherID)
+			log.Printf("ERROR: %v", msg)
+			return errors.New(msg)
+		}
+		p.HD = CombineHD(f.HD, m.HD)
 	}
 	return nil
 }
@@ -317,28 +317,29 @@ type Dog struct {
 	ALC       Percentage
 	HD        string `gorm:"size:8"`
 	MateCount int
-	MotherID  uint
-	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
 	FatherID  uint
 	Father    MaleDog `gorm:"foreignkey:FatherID;association_autocreate:false;association_autoupdate:false"`
+	MotherID  uint
+	Mother    FemaleDog `gorm:"foreignkey:MotherID;association_autocreate:false;association_autoupdate:false"`
 	Remark    string
 }
 
 // BeforeSave is initializing the new dogs HD value as soon as both parents are
 // known.
 func (d *Dog) BeforeSave(tx *gorm.DB) error {
-	if (d.HD == "" || d.HD == UnknownHD) && d.MotherID != 0 && d.FatherID != 0 {
-		m := Dog{}
-		if err := tx.First(&m, d.MotherID).Error; err != nil {
-			log.Printf("ERROR: Unable to read mother with ID '%d'.", d.MotherID)
-			return err
-		}
+	if (d.HD == "" || d.HD == UnknownHD) && d.FatherID != 0 && d.MotherID != 0 {
 		f := Dog{}
 		if err := tx.First(&f, d.FatherID).Error; err != nil {
 			log.Printf("ERROR: Unable to read father with ID '%d'.", d.FatherID)
 			return err
 		}
-		d.HD = CombineHD(m.HD, f.HD)
+
+		m := Dog{}
+		if err := tx.First(&m, d.MotherID).Error; err != nil {
+			log.Printf("ERROR: Unable to read mother with ID '%d'.", d.MotherID)
+			return err
+		}
+		d.HD = CombineHD(f.HD, m.HD)
 	}
 	return nil
 }
@@ -419,27 +420,6 @@ func FindAncestorsForDog(tx *gorm.DB, dog *Dog, generations int) ([]*Dog, error)
 
 func findAncestors(tx *gorm.DB, dog *Dog, ancestors []*Dog, curGeneration, maxGeneration int,
 ) ([]*Dog, error) {
-	m := &Dog{}
-	if dog == nil || dog.MotherID == 0 {
-		m = nil
-	} else if err := tx.First(m, dog.MotherID).Error; gorm.IsRecordNotFoundError(err) {
-		m = nil
-	} else if err != nil {
-		msg := fmt.Sprintf("Unable to read mother of %s with ID '%d' in generation %d: %v",
-			dog.Name, dog.MotherID, curGeneration+1, err)
-		log.Printf("ERROR: %v", msg)
-		return nil, errors.New(msg)
-	}
-	ancestors = append(ancestors, m)
-
-	if curGeneration+1 < maxGeneration {
-		var err error
-		ancestors, err = findAncestors(tx, m, ancestors, curGeneration+1, maxGeneration)
-		if err != nil {
-			return nil, err
-		}
-	}
-
 	f := &Dog{}
 	if dog == nil || dog.FatherID == 0 {
 		f = nil
@@ -450,15 +430,40 @@ func findAncestors(tx *gorm.DB, dog *Dog, ancestors []*Dog, curGeneration, maxGe
 			dog.Name, dog.FatherID, curGeneration+1, err)
 		log.Printf("ERROR: %v", msg)
 		return nil, errors.New(msg)
+	} else {
+		log.Printf("Debug father %d, %s (%s)", len(ancestors), f.Name, f.Gender)
 	}
 	ancestors = append(ancestors, f)
+
+	if curGeneration+1 < maxGeneration {
+		var err error
+		ancestors, err = findAncestors(tx, f, ancestors, curGeneration+1, maxGeneration)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	m := &Dog{}
+	if dog == nil || dog.MotherID == 0 {
+		m = nil
+	} else if err := tx.First(m, dog.MotherID).Error; gorm.IsRecordNotFoundError(err) {
+		m = nil
+	} else if err != nil {
+		msg := fmt.Sprintf("Unable to read mother of %s with ID '%d' in generation %d: %v",
+			dog.Name, dog.MotherID, curGeneration+1, err)
+		log.Printf("ERROR: %v", msg)
+		return nil, errors.New(msg)
+	} else {
+		log.Printf("Debug mother %d, %s (%s)", len(ancestors), m.Name, m.Gender)
+	}
+	ancestors = append(ancestors, m)
 
 	curGeneration++
 	if curGeneration >= maxGeneration {
 		return ancestors, nil
 	}
 
-	return findAncestors(tx, f, ancestors, curGeneration, maxGeneration)
+	return findAncestors(tx, m, ancestors, curGeneration, maxGeneration)
 }
 
 // CombineHD combines the two given HD values in a predictable way.

@@ -141,8 +141,8 @@ func generateAncestorTable(id, id2 int, tx *gorm.DB) tmplAncestorsDate {
 		ancestors, err = mygorm.FindAncestorsForID(tx, id, generationsForTree)
 	} else {
 		d := &mygorm.Dog{
-			MotherID: uint(id),
 			FatherID: uint(id2),
+			MotherID: uint(id),
 			Name:     "Puppy",
 		}
 		alc, err2 := mygorm.ComputeALC(tx, d)
