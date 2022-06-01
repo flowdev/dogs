@@ -418,8 +418,7 @@ func FindAncestorsForDog(tx *gorm.DB, dog *Dog, generations int) ([]*Dog, error)
 	return ancestors, err
 }
 
-func findAncestors(tx *gorm.DB, dog *Dog, ancestors []*Dog, curGeneration, maxGeneration int,
-) ([]*Dog, error) {
+func findAncestors(tx *gorm.DB, dog *Dog, ancestors []*Dog, curGeneration, maxGeneration int) ([]*Dog, error) {
 	f := &Dog{}
 	if dog == nil || dog.FatherID == 0 {
 		f = nil
