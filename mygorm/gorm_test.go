@@ -28,8 +28,8 @@ func TestDogsAndParents(t *testing.T) {
 	// create dogs
 	p1 := &Dog{Name: "Lilly"}
 	p2 := &Dog{Name: "Hushy"}
-	m := &Dog{Name: "Blacky"}
-	f := &Dog{Name: "Rex"}
+	m := &Dog{Name: "Blacky", HD: "A1", Gender: "F"}
+	f := &Dog{Name: "Rex", HD: "A2", Gender: "M"}
 
 	// write to DB
 	db.Create(m)
