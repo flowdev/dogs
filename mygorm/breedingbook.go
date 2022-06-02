@@ -25,6 +25,19 @@ var (
 	TypeSelectMany = TypeEnum{"select many"}
 )
 
+var AllTypeEnums = []string{
+	TypeUnknown.slug,
+	TypeString.slug,
+	TypeText.slug,
+	TypeCheckbox.slug,
+	TypeInt.slug,
+	TypeFloat.slug,
+	TypeDate.slug,
+	TypeDateTime.slug,
+	TypeSelectOne.slug,
+	TypeSelectMany.slug,
+}
+
 func NewTypeEnum(s string) TypeEnum {
 	switch s {
 	case TypeString.slug:
@@ -51,12 +64,13 @@ func NewTypeEnum(s string) TypeEnum {
 
 type MetaType struct {
 	gorm.Model
-	Name  string
+	Name  string `gorm:"unique"`
 	Group string
-	Type  TypeEnum
+	Type  TypeEnum `gorm:"unique"`
 }
 
 type MetaGroup struct {
 	gorm.Model
-	Name string
+	Name  string `gorm:"unique"`
+	Color string `gorm:"unique"`
 }
