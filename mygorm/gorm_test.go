@@ -57,15 +57,15 @@ func TestDogsAndParents(t *testing.T) {
 	// read from DB
 	p1New := &Dog{}
 	db.First(p1New, p1.ID)
-	if db.Model(p1New).Association("Mother").Error != nil {
-		t.Fatalf("Mother association error: %v", db.Model(p1New).Association("Mother").Error)
+	if err := db.Model(p1New).Association("Mother").Error; err != nil {
+		t.Fatalf("Mother association error: %v", err)
 	}
 	db.Model(p1New).Association("Mother").Find(&(p1New.Mother))
 	if p1New.Mother.ID != m.ID {
 		t.Errorf("p1New should have got '%s' as mother but instead it is '%s': %s", m.Name, p1New.Mother.Name, spew.Sdump(p1New))
 	}
-	if db.Model(p1New).Association("Father").Error != nil {
-		t.Fatalf("Father association error: %v", db.Model(p1New).Association("Father").Error)
+	if err := db.Model(p1New).Association("Father").Error; err != nil {
+		t.Fatalf("Father association error: %v", err)
 	}
 	db.Model(p1New).Association("Father").Find(&(p1New.Father))
 	if p1New.Father.ID != f.ID {
@@ -74,15 +74,15 @@ func TestDogsAndParents(t *testing.T) {
 
 	p2New := &Dog{}
 	db.First(p2New, p2.ID)
-	if db.Model(p2New).Association("Mother").Error != nil {
-		t.Fatalf("Mother association error: %v", db.Model(p2New).Association("Mother").Error)
+	if err := db.Model(p2New).Association("Mother").Error; err != nil {
+		t.Fatalf("Mother association error: %v", err)
 	}
 	db.Model(p2New).Association("Mother").Find(&(p2New.Mother))
 	if p2New.Mother.ID != m.ID {
 		t.Errorf("p2New should have got '%s' as mother but instead it is '%s': %s", m.Name, p2New.Mother.Name, spew.Sdump(p2New))
 	}
-	if db.Model(p2New).Association("Father").Error != nil {
-		t.Fatalf("Father association error: %v", db.Model(p2New).Association("Father").Error)
+	if err := db.Model(p2New).Association("Father").Error; err != nil {
+		t.Fatalf("Father association error: %v", err)
 	}
 	db.Model(p2New).Association("Father").Find(&(p2New.Father))
 	if p2New.Father.ID != f.ID {
@@ -110,5 +110,45 @@ func TestColorAndFeatureGroups(t *testing.T) {
 	}
 
 	// create feature groups
+	fg1 := &FeatureGroup{Name: "pigmente", ColorID: c1.ID}
+	fg2 := &FeatureGroup{Name: "Teeth", ColorID: c2.ID}
+
+	// write to DB
+	if err := db.Create(fg1).Error; err != nil {
+		t.Fatalf("Unable to create feature group 1, %v", err)
+	}
+
+	if err := db.Create(fg2).Error; err != nil {
+		t.Fatalf("Unable to create feature group 2, %v", err)
+	}
+
+	// read from DB
+	fgNew := &FeatureGroup{}
+	if err := db.First(fgNew, fg1.ID).Error; err != nil {
+		t.Fatalf("Unable to read the feature group 1 , %v", err)
+	}
+
+	if err := db.First(fgNew, fg2.ID).Error; err != nil {
+		t.Fatalf("Unable to read the feature group 2 , %v", err)
+	}
+
+	// checking the association
+	if err := db.Model(fgNew).Association("Color").Error; err != nil {
+		t.Fatalf("Color association error: %v", err)
+	}
+
+	// population association
+	db.Model(fgNew).Association("Color").Find(&(fgNew.Color))
+	if fgNew.Color.ID != c1.ID {
+		t.Errorf("p1New should have got '%s' as color but instead it is '%s': %s", c1.Name, fgNew.Color.Name, spew.Sdump(fgNew))
+	}
+
+	if fgNew.Color.ID != c2.ID {
+		t.Errorf("p1New should have got '%s' as color but instead it is '%s': %s", c2.Name, fgNew.Color.Name, spew.Sdump(fgNew))
+	}
+
+	if fgNew.Color.ID != c3.ID {
+		t.Errorf("p1New should have got '%s' as color but instead it is '%s': %s", c3.Name, fgNew.Color.Name, spew.Sdump(fgNew))
+	}
 
 }
