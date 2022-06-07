@@ -482,8 +482,8 @@ func Init(dbFname string) (*gorm.DB, error) {
 	}
 
 	if err = db.AutoMigrate(&Dog{}, &Chick{}, &Litter{}, &Mate1{}, &Mate2{}, &Mate3{},
-		&Mate4{}, &Mate5{}, &Mate6{}, &Mate7{}, &Mate8{}, &Mate9{}, &Mate10{}).Error; err != nil {
-
+		&Mate4{}, &Mate5{}, &Mate6{}, &Mate7{}, &Mate8{}, &Mate9{}, &Mate10{},
+		&Color{}, &FeatureGroup{}, &BaseMetaFeature{}).Error; err != nil {
 		return nil, fmt.Errorf("unable to migrate DB to current state: %v", err)
 	}
 

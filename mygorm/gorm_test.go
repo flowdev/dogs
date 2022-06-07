@@ -32,14 +32,27 @@ func TestDogsAndParents(t *testing.T) {
 	f := &Dog{Name: "Rex", HD: "A2", Gender: "M"}
 
 	// write to DB
-	db.Create(m)
-	db.Create(f)
+	if err := db.Create(m).Error; err != nil {
+		t.Fatalf("Unable to create the Mother, %v", err)
+	}
+
+	if err := db.Create(f).Error; err != nil {
+		t.Fatalf("Unable to create the Father, %v", err)
+	}
+
 	p1.MotherID = m.ID
 	p1.FatherID = f.ID
-	db.Create(p1)
+
+	if err := db.Create(p1).Error; err != nil {
+		t.Fatalf("Unable to create Puppy 1, %v", err)
+	}
+
 	p2.MotherID = m.ID
 	p2.FatherID = f.ID
-	db.Create(p2)
+
+	if err := db.Create(p2).Error; err != nil {
+		t.Fatalf("Unable to create Puppy 2, %v", err)
+	}
 
 	// read from DB
 	p1New := &Dog{}
@@ -75,4 +88,27 @@ func TestDogsAndParents(t *testing.T) {
 	if p2New.Father.ID != f.ID {
 		t.Errorf("p2New should have got '%s' as father but instead it is '%s': %s", f.Name, p2New.Father.Name, spew.Sdump(p2New))
 	}
+}
+
+func TestColorAndFeatureGroups(t *testing.T) {
+	// create colors
+	c1 := &Color{Name: "red"}
+	c2 := &Color{Name: "green"}
+	c3 := &Color{Name: "blue"}
+
+	// write to DB
+	if err := db.Create(c1).Error; err != nil {
+		t.Fatalf("Unable to create Color 1, %v", err)
+	}
+
+	if err := db.Create(c2).Error; err != nil {
+		t.Fatalf("Unable to create Color 2, %v", err)
+	}
+
+	if err := db.Create(c3).Error; err != nil {
+		t.Fatalf("Unable to create Color 3, %v", err)
+	}
+
+	// create feature groups
+
 }

@@ -62,15 +62,25 @@ func NewTypeEnum(s string) TypeEnum {
 	return TypeUnknown
 }
 
-type MetaType struct {
+type BaseMetaFeature struct {
 	gorm.Model
-	Name  string `gorm:"unique"`
-	Group string
-	Type  TypeEnum `gorm:"unique"`
+	Name      string `gorm:"unique"`
+	ShortName string `gorm:"unique"`
+	Type      TypeEnum
+	GroupID   uint
+	Group     FeatureGroup `gorm:"foreignkey:GroupID;association_autocreate:false;association_autoupdate:false"`
 }
 
-type MetaGroup struct {
+type FeatureGroup struct {
 	gorm.Model
-	Name  string `gorm:"unique"`
-	Color string `gorm:"unique"`
+	Name      string `gorm:"unique"`
+	ShortName string `gorm:"unique"`
+	ColorID   uint
+	Color     Color `gorm:"foreignkey:ColorID;association_autocreate:false;association_autoupdate:false"`
+}
+
+type Color struct {
+	gorm.Model
+	Name     string `gorm:"unique"`
+	HexValue string `gorm:"unique"`
 }
