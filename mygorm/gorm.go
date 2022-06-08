@@ -418,8 +418,7 @@ func FindAncestorsForDog(tx *gorm.DB, dog *Dog, generations int) ([]*Dog, error)
 	return ancestors, err
 }
 
-func findAncestors(tx *gorm.DB, dog *Dog, ancestors []*Dog, curGeneration, maxGeneration int,
-) ([]*Dog, error) {
+func findAncestors(tx *gorm.DB, dog *Dog, ancestors []*Dog, curGeneration, maxGeneration int) ([]*Dog, error) {
 	f := &Dog{}
 	if dog == nil || dog.FatherID == 0 {
 		f = nil
@@ -483,8 +482,8 @@ func Init(dbFname string) (*gorm.DB, error) {
 	}
 
 	if err = db.AutoMigrate(&Dog{}, &Chick{}, &Litter{}, &Mate1{}, &Mate2{}, &Mate3{},
-		&Mate4{}, &Mate5{}, &Mate6{}, &Mate7{}, &Mate8{}, &Mate9{}, &Mate10{}).Error; err != nil {
-
+		&Mate4{}, &Mate5{}, &Mate6{}, &Mate7{}, &Mate8{}, &Mate9{}, &Mate10{},
+		&Color{}, &FeatureGroup{}, &BaseMetaFeature{}).Error; err != nil {
 		return nil, fmt.Errorf("unable to migrate DB to current state: %v", err)
 	}
 
