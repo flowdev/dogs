@@ -4,62 +4,46 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type TypeEnum struct {
-	slug string
-}
+type TypeEnum string
 
-func (te TypeEnum) String() string {
-	return te.slug
-}
-
-var (
-	TypeUnknown    = TypeEnum{""}
-	TypeString     = TypeEnum{"string"}
-	TypeText       = TypeEnum{"text"}
-	TypeCheckbox   = TypeEnum{"checkbox"}
-	TypeInt        = TypeEnum{"integer"}
-	TypeFloat      = TypeEnum{"floating point"}
-	TypeDate       = TypeEnum{"date"}
-	TypeDateTime   = TypeEnum{"timestamp"}
-	TypeSelectOne  = TypeEnum{"select one"}
-	TypeSelectMany = TypeEnum{"select many"}
+const (
+	TypeUnknown    = TypeEnum("")
+	TypeString     = TypeEnum("string")         // done
+	TypeText       = TypeEnum("text")           // done
+	TypeCheckbox   = TypeEnum("checkbox")       // done
+	TypeInt        = TypeEnum("integer")        // int64
+	TypeFloat      = TypeEnum("floating point") //float64
+	TypeDate       = TypeEnum("date")           //time.Time
+	TypeDateTime   = TypeEnum("timestamp")      //time.Time
+	TypeSelectOne  = TypeEnum("select one")     // string done
+	TypeSelectMany = TypeEnum("select many")    // []string
 )
 
-var AllTypeEnums = []string{
-	TypeUnknown.slug,
-	TypeString.slug,
-	TypeText.slug,
-	TypeCheckbox.slug,
-	TypeInt.slug,
-	TypeFloat.slug,
-	TypeDate.slug,
-	TypeDateTime.slug,
-	TypeSelectOne.slug,
-	TypeSelectMany.slug,
+var AllTypeEnums = []TypeEnum{
+	TypeUnknown,
+	TypeString,
+	TypeText,
+	TypeCheckbox,
+	TypeInt,
+	TypeFloat,
+	TypeDate,
+	TypeDateTime,
+	TypeSelectOne,
+	TypeSelectMany,
 }
 
-func NewTypeEnum(s string) TypeEnum {
-	switch s {
-	case TypeString.slug:
-		return TypeString
-	case TypeText.slug:
-		return TypeText
-	case TypeCheckbox.slug:
-		return TypeCheckbox
-	case TypeInt.slug:
-		return TypeInt
-	case TypeFloat.slug:
-		return TypeFloat
-	case TypeDate.slug:
-		return TypeDate
-	case TypeDateTime.slug:
-		return TypeDateTime
-	case TypeSelectOne.slug:
-		return TypeSelectOne
-	case TypeSelectMany.slug:
-		return TypeSelectMany
-	}
-	return TypeUnknown
+type QualityEnum string
+
+const (
+	QualityNeutral = QualityEnum("neutral")
+	QualityBad     = QualityEnum("bad")
+	QualityPerfect = QualityEnum("perfect")
+)
+
+var AllQualityEnums = []QualityEnum{
+	QualityNeutral,
+	QualityBad,
+	QualityPerfect,
 }
 
 type BaseMetaFeature struct {
@@ -83,4 +67,67 @@ type Color struct {
 	gorm.Model
 	Name     string `gorm:"unique; not null"`
 	HexValue string `gorm:"unique; not null"`
+}
+
+type SelectOneMetaFeature struct {
+	BaseID  uint        `gorm:"not null"`
+	Value   string      `gorm:"not null"`
+	Quality QualityEnum `gorm:"not null"`
+}
+
+type SelectOneFeature struct {
+	FeatureID uint   `gorm:"not null"`
+	DogID     uint   `gorm:"not null"`
+	Value     string `gorm:"not null"`
+}
+
+type CheckBoxMetaFeature struct {
+	BaseID  uint        `gorm:"not null"`
+	Value   bool        `gorm:"not null"`
+	Quality QualityEnum `gorm:"not null"`
+}
+
+type CheckBoxFeature struct {
+	FeatureID uint `gorm:"not null"`
+	DogID     uint `gorm:"not null"`
+	Value     bool `gorm:"not null"`
+}
+
+type StringMetaFeature struct {
+	BaseID    uint `gorm:"not null"`
+	MinLength uint `gorm:"not null"`
+	MaxLength uint `gorm:"not null"`
+}
+
+type StringFeature struct {
+	FeatureID uint        `gorm:"not null"`
+	DogID     uint        `gorm:"not null"`
+	Value     string      `gorm:"not null"`
+	Quality   QualityEnum `gorm:"not null"`
+}
+
+type TextMetaFeature struct {
+	BaseID    uint `gorm:"not null"`
+	MinLength uint `gorm:"not null"`
+	MaxLength uint `gorm:"not null"`
+}
+
+type TextFeature struct {
+	FeatureID uint        `gorm:"not null"`
+	DogID     uint        `gorm:"not null"`
+	Value     string      `gorm:"not null"`
+	Quality   QualityEnum `gorm:"not null"`
+}
+
+type IntegerMetaFeature struct {
+	BaseID      uint        `gorm:"not null"`
+	Value       int64       `gorm:"not null"`
+	SmallerThan bool        `gorm:"not null"`
+	Quality     QualityEnum `gorm:"not null"`
+}
+
+type IntegerFeature struct {
+	FeatureID uint  `gorm:"not null"`
+	DogID     uint  `gorm:"not null"`
+	Value     int64 `gorm:"not null"`
 }

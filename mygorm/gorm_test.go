@@ -189,11 +189,11 @@ func TestBaseMetaFeatureAndFeatureGroups(t *testing.T) {
 	}
 
 	// create BaseMetaFeature
-	f1 := &BaseMetaFeature{Name: "pigmente2", GroupID: fg3.ID, ShortName: "pigments2"}
-	f2 := &BaseMetaFeature{Name: "pigmente3", GroupID: fg3.ID, ShortName: "pigments3"}
-	f3 := &BaseMetaFeature{Name: "pigmente4", GroupID: fg3.ID, ShortName: "pigments4"}
-	f4 := &BaseMetaFeature{Name: "teeth", GroupID: fg4.ID, ShortName: "teeth"}
-	f5 := &BaseMetaFeature{Name: "teeth2", GroupID: fg4.ID, ShortName: "teeth2"}
+	f1 := &BaseMetaFeature{Name: "pigmente2", GroupID: fg3.ID, ShortName: "pigments2", Type: TypeText}
+	f2 := &BaseMetaFeature{Name: "pigmente3", GroupID: fg3.ID, ShortName: "pigments3", Type: TypeString}
+	f3 := &BaseMetaFeature{Name: "pigmente4", GroupID: fg3.ID, ShortName: "pigments4", Type: TypeCheckbox}
+	f4 := &BaseMetaFeature{Name: "teeth", GroupID: fg4.ID, ShortName: "teeth", Type: TypeDate}
+	f5 := &BaseMetaFeature{Name: "teeth2", GroupID: fg4.ID, ShortName: "teeth2", Type: TypeFloat}
 
 	// f1 ------------------------
 
@@ -205,7 +205,11 @@ func TestBaseMetaFeatureAndFeatureGroups(t *testing.T) {
 	// read from DB
 	f1New := &BaseMetaFeature{}
 	if err := db.First(f1New, f1.ID).Error; err != nil {
-		t.Fatalf("Unable to read the feature 1 , %v", err)
+		t.Fatalf("Unable to read the feature 1, %v", err)
+	}
+
+	if f1New.Type != TypeText {
+		t.Errorf("f1New should have got '%s' as type but instead it is '%s': %s", TypeText, f1New.Type, spew.Sdump(f1New))
 	}
 
 	// checking the association
