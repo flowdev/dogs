@@ -2,21 +2,22 @@ package mygorm
 
 import (
 	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type TypeEnum string
 
 const (
 	TypeUnknown    = TypeEnum("")
-	TypeString     = TypeEnum("string")         // done
-	TypeText       = TypeEnum("text")           // done
-	TypeCheckbox   = TypeEnum("checkbox")       // done
-	TypeInt        = TypeEnum("integer")        // int64
-	TypeFloat      = TypeEnum("floating point") //float64
-	TypeDate       = TypeEnum("date")           //time.Time
-	TypeDateTime   = TypeEnum("timestamp")      //time.Time
-	TypeSelectOne  = TypeEnum("select one")     // string done
-	TypeSelectMany = TypeEnum("select many")    // []string
+	TypeString     = TypeEnum("string")
+	TypeText       = TypeEnum("text")
+	TypeCheckbox   = TypeEnum("checkbox")
+	TypeInt        = TypeEnum("integer")
+	TypeFloat      = TypeEnum("floating point")
+	TypeDate       = TypeEnum("date")
+	TypeDateTime   = TypeEnum("timestamp")
+	TypeSelectOne  = TypeEnum("select one")
+	TypeSelectMany = TypeEnum("select many") // []string
 )
 
 var AllTypeEnums = []TypeEnum{
@@ -120,14 +121,55 @@ type TextFeature struct {
 }
 
 type IntegerMetaFeature struct {
-	BaseID      uint        `gorm:"not null"`
-	Value       int64       `gorm:"not null"`
-	SmallerThan bool        `gorm:"not null"`
-	Quality     QualityEnum `gorm:"not null"`
+	BaseID     uint  `gorm:"not null"`
+	NeutralMin int64 `gorm:"not null"`
+	NeutralMax int64 `gorm:"not null"`
+	BadMin     int64 `gorm:"not null"`
+	BadMax     int64 `gorm:"not null"`
+	PerfectMin int64 `gorm:"not null"`
+	PerfectMax int64 `gorm:"not null"`
 }
 
 type IntegerFeature struct {
 	FeatureID uint  `gorm:"not null"`
 	DogID     uint  `gorm:"not null"`
 	Value     int64 `gorm:"not null"`
+}
+
+type FloatMetaFeature struct {
+	BaseID     uint    `gorm:"not null"`
+	NeutralMin float64 `gorm:"not null"`
+	NeutralMax float64 `gorm:"not null"`
+	BadMin     float64 `gorm:"not null"`
+	BadMax     float64 `gorm:"not null"`
+	PerfectMin float64 `gorm:"not null"`
+	PerfectMax float64 `gorm:"not null"`
+}
+
+type FloatFeature struct {
+	FeatureID uint    `gorm:"not null"`
+	DogID     uint    `gorm:"not null"`
+	Value     float64 `gorm:"not null"`
+}
+
+type DateMetaFeature struct {
+	BaseID uint `gorm:"not null"`
+	// still decide
+}
+
+type DateFeature struct {
+	FeatureID uint      `gorm:"not null"`
+	DogID     uint      `gorm:"not null"`
+	Value     time.Time `gorm:"not null"`
+}
+
+type TimestampMetaFeature struct {
+	BaseID uint `gorm:"not null"`
+	// still decide
+}
+
+type TimestampFeature struct {
+	FeatureID uint      `gorm:"not null"`
+	DogID     uint      `gorm:"not null"`
+	Value     time.Time `gorm:"not null"`
 }
