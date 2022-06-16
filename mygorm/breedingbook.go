@@ -173,3 +173,15 @@ type TimestampFeature struct {
 	DogID     uint      `gorm:"not null"`
 	Value     time.Time `gorm:"not null"`
 }
+
+type SelectManyMetaFeature struct {
+	BaseID  uint        `gorm:"not null"`
+	Value   string      `gorm:"not null"`
+	Quality QualityEnum `gorm:"not null"`
+}
+
+type SelectManyFeature struct {
+	FeatureID uint     `gorm:"not null"`
+	DogID     uint     `gorm:"not null"`
+	Values    []string `gorm:"not null"`
+}
