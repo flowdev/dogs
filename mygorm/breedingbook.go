@@ -47,6 +47,26 @@ var AllQualityEnums = []QualityEnum{
 	QualityPerfect,
 }
 
+type DogTest struct {
+	gorm.Model
+	Name           string      `gorm:"unique; not null"`
+	SelectOne1     string      `gorm:"not null"`
+	SelectOne2     string      `gorm:"not null"`
+	SelectOne3     string      `gorm:"not null"`
+	CheckBox1      bool        `gorm:"not null"`
+	CheckBox2      bool        `gorm:"not null"`
+	CheckBox3      bool        `gorm:"not null"`
+	String1        string      `gorm:"not null"`
+	String1Quality QualityEnum `gorm:"not null"`
+	Text1          string      `gorm:"not null"`
+	Text1Quality   QualityEnum `gorm:"not null"`
+	Integer1       int64       `gorm:"not null"`
+	Float1         float64     `gorm:"not null"`
+	Date1          time.Time   `gorm:"not null"`
+	Timestamp1     time.Time   `gorm:"not null"`
+	SelectMany1    []string    `gorm:"not null"`
+}
+
 type BaseMetaFeature struct {
 	gorm.Model
 	Name      string       `gorm:"unique; not null"`
@@ -71,57 +91,37 @@ type Color struct {
 }
 
 type SelectOneMetaFeature struct {
-	BaseID  uint        `gorm:"not null"`
-	Value   string      `gorm:"not null"`
-	Quality QualityEnum `gorm:"not null"`
-}
-
-type SelectOneFeature struct {
-	FeatureID uint   `gorm:"not null"`
-	DogID     uint   `gorm:"not null"`
-	Value     string `gorm:"not null"`
+	BaseID    uint        `gorm:"not null"`
+	ColumnNum int         `gorm:"not null"`
+	Order     int         `gorm:"not null"`
+	Value     string      `gorm:"not null"`
+	Quality   QualityEnum `gorm:"not null"`
 }
 
 type CheckBoxMetaFeature struct {
-	BaseID  uint        `gorm:"not null"`
-	Value   bool        `gorm:"not null"`
-	Quality QualityEnum `gorm:"not null"`
-}
-
-type CheckBoxFeature struct {
-	FeatureID uint `gorm:"not null"`
-	DogID     uint `gorm:"not null"`
-	Value     bool `gorm:"not null"`
+	BaseID           uint        `gorm:"not null"`
+	ColumnNum        int         `gorm:"not null"`
+	QualityChecked   QualityEnum `gorm:"not null"`
+	QualityUnchecked QualityEnum `gorm:"not null"`
 }
 
 type StringMetaFeature struct {
 	BaseID    uint `gorm:"not null"`
+	ColumnNum int  `gorm:"not null"`
 	MinLength uint `gorm:"not null"`
 	MaxLength uint `gorm:"not null"`
-}
-
-type StringFeature struct {
-	FeatureID uint        `gorm:"not null"`
-	DogID     uint        `gorm:"not null"`
-	Value     string      `gorm:"not null"`
-	Quality   QualityEnum `gorm:"not null"`
 }
 
 type TextMetaFeature struct {
 	BaseID    uint `gorm:"not null"`
+	ColumnNum int  `gorm:"not null"`
 	MinLength uint `gorm:"not null"`
 	MaxLength uint `gorm:"not null"`
 }
 
-type TextFeature struct {
-	FeatureID uint        `gorm:"not null"`
-	DogID     uint        `gorm:"not null"`
-	Value     string      `gorm:"not null"`
-	Quality   QualityEnum `gorm:"not null"`
-}
-
 type IntegerMetaFeature struct {
 	BaseID     uint  `gorm:"not null"`
+	ColumnNum  int   `gorm:"not null"`
 	NeutralMin int64 `gorm:"not null"`
 	NeutralMax int64 `gorm:"not null"`
 	BadMin     int64 `gorm:"not null"`
@@ -130,14 +130,9 @@ type IntegerMetaFeature struct {
 	PerfectMax int64 `gorm:"not null"`
 }
 
-type IntegerFeature struct {
-	FeatureID uint  `gorm:"not null"`
-	DogID     uint  `gorm:"not null"`
-	Value     int64 `gorm:"not null"`
-}
-
 type FloatMetaFeature struct {
 	BaseID     uint    `gorm:"not null"`
+	ColumnNum  int     `gorm:"not null"`
 	NeutralMin float64 `gorm:"not null"`
 	NeutralMax float64 `gorm:"not null"`
 	BadMin     float64 `gorm:"not null"`
@@ -146,42 +141,22 @@ type FloatMetaFeature struct {
 	PerfectMax float64 `gorm:"not null"`
 }
 
-type FloatFeature struct {
-	FeatureID uint    `gorm:"not null"`
-	DogID     uint    `gorm:"not null"`
-	Value     float64 `gorm:"not null"`
-}
-
 type DateMetaFeature struct {
-	BaseID uint `gorm:"not null"`
+	BaseID    uint `gorm:"not null"`
+	ColumnNum int  `gorm:"not null"`
 	// still decide
-}
-
-type DateFeature struct {
-	FeatureID uint      `gorm:"not null"`
-	DogID     uint      `gorm:"not null"`
-	Value     time.Time `gorm:"not null"`
 }
 
 type TimestampMetaFeature struct {
-	BaseID uint `gorm:"not null"`
+	BaseID    uint `gorm:"not null"`
+	ColumnNum int  `gorm:"not null"`
 	// still decide
 }
 
-type TimestampFeature struct {
-	FeatureID uint      `gorm:"not null"`
-	DogID     uint      `gorm:"not null"`
-	Value     time.Time `gorm:"not null"`
-}
-
 type SelectManyMetaFeature struct {
-	BaseID  uint        `gorm:"not null"`
-	Value   string      `gorm:"not null"`
-	Quality QualityEnum `gorm:"not null"`
-}
-
-type SelectManyFeature struct {
-	FeatureID uint     `gorm:"not null"`
-	DogID     uint     `gorm:"not null"`
-	Values    []string `gorm:"not null"`
+	BaseID    uint        `gorm:"not null"`
+	ColumnNum int         `gorm:"not null"`
+	Order     int         `gorm:"not null"`
+	Value     string      `gorm:"not null"`
+	Quality   QualityEnum `gorm:"not null"`
 }
