@@ -64,6 +64,11 @@ func main() {
 	}
 	db.SetLogger(log.New(f, "\n", 0))
 
+	err = mygorm.Init2(db)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Initalize QOR Admin
 	adm, err := myqor.Init(db, assetFS, workDir)
 	if err != nil {

@@ -57,14 +57,32 @@ type DogTest struct {
 	CheckBox2      bool        `gorm:"not null"`
 	CheckBox3      bool        `gorm:"not null"`
 	String1        string      `gorm:"not null"`
+	String2        string      `gorm:"not null"`
+	String3        string      `gorm:"not null"`
 	String1Quality QualityEnum `gorm:"not null"`
+	String2Quality QualityEnum `gorm:"not null"`
+	String3Quality QualityEnum `gorm:"not null"`
 	Text1          string      `gorm:"not null"`
+	Text2          string      `gorm:"not null"`
+	Text3          string      `gorm:"not null"`
 	Text1Quality   QualityEnum `gorm:"not null"`
+	Text2Quality   QualityEnum `gorm:"not null"`
+	Text3Quality   QualityEnum `gorm:"not null"`
 	Integer1       int64       `gorm:"not null"`
+	Integer2       int64       `gorm:"not null"`
+	Integer3       int64       `gorm:"not null"`
 	Float1         float64     `gorm:"not null"`
+	Float2         float64     `gorm:"not null"`
+	Float3         float64     `gorm:"not null"`
 	Date1          time.Time   `gorm:"not null"`
+	Date2          time.Time   `gorm:"not null"`
+	Date3          time.Time   `gorm:"not null"`
 	Timestamp1     time.Time   `gorm:"not null"`
+	Timestamp2     time.Time   `gorm:"not null"`
+	Timestamp3     time.Time   `gorm:"not null"`
 	SelectMany1    []string    `gorm:"not null"`
+	SelectMany2    []string    `gorm:"not null"`
+	SelectMany3    []string    `gorm:"not null"`
 }
 
 type BaseMetaFeature struct {
