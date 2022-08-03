@@ -41,10 +41,15 @@ const (
 	QualityPerfect = QualityEnum("perfect")
 )
 
-var AllQualityEnums = []QualityEnum{
-	QualityNeutral,
-	QualityBad,
-	QualityPerfect,
+var AllQualityEnums = []string{
+	string(QualityNeutral),
+	string(QualityBad),
+	string(QualityPerfect),
+}
+
+// String is implemented for nicer looking numbers.
+func (q QualityEnum) String() string {
+	return string(q)
 }
 
 type DogTest struct {

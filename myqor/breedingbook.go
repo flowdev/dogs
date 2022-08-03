@@ -18,15 +18,13 @@ func Init2(db *gorm.DB, adm *admin.Admin) error {
 	})
 	_ = dogRes
 
-	featureGroupRes := adm.AddResource(&mygorm.FeatureGroup{}, &admin.Config{
+	adm.AddResource(&mygorm.Color{}, &admin.Config{
 		Priority: 21,
 	})
-	_ = featureGroupRes
 
-	colorRes := adm.AddResource(&mygorm.Color{}, &admin.Config{
+	adm.AddResource(&mygorm.FeatureGroup{}, &admin.Config{
 		Priority: 22,
 	})
-	_ = colorRes
 
 	selectOneMetaFeatureRes := adm.AddResource(&mygorm.SelectOneMetaFeature{}, &admin.Config{
 		Priority: 23,
@@ -36,7 +34,9 @@ func Init2(db *gorm.DB, adm *admin.Admin) error {
 	checkBoxMetaFeatureRes := adm.AddResource(&mygorm.CheckBoxMetaFeature{}, &admin.Config{
 		Priority: 24,
 	})
-	_ = checkBoxMetaFeatureRes
+	checkBoxMetaFeatureRes.Meta(&admin.Meta{Name: "QualityChecked", Config: &admin.SelectOneConfig{Collection: mygorm.AllQualityEnums}})
+
+	checkBoxMetaFeatureRes.Meta(&admin.Meta{Name: "QualityUnchecked", Config: &admin.SelectOneConfig{Collection: mygorm.AllQualityEnums}})
 
 	stringMetaFeatureRes := adm.AddResource(&mygorm.StringMetaFeature{}, &admin.Config{
 		Priority: 25,
