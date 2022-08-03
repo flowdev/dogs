@@ -80,16 +80,15 @@ type DogTest struct {
 	Timestamp1     time.Time   `gorm:"not null"`
 	Timestamp2     time.Time   `gorm:"not null"`
 	Timestamp3     time.Time   `gorm:"not null"`
-	SelectMany1    []string    `gorm:"not null"`
+	/*SelectMany1    []string    `gorm:"not null"`
 	SelectMany2    []string    `gorm:"not null"`
-	SelectMany3    []string    `gorm:"not null"`
+	SelectMany3    []string    `gorm:"not null"`*/
 }
 
 type BaseMetaFeature struct {
 	gorm.Model
 	Name      string       `gorm:"unique; not null"`
 	ShortName string       `gorm:"unique; not null"`
-	Type      TypeEnum     `gorm:"not null"`
 	GroupID   uint         `gorm:"not null"`
 	Group     FeatureGroup `gorm:"foreignkey:GroupID;association_autocreate:false;association_autoupdate:false"`
 }
@@ -109,7 +108,7 @@ type Color struct {
 }
 
 type SelectOneMetaFeature struct {
-	BaseID    uint        `gorm:"not null"`
+	BaseMetaFeature
 	ColumnNum int         `gorm:"not null"`
 	Order     int         `gorm:"not null"`
 	Value     string      `gorm:"not null"`
@@ -117,28 +116,28 @@ type SelectOneMetaFeature struct {
 }
 
 type CheckBoxMetaFeature struct {
-	BaseID           uint        `gorm:"not null"`
+	BaseMetaFeature
 	ColumnNum        int         `gorm:"not null"`
 	QualityChecked   QualityEnum `gorm:"not null"`
 	QualityUnchecked QualityEnum `gorm:"not null"`
 }
 
 type StringMetaFeature struct {
-	BaseID    uint `gorm:"not null"`
+	BaseMetaFeature
 	ColumnNum int  `gorm:"not null"`
 	MinLength uint `gorm:"not null"`
 	MaxLength uint `gorm:"not null"`
 }
 
 type TextMetaFeature struct {
-	BaseID    uint `gorm:"not null"`
+	BaseMetaFeature
 	ColumnNum int  `gorm:"not null"`
 	MinLength uint `gorm:"not null"`
 	MaxLength uint `gorm:"not null"`
 }
 
 type IntegerMetaFeature struct {
-	BaseID     uint  `gorm:"not null"`
+	BaseMetaFeature
 	ColumnNum  int   `gorm:"not null"`
 	NeutralMin int64 `gorm:"not null"`
 	NeutralMax int64 `gorm:"not null"`
@@ -149,7 +148,7 @@ type IntegerMetaFeature struct {
 }
 
 type FloatMetaFeature struct {
-	BaseID     uint    `gorm:"not null"`
+	BaseMetaFeature
 	ColumnNum  int     `gorm:"not null"`
 	NeutralMin float64 `gorm:"not null"`
 	NeutralMax float64 `gorm:"not null"`
@@ -160,19 +159,19 @@ type FloatMetaFeature struct {
 }
 
 type DateMetaFeature struct {
-	BaseID    uint `gorm:"not null"`
-	ColumnNum int  `gorm:"not null"`
+	BaseMetaFeature
+	ColumnNum int `gorm:"not null"`
 	// still decide
 }
 
 type TimestampMetaFeature struct {
-	BaseID    uint `gorm:"not null"`
-	ColumnNum int  `gorm:"not null"`
+	BaseMetaFeature
+	ColumnNum int `gorm:"not null"`
 	// still decide
 }
 
 type SelectManyMetaFeature struct {
-	BaseID    uint        `gorm:"not null"`
+	BaseMetaFeature
 	ColumnNum int         `gorm:"not null"`
 	Order     int         `gorm:"not null"`
 	Value     string      `gorm:"not null"`
