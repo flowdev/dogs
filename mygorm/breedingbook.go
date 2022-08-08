@@ -96,6 +96,7 @@ type BaseMetaFeature struct {
 	ShortName string       `gorm:"unique; not null"`
 	GroupID   uint         `gorm:"not null"`
 	Group     FeatureGroup `gorm:"foreignkey:GroupID;association_autocreate:false;association_autoupdate:false"`
+	ColumnNum int          `gorm:"unique; not null"`
 }
 
 type FeatureGroup struct {
@@ -114,36 +115,31 @@ type Color struct {
 
 type SelectOneMetaFeature struct {
 	BaseMetaFeature
-	ColumnNum int         `gorm:"not null"`
-	Order     int         `gorm:"not null"`
-	Value     string      `gorm:"not null"`
-	Quality   QualityEnum `gorm:"not null"`
+	Order   int         `gorm:"not null"`
+	Value   string      `gorm:"not null"`
+	Quality QualityEnum `gorm:"not null"`
 }
 
 type CheckBoxMetaFeature struct {
 	BaseMetaFeature
-	ColumnNum        int         `gorm:"not null"`
 	QualityChecked   QualityEnum `gorm:"not null"`
 	QualityUnchecked QualityEnum `gorm:"not null"`
 }
 
 type StringMetaFeature struct {
 	BaseMetaFeature
-	ColumnNum int  `gorm:"not null"`
 	MinLength uint `gorm:"not null"`
 	MaxLength uint `gorm:"not null"`
 }
 
 type TextMetaFeature struct {
 	BaseMetaFeature
-	ColumnNum int  `gorm:"not null"`
 	MinLength uint `gorm:"not null"`
 	MaxLength uint `gorm:"not null"`
 }
 
 type IntegerMetaFeature struct {
 	BaseMetaFeature
-	ColumnNum  int   `gorm:"not null"`
 	NeutralMin int64 `gorm:"not null"`
 	NeutralMax int64 `gorm:"not null"`
 	BadMin     int64 `gorm:"not null"`
@@ -154,7 +150,6 @@ type IntegerMetaFeature struct {
 
 type FloatMetaFeature struct {
 	BaseMetaFeature
-	ColumnNum  int     `gorm:"not null"`
 	NeutralMin float64 `gorm:"not null"`
 	NeutralMax float64 `gorm:"not null"`
 	BadMin     float64 `gorm:"not null"`
@@ -165,20 +160,17 @@ type FloatMetaFeature struct {
 
 type DateMetaFeature struct {
 	BaseMetaFeature
-	ColumnNum int `gorm:"not null"`
 	// still decide
 }
 
 type TimestampMetaFeature struct {
 	BaseMetaFeature
-	ColumnNum int `gorm:"not null"`
 	// still decide
 }
 
 type SelectManyMetaFeature struct {
 	BaseMetaFeature
-	ColumnNum int         `gorm:"not null"`
-	Order     int         `gorm:"not null"`
-	Value     string      `gorm:"not null"`
-	Quality   QualityEnum `gorm:"not null"`
+	Order   int         `gorm:"not null"`
+	Value   string      `gorm:"not null"`
+	Quality QualityEnum `gorm:"not null"`
 }

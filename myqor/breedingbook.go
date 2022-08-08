@@ -13,10 +13,6 @@ Init initializes the qor admin UI by creating and configuring all resources.
 func Init2(db *gorm.DB, adm *admin.Admin) error {
 
 	// Resource for managing the dogs: MAIN RESOURCE
-	dogRes := adm.AddResource(&mygorm.DogTest{}, &admin.Config{
-		Priority: 19,
-	})
-	_ = dogRes
 
 	adm.AddResource(&mygorm.Color{}, &admin.Config{
 		Priority: 21,
@@ -34,6 +30,7 @@ func Init2(db *gorm.DB, adm *admin.Admin) error {
 	checkBoxMetaFeatureRes := adm.AddResource(&mygorm.CheckBoxMetaFeature{}, &admin.Config{
 		Priority: 24,
 	})
+
 	checkBoxMetaFeatureRes.Meta(&admin.Meta{Name: "QualityChecked", Config: &admin.SelectOneConfig{Collection: mygorm.AllQualityEnums}})
 
 	checkBoxMetaFeatureRes.Meta(&admin.Meta{Name: "QualityUnchecked", Config: &admin.SelectOneConfig{Collection: mygorm.AllQualityEnums}})
@@ -67,6 +64,11 @@ func Init2(db *gorm.DB, adm *admin.Admin) error {
 		Priority: 30,
 	})
 	_ = timestampMetaFeatureRes
+
+	dogRes := adm.AddResource(&mygorm.DogTest{}, &admin.Config{
+		Priority: 19,
+	})
+	_ = dogRes
 
 	/*selectManyMetaFeatureRes := adm.AddResource(&mygorm.SelectManyMetaFeature{}, &admin.Config{
 		Priority: 30,
