@@ -169,6 +169,7 @@ func Init(db *gorm.DB, assetFS assetfs.Interface, workDir string) (*admin.Admin,
 	showMateTables(db)
 
 	removeDashboard(adm)
+	Init2(db, adm)
 
 	return adm, nil
 }

@@ -520,6 +520,7 @@ func Init(dbFname string) (*gorm.DB, error) {
 	if err != nil {
 		return nil, fmt.Errorf("unable to create view 'all_mates': %v", err)
 	}
+	Init2(db)
 	return db, nil
 }
 
